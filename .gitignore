@@ -1,3 +1,8 @@
+
+template
+example/nav
+example/nav.zip
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

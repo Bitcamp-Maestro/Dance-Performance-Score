@@ -32,22 +32,25 @@ Colors:
 ******************************************/
 
 
-/**************************/
 /*     General Styles     */
 /**************************/
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+* { font-family: 'Spoqa Han Sans Neo', 'sans-serif'; }
+
+
 body,
 html {
     width: 100%;
 	height: 100%;
+	
 }
-
-body, p {
-	color: #53575a; 
-	font: 400 1rem/1.625rem "Open Sans", sans-serif;
+body{
+	background-color: rgb(0, 0, 0);
+	color: #ffffff;
 }
 
 h1 {
-	color: #2b2b4f;
+	color: rgb(255, 255, 255);
 	font-weight: 600;
 	font-size: 2.5rem;
 	line-height: 3.25rem;
@@ -55,7 +58,7 @@ h1 {
 }
 
 h2 {
-	color: #2b2b4f;
+	color: rgb(255, 255, 255);
 	font-weight: 600;
 	font-size: 2rem;
 	line-height: 2.5rem;
@@ -63,7 +66,7 @@ h2 {
 }
 
 h3 {
-	color: #2b2b4f;
+	color: rgb(255, 255, 255);
 	font-weight: 600;
 	font-size: 1.75rem;
 	line-height: 2.25rem;
@@ -71,7 +74,7 @@ h3 {
 }
 
 h4 {
-	color: #2b2b4f;
+	color: rgb(255, 255, 255);
 	font-weight: 600;
 	font-size: 1.5rem;
 	line-height: 2rem;
@@ -79,7 +82,7 @@ h4 {
 }
 
 h5 {
-	color: #2b2b4f;
+	color: rgb(255, 255, 255);
 	font-weight: 600;
 	font-size: 1.25rem;
 	line-height: 1.625rem;
@@ -87,7 +90,7 @@ h5 {
 }
 
 h6 {
-	color: #2b2b4f;
+	color: rgb(255, 255, 255);
 	font-weight: 600;
 	font-size: 1rem;
 	line-height: 1.375rem;
@@ -120,12 +123,12 @@ h6 {
 }
 
 a {
-	color: #53575a;
+	color: rgb(255, 255, 255);
 	text-decoration: underline;
 }
 
 a:hover {
-	color: #53575a;
+	color: rgb(255, 255, 255);
 	text-decoration: underline;
 }
 
@@ -150,11 +153,11 @@ a:hover {
 }
 
 .green {
-	color: #2528d1;
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 }
 
 .bg-gray {
-	background-color: #f7f9fd;
+	background-color: #000000;
 }
 
 .hr-heading {
@@ -175,9 +178,9 @@ a:hover {
 .btn-solid-reg {
 	display: inline-block;
 	padding: 1.375rem 2.25rem 1.375rem 2.25rem;
-	border: 1px solid #2528d1;
 	border-radius: 4px;
-	background-color: #2528d1;
+	
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 	color: #ffffff;
 	font-weight: 600;
 	font-size: 0.875rem;
@@ -189,16 +192,15 @@ a:hover {
 
 .btn-solid-reg:hover {
 	background-color: transparent;
-	color: #2528d1; /* needs to stay here because of the color property of a tag */
 	text-decoration: none;
 }
 
 .btn-solid-lg {
 	display: inline-block;
 	padding: 1.625rem 2.625rem 1.625rem 2.625rem;
-	border: 1px solid #2528d1;
+	width : 14rem;
 	border-radius: 4px;
-	background-color: #2528d1;
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 	color: #ffffff;
 	font-weight: 600;
 	font-size: 0.875rem;
@@ -209,7 +211,9 @@ a:hover {
 
 .btn-solid-lg:hover {
 	background-color: transparent;
-	color: #2528d1; /* needs to stay here because of the color property of a tag */
+	box-shadow:  7rem 0 0 0 #32BBDC inset
+					,-7rem 0 0 0 #A65BF8 inset;
+	color:#ffffff;
 	text-decoration: none;
 }
 
@@ -219,7 +223,7 @@ a:hover {
 	border: 1px solid #2b2b4f;
 	border-radius: 4px;
 	background-color: transparent;
-	color: #2b2b4f;
+	color: #ffffff;
 	font-weight: 600;
 	font-size: 0.875rem;
 	line-height: 0;
@@ -239,7 +243,7 @@ a:hover {
 	border: 1px solid #2b2b4f;
 	border-radius: 4px;
 	background-color: transparent;
-	color: #2b2b4f;
+	color: #ffffff;
 	font-weight: 600;
 	font-size: 0.875rem;
 	line-height: 0;
@@ -268,7 +272,7 @@ a:hover {
 }
 
 .btn-outline-sm:hover {
-	background-color: #2b2b4f;
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 	color: #ffffff;
 	text-decoration: none;
 }
@@ -312,9 +316,8 @@ a:hover {
 	display: inline-block;
 	width: 100%;
 	height: 3.25rem;
-	border: 1px solid #2528d1;
 	border-radius: 4px;
-	background-color: #2528d1;
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 	color: #ffffff;
 	font-weight: 600;
 	font-size: 0.875rem;
@@ -324,9 +327,8 @@ a:hover {
 }
 
 .form-control-submit-button:hover {
-	border: 1px solid #2528d1;
 	background-color: transparent;
-	color: #2528d1;
+	color: #ffffff;
 }
 
 
@@ -337,8 +339,9 @@ a:hover {
 	font-weight: 600;
 	font-size: 0.875rem;
 	line-height: 0.875rem;
-	box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.025);
-	background-color:rgba(43, 22, 175, 0.2);
+	box-shadow: none;
+	transition: all 0.2s;
+	background: rgba(255, 255, 255, 0.3);
 }
 
 .navbar .navbar-brand {
@@ -372,7 +375,7 @@ a:hover {
 
 .offcanvas-collapse {
 	position: fixed;
-	top: 3.25rem; /* adjusts the height between the top of the page and the offcanvas menu */
+	top: 4.2rem; /* adjusts the height between the top of the page and the offcanvas menu */
 	bottom: 0;
 	left: 100%;
 	width: 100%;
@@ -380,7 +383,7 @@ a:hover {
 	padding-left: 1rem;
 	overflow-y: auto;
 	visibility: hidden;
-	background-color: #2b2b4f;
+	background-color: #C1A0D9;
 	transition: visibility .3s ease-in-out, -webkit-transform .3s ease-in-out;
 	transition: transform .3s ease-in-out, visibility .3s ease-in-out;
 	transition: transform .3s ease-in-out, visibility .3s ease-in-out, -webkit-transform .3s ease-in-out;
@@ -392,6 +395,13 @@ a:hover {
 	transform: translateX(-100%);
 }
 
+.navbar.top-nav-collapse {
+	padding-top:0px;
+	padding-bottom:0px;
+	box-shadow: 0 3px 6px 0 rgba(255, 255, 255, 0.025);
+	background: rgba(255, 255, 255, 0.3);
+}
+
 .navbar .navbar-nav li{
 	margin-top: 1rem;
 	margin-right:1rem;
@@ -401,7 +411,7 @@ a:hover {
 }
 .navbar .nav-item .nav-link {
 	padding-top: 0.8rem;
-	color: #eeeeee;
+	color: #ffffff;
 	text-decoration: none;
 	transition: all 0.2s ease;
 	font-size:1.1rem;
@@ -410,7 +420,7 @@ a:hover {
 .navbar .nav-item.dropdown.show .nav-link,
 .navbar .nav-item .nav-link:hover,
 .navbar .nav-item .nav-link.active {
-	color: #2528d1;
+	color : #ffffff;
 }
 .navbar .nav-item .sign-btn{
 	position: relative;
@@ -439,13 +449,13 @@ a:hover {
 	margin-top: 0.25rem;
 	margin-bottom: 0.25rem;
 	border: none;
-	background-color: #2b2b4f;
+	background-color: #555591;
 }
 
 .navbar .dropdown-item {
 	padding-top: 0.625rem;
 	padding-bottom: 0.625rem;
-	color: #eeeeee;
+	color: #ffffff;
 	font-weight: 600;
 	font-size: 0.875rem;
 	line-height: 0.875rem;
@@ -454,7 +464,7 @@ a:hover {
 
 .navbar .dropdown-item:hover {
 	background-color: #2b2b4f;
-	color: #2528d1;
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 }
 
 .navbar .dropdown-divider {
@@ -462,7 +472,7 @@ a:hover {
 	height: 1px;
 	margin: 0.5rem auto 0.5rem auto;
 	border: none;
-	background-color: #525296;
+	background-color: #8484ca;
 }
 /* end of dropdown menu */
 
@@ -473,21 +483,21 @@ a:hover {
 }
 
 .navbar .fa-stack-2x {
-	color: #2528d1;
+	background: #ffffff;
 	transition: all 0.2s ease;
 }
 
 .navbar .fa-stack-1x {
-	color: #ffffff;
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 	transition: all 0.2s ease;
 }
 
 .navbar .fa-stack:hover .fa-stack-2x {
-	color: #ffffff;
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 }
 
 .navbar .fa-stack:hover .fa-stack-1x {
-	color: #2528d1;
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 }
 
 .navbar .navbar-toggler {
@@ -985,7 +995,7 @@ a:hover {
 }
 
 .cards-2 .fa-stack:hover .fa-stack-1x {
-	color: #2528d1;
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 }
 
 
@@ -1022,7 +1032,7 @@ a:hover {
 }
 
 .form-1 .list-unstyled .fas {
-	color: #2528d1;
+	color: #ffffff;
 }
 
 .form-1 .map-responsive {
@@ -1046,7 +1056,7 @@ a:hover {
 .form-1 .form-control-input,
 .form-1 .form-control-textarea {
 	border-color: #655f74;
-	background-color: #4d475c;
+	background-color: #8c80aa;
 	color: #ffffff;
 }
 
@@ -1062,7 +1072,7 @@ a:hover {
 .footer {
 	padding-top: 6.5rem;
 	padding-bottom: 2rem;
-	background-color: #121015;
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 }
 
 .footer a {
@@ -1075,13 +1085,13 @@ a:hover {
 
 .footer h6 {
 	margin-bottom: 0.625rem;
-	color: #bfc4cd;
+	color: #ffffff;
 }
 
 .footer p,
 .footer a,
 .footer ul {
-	color: #bfc4cd;
+	color: #ffffff;
 }
 
 .footer .li-space-lg li {
@@ -1096,17 +1106,17 @@ a:hover {
 }
 
 .footer .footer-col.third .fa-stack .fa-stack-2x {
-	color: #4d475c;
+	color: #ffffff;
 	transition: all 0.2s ease;
 }
 
 .footer .footer-col.third .fa-stack .fa-stack-1x {
-    color: #d3caca;
+    color: #ffffff;
 	transition: all 0.2s ease;
 }
 
 .footer .footer-col.third .fa-stack:hover .fa-stack-2x {
-    color: #2528d1;
+    color: #ffffff;
 }
 
 .footer .footer-col.third .fa-stack:hover .fa-stack-1x {
@@ -1144,12 +1154,12 @@ a:hover {
 	border: none; 
 	border-radius: 50%; 
 	outline: none; 
-	background-color: #323137; 
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 	cursor: pointer; 
 }
 
 #myBtn:hover {
-	background-color: #0f0f11;
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 }
 
 #myBtn img {
@@ -1165,7 +1175,7 @@ a:hover {
 .ex-header {
 	padding-top: 8.5rem;
 	padding-bottom: 4rem;
-	background-color: #2b2b4f;
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 }
 
 .ex-header h1 {
@@ -1183,7 +1193,7 @@ a:hover {
 
 .ex-basic-1 .text-box {
 	padding: 1.25rem 1.25rem 0.5rem 1.25rem;
-	background-color: #f7f9fd;
+	background: linear-gradient(45deg,#32BBDC, #A65BF8);
 }
 
 .ex-cards-1 .card {
@@ -1197,7 +1207,7 @@ a:hover {
 }
 
 .ex-cards-1 .card .fa-stack-2x {
-	color: #2528d1;
+	color: #ffffff;
 }
 
 .ex-cards-1 .card .fa-stack-1x {
@@ -1222,6 +1232,10 @@ a:hover {
 /*************************/	
 /* Min-width 768px */
 @media (min-width: 768px) {
+
+	.navbar {
+		background: rgba(255, 255, 255, 0.3);
+	}
 
 	/* Header */
 	.header {
@@ -1306,37 +1320,14 @@ a:hover {
 
 /* Min-width 992px */
 @media (min-width: 992px) {
-	.header{
-		height:42rem;
-	}
-	/* General Styles */
-	.h2-heading {
-		width: 35.25rem;
-		margin-right: auto;
-		margin-left: auto;
-	}
 
-	.p-heading {
-		width: 46rem;
-		margin-right: auto;
-		margin-left: auto;
-	}
-	/* end of general styles */
-
-
+	
 	/* Navigation */
 	.navbar {
 		padding-top: 1.75rem;
-		background-color: transparent;
-		box-shadow: none;
+		background :rgba(0, 0, 0,0);
+		box-shadow:none;
 		transition: all 0.2s;
-	}
-
-	.navbar.top-nav-collapse {
-		padding-top: 0.5rem;
-		padding-bottom: 0.5rem;
-		background-color:rgba(43, 22, 175, 0.2);
-		box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.025);
 	}
 
 	.navbar .navbar-nav li{
@@ -1391,6 +1382,25 @@ a:hover {
 		margin-left: 0.25rem;
 	}
 	/* end of navigation */
+
+	
+	.header{
+		height:42rem;
+	}
+	/* General Styles */
+	.h2-heading {
+		width: 35.25rem;
+		margin-right: auto;
+		margin-left: auto;
+	}
+
+	.p-heading {
+		width: 46rem;
+		margin-right: auto;
+		margin-left: auto;
+	}
+	/* end of general styles */
+
 
 
 	/* Header */
@@ -1561,7 +1571,11 @@ a:hover {
 	}
 	/* end of general styles */
 	
-
+	.navbar{
+		padding-top: 1.75rem;
+		background :rgba(0, 0, 0,0);
+		box-shadow:none;
+	}
 	/* Navigation */
 	.navbar .container {
 		max-width: 1430px;
