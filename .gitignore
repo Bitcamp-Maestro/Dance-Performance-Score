@@ -1,7 +1,8 @@
 
 template
-example/nav
-example/nav.zip
+webapp/nav
+webapp/webfonts
+*.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
