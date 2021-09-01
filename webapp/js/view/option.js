@@ -17,7 +17,7 @@ Vue.component('df-option-mode',{
             <section class="class1">
                 <div class="row align-items-end">
                     <div class="col-xl-4 col-lg-4 col-md-6" style="width: 330px !important;">
-                        <div class="single-card text-center mb-30" style="
+                        <div id="practice-card" class="mode-option-card single-card text-center mb-30" style="
                         padding-left: 0px;
                         padding-right: 0px;
                         border-left-width: 0px;
@@ -47,7 +47,7 @@ Vue.component('df-option-mode',{
                     </div>
                    
                     <div class="col-xl-4 col-lg-4 col-md-6" style="width: 330px !important;">
-                        <div class="single-card text-center mb-30" style="
+                        <div id="random-card" class="mode-option-card single-card text-center mb-30" style="
                         padding-left: 0px;
                         padding-right: 0px;
                         border-left-width: 0px;
@@ -109,7 +109,7 @@ Vue.component('df-option-upload', {
             </div>
             <div class="row align-items-end">
                 <div class="col-xl-4 col-lg-4 col-md-6" style="width: 330px !important;">
-                    <div class="single-card text-center mb-30" style="padding-top: 30px;padding-right: 0px;padding-left: 0px;border-right-width: 0px;border-left-width: 0px;">
+                    <div id="realtime-card" class="upload-option-card single-card text-center mb-30" style="padding-top: 30px;padding-right: 0px;padding-left: 0px;border-right-width: 0px;border-left-width: 0px;">
                         <div class="card-top">
                             <span></span>
                             <h4>Real time</h4>
@@ -133,7 +133,7 @@ Vue.component('df-option-upload', {
                 </div>
             
                 <div class="col-xl-4 col-lg-4 col-md-6" style="width: 330px !important;">
-                    <div class="single-card text-center mb-30" style="padding-top: 30px;padding-right: 0px;padding-left: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 26px;">
+                    <div id="upload-card" class="upload-option-card single-card text-center mb-30" style="padding-top: 30px;padding-right: 0px;padding-left: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 26px;">
                         <div class="card-top">
                             <span></span>
                             <h4>Upload</h4>
@@ -189,7 +189,7 @@ Vue.component('df-option-display', {
             </div>
             <div class="row align-items-end">
                 <div class="col-xl-4 col-lg-4 col-md-6" >
-                    <div class="single-card text-center mb-30" style="
+                    <div id="u-p-h-card" class="display-option-card single-card text-center mb-30" style="
                     padding-top: 30px;
                 ">
                         <div class="card-top">
@@ -212,7 +212,7 @@ Vue.component('df-option-display', {
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-6">
-                    <div class="single-card text-center mb-30" style="
+                    <div id="u-p-v-card" class="display-option-card single-card text-center mb-30" style="
                     padding-top: 30px;
                 ">
                         <div class="card-top">
@@ -235,7 +235,7 @@ Vue.component('df-option-display', {
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-6">
-                    <div class="single-card text-center mb-30" style="
+                    <div id="u-o-card" class="display-option-card single-card text-center mb-30" style="
                     padding-top: 30px;
                 ">
                         <div class="card-top">

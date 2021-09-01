@@ -13,14 +13,18 @@
     <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
 
 
-
+    <!--  -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
-
+    
+    
     <!-- Vue template -->
     <link href='css/view/nav.css' rel='stylesheet'>
     <link href="css/view/options.css" rel="stylesheet">
+
+    <!-- only this page -->
+    <link href='css/option_page.css' rel='stylesheet'>
     
 </head>
 <body style ='background-color: black';>
@@ -33,30 +37,28 @@
     <div>
 
     </div>
-    <div id='app-option-mode' class='content-visible'>
+    <div id='app-option-mode' class='option-container content-visible'>
         <df-option-mode></df-option-mode>
     </div>
 
-    <div id='app-option-upload' class='content-hide'>
+    <div id='app-option-upload' class='option-container content-hide'>
         <df-option-upload></df-option-upload>
     </div>
 
     <!-- Display Option -->
-    <div id='app-option-display' class='content-hide'>
+    <div id='app-option-display' class='option-container content-hide'>
         <df-option-display></df-option-display>
     </div>  <!-- End Display Option -->
   
 
     <!-- Prev-Next Option Button -->
-    <div class="container" >
+    <div class="prev-next-btn-line container" >
         <div style="display: flex; justify-content: space-between" >
             <div>
-                <!-- <form role="form" > -->
-                <button  style="background-color: black;border-right-width: 0px;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;" >〈 BACK</button>
+                <button id="prev-option-btn" class="content-hide content-view" style="background-color: black;border-right-width: 0px;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;" >〈 BACK</button>
             </div>
             <div >
-                <!-- <form role="form" > -->
-                <button style="background-color: black;border-right-width: 0px;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;">NEXT 〉</button>
+                <button id="next-option-btn" class="content-view" style="background-color: black;border-right-width: 0px;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;">NEXT 〉</button>
             </div>
         </div>
     </div>  <!-- End Prev-Next Option Button -->
@@ -69,7 +71,7 @@
     <!-- Scripts -->
     <script src="js/bootstrap.min.js"></script> <!-- Bootstrap framework -->
     <script src="js/scripts.js"></script> <!-- Custom scripts -->
-
+    <script src='js/option_control.js'></script>
 
 
 </body>

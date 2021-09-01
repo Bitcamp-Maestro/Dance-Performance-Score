@@ -1,0 +1,62 @@
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+
+.body{
+font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+}
+
+.class1 {
+    align-items: center;
+}
+.container{
+    align-items :right;
+}
+.row{
+    justify-content: center
+}
+/* 버튼 색깔 */
+.btn{
+    background-color: purple;
+}
+/* 버튼에 마우스를 올리면 변하는 색깔 */
+.btn::before{
+    background: linear-gradient(to right, black, purple);
+}
+.prev-next-btn-line{
+    margin-bottom : 10rem;
+}
+
+.item-focused{
+    border-top: 1.7rem solid !important;
+    border-bottom: 1.7rem solid !important;
+    /* border-radius: 20px !important; */
+    border-image: linear-gradient(to right, #fbfcb9be, #ffcdf3aa, #65d3ffaa) !important;
+    border-image-slice: 1 !important;
+}
+.content-hide{
+    animation : fade-out 2s;
+    animation-fill-mode: forwards;
+    display: none;
+}
+.content-visible{
+    animation: fade-in 2s;
+    animation-fill-mode: forwards;
+    display: block;
+}
+@keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+  
+    }
+    to {
+      opacity: 0;
+    }
+  }

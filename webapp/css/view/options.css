@@ -15,8 +15,4 @@
 .btn::before{
     background: linear-gradient(to right, black, purple);
 }
-@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 
-.body{
-font-family: 'Spoqa Han Sans Neo', 'sans-serif';
-}
