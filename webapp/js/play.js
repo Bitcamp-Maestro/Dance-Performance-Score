@@ -88,7 +88,7 @@ class PlayMain {
 
       rec.onstop = e=> this.exportVid(new Blob(chunks, {type:'video/mp4'}));
       rec.start();
-      setTimeout(()=>rec.stop(), 3000) ; // 3초 기록 
+      setTimeout(()=>rec.stop(), 5000) ; // 5초 기록 stop 시점은 나중에 수정 
 
     }
     exportVid(blob){
