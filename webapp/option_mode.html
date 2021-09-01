@@ -22,6 +22,7 @@
     <!-- Vue template -->
     <link href='css/view/nav.css' rel='stylesheet'>
     <link href="css/view/options.css" rel="stylesheet">
+    <link href='css/view/option_song.css' rel='stylesheet'>
 
     <!-- only this page -->
     <link href='css/option_page.css' rel='stylesheet'>
@@ -37,29 +38,39 @@
     <div>
 
     </div>
+
+    <!-- Mode Option -->
     <div id='app-option-mode' class='option-container content-visible'>
         <df-option-mode></df-option-mode>
-    </div>
+    </div>  <!-- End Mode Option -->
 
+    <!-- Upload Option -->
     <div id='app-option-upload' class='option-container content-hide'>
         <df-option-upload></df-option-upload>
-    </div>
+    </div>  <!-- End Upload Option -->
 
     <!-- Display Option -->
     <div id='app-option-display' class='option-container content-hide'>
         <df-option-display></df-option-display>
     </div>  <!-- End Display Option -->
   
+    <!-- Song Option -->
+    <div id='app-option-song' class='option-container content-hide'>
+        <df-option-song></df-option-song>
+    </div>  <!-- End Song Option -->
 
     <!-- Prev-Next Option Button -->
     <div class="prev-next-btn-line container" >
         <div style="display: flex; justify-content: space-between" >
             <div>
-                <button id="prev-option-btn" class="content-hide content-view" style="background-color: black;border-right-width: 0px;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;" >〈 BACK</button>
+                <button id="prev-option-btn" class="content-hide" style="background-color: black;border-right-width: 0px;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;" >〈 BACK</button>
             </div>
             <div >
-                <button id="next-option-btn" class="content-view" style="background-color: black;border-right-width: 0px;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;">NEXT 〉</button>
+                <button id="next-option-btn" class="content-visible" style="background-color: black;border-right-width: 0px;border-left-width: 0px;border-top-width: 0px;border-bottom-width: 0px;">NEXT 〉</button>
             </div>
+        </div>
+        <div class='line-center'>
+            <button id="play-start-btn" class="w-btn w-btn-gra1 content-hide">Start</button>
         </div>
     </div>  <!-- End Prev-Next Option Button -->
     
@@ -67,6 +78,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
     <script src='js/view/nav.js'></script>
     <script src='js/view/option.js'></script>
+    <script src='js/view/option_song.js'></script>
 
     <!-- Scripts -->
     <script src="js/bootstrap.min.js"></script> <!-- Bootstrap framework -->

@@ -343,6 +343,7 @@ body{
 .wrap{
   width: 780px;
   margin: 100px auto 0;
+  margin-bottom : 5rem;
 }
 
 .title{

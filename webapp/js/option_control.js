@@ -12,10 +12,12 @@ const cards = document.querySelectorAll('.single-card')     // card list
 const option_container = document.querySelectorAll('.option-container')     // option view
 
 /*
-    Prev Button / Next Btton Elements
+    Button
  */ 
 const prev_btn = document.querySelector('#prev-option-btn');
 const next_btn = document.querySelector('#next-option-btn');
+const start_btn = document.querySelector('#play-start-btn')
+
 
 /*
     Setting Values
@@ -30,6 +32,7 @@ const OPTION_SELECTOR = {
     'MODE_C' : '#app-option-mode',
     'UPLOAD_C' : '#app-option-upload',
     'DISPLAY_C' : '#app-option-display',
+    'SONG_C' : '#app-option-song',
 }
 
 // const OPTION_SET = {
@@ -48,11 +51,10 @@ let visible_target_option  = OPTION_SELECTOR.MODE;
 
 
 /*
-9
     Card Event
 */
 
-function switch_option(item){    
+function switch_card(item){    
     const sets = document.querySelectorAll(visible_target_option)
     sets.forEach(i=>i.classList.remove(ITEM_FOCUSED_CLASSNAME));
     item.classList.add(ITEM_FOCUSED_CLASSNAME);
@@ -60,12 +62,12 @@ function switch_option(item){
 
 cards.forEach(item => {
     item.addEventListener('click', e => {
-        switch_option(item);
+        switch_card(item);
     });
 });
 cards.forEach(item => {
     item.addEventListener('dblclick', e => {
-        switch_option(item);
+        switch_card(item);
         next_btn.click();
     });
 });
@@ -74,50 +76,63 @@ cards.forEach(item => {
 /*
     Button Event
 */
+function switch_option (target_option) {
+    option_container.forEach(i=>i.classList.remove('content-visible'))
+    option_container.forEach(i=>i.classList.add('content-hide'))
+    target_option.classList.add('content-visible')
+}
+
 prev_btn.addEventListener('click',e=>{
     switch(visible_target_option){
         case OPTION_SELECTOR.MODE:  
             console.error('logic error')
             break;
         case OPTION_SELECTOR.UPLOAD:
-            option_container.forEach(i=>i.classList.remove('content-visible'))
-            option_container.forEach(i=>i.classList.add('content-hide'))
-            option_container[0].classList.add('content-visible')
+            switch_option(option_container[0])
+            prev_btn.classList.remove('content-visible')
             prev_btn.classList.add('content-hide')
             visible_target_option = OPTION_SELECTOR.MODE;
             break;
         case OPTION_SELECTOR.DISPLAY:
-            option_container.forEach(i=>i.classList.remove('content-visible'))
-            option_container.forEach(i=>i.classList.add('content-hide'))
-            option_container[1].classList.add('content-visible')
-            next_btn.classList.add('content-visible')
+            switch_option(option_container[1])
             visible_target_option = OPTION_SELECTOR.UPLOAD;
             break;
-
+        case OPTION_SELECTOR.SONG:
+            switch_option(option_container[2])
+            next_btn.classList.add('content-visible')
+            next_btn.classList.remove('content-hide')
+            start_btn.classList.remove('content-visible')
+            start_btn.classList.add('content-hide')
+            visible_target_option = OPTION_SELECTOR.DISPLAY;
+            break;
     }
-
 });
 
 next_btn.addEventListener('click',e=>{
     switch(visible_target_option){
         case OPTION_SELECTOR.MODE:  
-            option_container.forEach(i=>i.classList.remove('content-visible'))
-            option_container.forEach(i=>i.classList.add('content-hide'))
-            option_container[1].classList.add('content-visible')
+            switch_option(option_container[1])  
             prev_btn.classList.add('content-visible')
             visible_target_option = OPTION_SELECTOR.UPLOAD;
             break;
-
         case OPTION_SELECTOR.UPLOAD:
-            option_container.forEach(i=>i.classList.remove('content-visible'))
-            option_container.forEach(i=>i.classList.add('content-hide'))
-            option_container[2].classList.add('content-visible')
-            next_btn.classList.remove('content-hide')
-            next_btn.classList.add('content-hide')
+            switch_option(option_container[2])
             visible_target_option = OPTION_SELECTOR.DISPLAY;
             break;
         case OPTION_SELECTOR.DISPLAY:
-            console.error('logic error')
+            switch_option(option_container[3])
+            next_btn.classList.remove('content-visible')
+            next_btn.classList.add('content-hide')
+            start_btn.classList.add('content-visible')
+            start_btn.classList.remove('content-hide')
+            visible_target_option = OPTION_SELECTOR.SONG;
+            break;
+        case OPTION_SELECTOR.SONG:
+            console.error('logic error') 
             break;
     }
 });
+
+start_btn.addEventListener('click', e=>{
+    location.href = 'play.html'
+})
