@@ -9,7 +9,7 @@
     line-height: 0.875rem;
     box-shadow: none;
     transition: all 0.2s;
-    background: rgba(56, 56, 56, 0.3);
+    background: rgba(30, 30, 30, 0.3);
 }
 
 .navbar .navbar-brand {
@@ -67,7 +67,7 @@
     padding-top:0px;
     padding-bottom:0px;
     box-shadow: 0 3px 6px 0 rgba(255, 255, 255, 0.025);
-    background: rgba(56, 56, 56, 0.3);
+    background: rgba(30, 30, 30, 0.3);
 }
 
 .navbar .navbar-nav li{
@@ -182,7 +182,7 @@
 @media (min-width: 768px) {
 
     .navbar {
-        background: rgba(56, 56, 56, 0.3);
+        background: rgba(30, 30, 30, 0.3);
     }
 
 }
