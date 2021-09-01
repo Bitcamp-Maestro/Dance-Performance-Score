@@ -17,69 +17,19 @@
   <link rel="stylesheet" href="./css/community.css">
   <!-- <link rel="stylesheet" href="assets/css/tooplate-main.css"> -->
 
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="./js/jquery.min.js"></script>
-  <script src="./js/bootstrap.bundle.min.js"></script>
-
-  <!-- Additional Scripts -->
-  <script src="./js/custom.js"></script>
-  <script src="./js/owl.js"></script>
-  <script src="./js/isotope.js"></script>
-  <script language = "text/Javascript"> 
-    cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
-    function clearField(t){                   //declaring the array outside of the
-    if(! cleared[t.id]){                      // function makes it static and global
-        cleared[t.id] = 1;  // you could use true and false, but that's more typing
-        t.value='';         // with more chance of typos
-        t.style.color='#fff';
-        }
-    }
+	<link href="css/view/nav.css" rel="stylesheet">
 
 
-  </script>
+
+
 </head>
 <body>
 
-  <!-- 네비게이션 상단 바 -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-    <div class="container">
-
-      <!-- 로고 -->
-      <a class="navbar-brand" href="#">
-        <img src="images/logo.png" alt="" width="30" height="30">
-        DancerFlow
-      </a>
-
-      <!-- APP용 메뉴 -->
-      <button class="navbar-toggler dropicon" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      
-      
-      <div class="navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Community</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Ranking</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact us</a>
-        </ul>
-      </div>
-      <a class="user-page" href="#">
-        <img src="images/user.png" alt="" width="25" height="25">
-        USER
-      </a>
-    </div>
-
-  </nav>
-
+  <!-- Navigation -->
+  <div id='app-main-nav'>
+    <df-main-nav></df-main-nav>
+  </div>
+  <!-- End Navigation -->
 
     <!-- Page Content -->
     <!-- Items Starts Here -->
@@ -109,7 +59,7 @@
       <div class="row posts">
           
           <div id="1" class="item new col-md-4">
-            <a href="single_community.html">
+            <a href="community_view.html">
               <div class="featured-item">
                 <h5 class="featured-score">SCORE : 65336</h5>
                 <img class="feautred-img" src="./images/smaple1.jpeg" alt="" height="200">
@@ -132,7 +82,29 @@
           </div>
 
           <div id="1" class="item new col-md-4">
-            <a href="single_community.html">
+            <a href="community_view.html">
+              <div class="featured-item">
+                <h5 class="featured-score">SCORE : 65336</h5>
+                <img class="feautred-img" src="./images/smaple1.jpeg" alt="" height="200">
+                <hs4>1. Loremipsum dolor sit amet, consectur</h4>
+                <h5 class="user-name">user name</h5>
+                <div>
+                  <li style="list-style: none;">
+                    <div class="left">
+                      <h6>date : 2021.08.26</h6>
+                      <h6>views : 3153</h6>
+                      <h6>coins : 404</h6>
+                    </div>
+                    <div class="right">
+                      <img class="good" src="./images/coin2.png" width="116" height="100" alt="">
+                    </div>
+                  </li>
+                </div>  
+              </div>
+            </a>
+          </div>
+          <div id="1" class="item new col-md-4">
+            <a href="community_view.html">
               <div class="featured-item">
                 <h5 class="featured-score">SCORE : 65336</h5>
                 <img class="feautred-img" src="./images/smaple1.jpeg" alt="" height="200">
@@ -154,7 +126,7 @@
             </a>
           </div>
           <div id="1" class="item new col-md-4">
-            <a href="single_community.html">
+            <a href="community_view.html">
               <div class="featured-item">
                 <h5 class="featured-score">SCORE : 65336</h5>
                 <img class="feautred-img" src="./images/smaple1.jpeg" alt="" height="200">
@@ -176,7 +148,7 @@
             </a>
           </div>
           <div id="1" class="item new col-md-4">
-            <a href="single_community.html">
+            <a href="community_view.html">
               <div class="featured-item">
                 <h5 class="featured-score">SCORE : 65336</h5>
                 <img class="feautred-img" src="./images/smaple1.jpeg" alt="" height="200">
@@ -198,7 +170,7 @@
             </a>
           </div>
           <div id="1" class="item new col-md-4">
-            <a href="single_community.html">
+            <a href="community_view.html">
               <div class="featured-item">
                 <h5 class="featured-score">SCORE : 65336</h5>
                 <img class="feautred-img" src="./images/smaple1.jpeg" alt="" height="200">
@@ -220,7 +192,7 @@
             </a>
           </div>
           <div id="1" class="item new col-md-4">
-            <a href="single_community.html">
+            <a href="community_view.html">
               <div class="featured-item">
                 <h5 class="featured-score">SCORE : 65336</h5>
                 <img class="feautred-img" src="./images/smaple1.jpeg" alt="" height="200">
@@ -242,29 +214,7 @@
             </a>
           </div>
           <div id="1" class="item new col-md-4">
-            <a href="single_community.html">
-              <div class="featured-item">
-                <h5 class="featured-score">SCORE : 65336</h5>
-                <img class="feautred-img" src="./images/smaple1.jpeg" alt="" height="200">
-                <h4>1. Loremipsum dolor sit amet, consectur</h4>
-                <h5 class="user-name">user name</h5>
-                <div>
-                  <li style="list-style: none;">
-                    <div class="left">
-                      <h6>date : 2021.08.26</h6>
-                      <h6>views : 3153</h6>
-                      <h6>coins : 404</h6>
-                    </div>
-                    <div class="right">
-                      <img class="good" src="./images/coin2.png" width="116" height="100" alt="">
-                    </div>
-                  </li>
-                </div>  
-              </div>
-            </a>
-          </div>
-          <div id="1" class="item new col-md-4">
-            <a href="single_community.html">
+            <a href="community_view.html">
               <div class="featured-item">
                 <h5 class="featured-score">SCORE : 65336</h5>
                 <img class="feautred-img" src="./images/smaple1.jpeg" alt="" height="200">
@@ -293,17 +243,30 @@
   </div>
 
 
+    <!-- View Template -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <script src='js/view/nav.js'></script>
+    
+    <script src='js/scripts.js'></script>
 
+        <!-- Bootstrap core JavaScript -->
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
 
-
-
-
-
-
-
-
-
-
-
+    <!-- Additional Scripts -->
+    <script src="./js/custom.js"></script>
+    <script src="./js/owl.js"></script>
+    <script src="./js/isotope.js"></script>
+    <script language = "text/Javascript"> 
+      cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+      function clearField(t){                   //declaring the array outside of the
+      if(! cleared[t.id]){                      // function makes it static and global
+          cleared[t.id] = 1;  // you could use true and false, but that's more typing
+          t.value='';         // with more chance of typos
+          t.style.color='#fff';
+          }
+      }
+      
+    </script>
 </body>
 </html>

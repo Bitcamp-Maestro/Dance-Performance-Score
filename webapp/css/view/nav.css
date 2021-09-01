@@ -185,6 +185,16 @@
 }
 
 
+
+@media(max-width:992px){
+	
+	.navbar-brand{
+		margin  : 0 auto;
+	}
+}
+
+
+
 /* Min-width 992px */
 @media (min-width: 992px) {
 
