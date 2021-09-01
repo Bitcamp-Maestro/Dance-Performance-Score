@@ -4,7 +4,12 @@ html {
     height: 100%;
 
 }
-
+@media (min-width:992px){
+    .navbar{
+        margin-top:0px;
+        padding-top:0px;
+    }
+}
 .top-content {
     margin-top: 3.5rem;
 }
@@ -41,6 +46,28 @@ html {
 .video {
     width: 100%;
     height: 100%;
+}
+
+.line-center{
+    display:flex;
+    justify-content: center;
+}
+.w-btn-gra1 {
+    background: linear-gradient(-45deg, #1994af 0%, #a65bf8, #fd8a9d 100%);
+    color: white;
+    margin-top: 1rem;
+
+}
+.w-btn {
+position: relative;
+border: none;
+display: inline-block;
+padding: 1rem 3.5rem;
+border-radius: 1rem;
+box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+text-decoration: none;
+font-weight: 600;
+transition: 0.3s;
 }
 
 @media(min-width:992px) {
