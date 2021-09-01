@@ -1,0 +1,50 @@
+@media (max-width: 992px) {
+    .contact_section::before {
+        width: 53%;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact_section .detail-box{
+        
+        width: auto;
+        margin: 2rem;
+        display: flex;
+    }
+
+    .contact_section .detail-box .heading_container {
+        align-items: center;
+
+    }
+
+    .contact_section::before {
+        width: 100%;
+        height: 25%;
+        clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
+    }
+
+
+}
+
+@media (max-width: 576px) {
+    .contact_section::before {
+        clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
+
+    }
+}
+
+
+
+@media (max-width: 360px) {
+
+
+    .contact_section::before {
+        height: 26%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .share-container {
+        max-width: 1170px;
+    }
+}

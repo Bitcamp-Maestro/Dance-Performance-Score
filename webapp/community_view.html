@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video View</title>
+      <!-- font link -->
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+    
+    <!-- bootstrao -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="./css/community.css">
+    <link href='css/community_view.css' rel='stylesheet'>
+
+	<link href="css/view/nav.css" rel="stylesheet">
+    
+</head>
+<body>
+ 
+
+
+  <!-- Navigation -->
+  <div id='app-main-nav'>
+    <df-main-nav></df-main-nav>
+  </div>
+  <!-- End Navigation -->
+
+
+    <!-- title 제목 -->
+    <div class="video-view-container container">  
+        
+        <div class="section-heading">
+            <div style="width: 100%; padding-bottom: 50px;">
+                <div class="left" style="width: 70%; float: left; box-sizing: border-box;" >
+                    <div class="line-dec"></div>  
+                    <h1 style="color: white;">[ kpop ] Produce48 - 내꺼야 (Pick Me) </h1> 
+                </div>
+                <div class="right" style="width: 30%; text-align: center; float: right; box-sizing: border-box;">
+                    <h2 style="color: white; float: right; margin-top: 10px; text-align: center;">SCORE: 665423</h2>
+                </div>
+            </div>
+        </div>
+    
+
+        <!-- 메인 영상 -->    
+        <div class="img-box" style="border: 10px solid white; border-image: linear-gradient(to right, rgb(0, 0, 0), #5e0449aa, #0c5997aa);border-image-slice: 1;">
+            <img src="./images/smaple1.jpeg" style="width: 100%;" alt="">
+        </div>
+        
+
+        <!-- 영상 소개 창 -->
+        <div style="margin: 20px;" >
+            <div style="width: 15%; float: left; ">
+                <a href='user_page.html'><img src="./images/user.png" width="100%"  alt=""></a>
+            </div>
+            <div style="width: 40%; float:left; line-height: 15px;">
+                <h3 style="margin-left: 10px; margin-top: 5px;">
+                    <a href="user_page.html" style="color: white;">USER NAME</a> 
+                </h3>
+                <div id="contentElement" style="color: white; font-size: 20px; margin-left: 10px; margin-bottom: 10px;">
+                    #k-pop #내꺼야 #producer
+                </div>
+            </div>  
+            <div style="width: 5%; float: right; margin-left: 50px;">
+                <img src="./images/share.png" width="100%" alt="">
+            </div>
+            <div style="width: 15%; float: right; text-align: right; ">
+                <h4 style="color: white;">coins : 318</h4>
+            </div>
+            <div style="width: 15%; float: right; text-align: right; ">
+                <h4 style="color: white;">views : 4132</h4>
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer style="margin-bottom: 1000px;">
+
+    </footer>
+
+     <!-- View Template -->
+     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+     <script src='js/view/nav.js'></script>
+     
+     <script src='js/scripts.js'></script>
+
+     <!-- Bootstrap core JavaScript -->
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+
+    <!-- Additional Scripts -->
+    <script src="./js/custom.js"></script>
+    <script src="./js/owl.js"></script>
+    <script src="./js/isotope.js"></script>
+    <script language = "text/Javascript"> 
+        cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+        function clearField(t){                   //declaring the array outside of the
+        if(! cleared[t.id]){                      // function makes it static and global
+            cleared[t.id] = 1;  // you could use true and false, but that's more typing
+            t.value='';         // with more chance of typos
+            t.style.color='#fff';
+            }
+        }
+    </script>
+    <script> 
+        var content = document.getElementById('contentElement').innerHTML;
+        var splitedArray = content.split(' ');
+        var linkedContent = '';
+        for(var word in splitedArray){
+            word = splitedArray[word];
+            if(word.indexOf('#') == 0){
+                word = '<a href=\'링크\'>'+word+'</a>';
+                }
+            linkedContent += word+' ';
+        }
+        document.getElementById('contentElement').innerHTML = linkedContent; 
+    </script>
+   
+</body>
+</html>

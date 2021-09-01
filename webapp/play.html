@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Performance AI Score Service">
+    <meta name="author" content="Maestro">
+
+    <!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+	<meta property="og:site_name" content="" /> <!-- website name -->
+	<meta property="og:site" content="" /> <!-- website link -->
+	<meta property="og:title" content=""/> <!-- title shown in the actual shared post -->
+	<meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+	<meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
+	<meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+	<meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+
+    <!-- Webpage Title -->
+    <title>Let's Play</title>
+    
+    <!-- Styles -->
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/view/nav.css" rel="stylesheet">
+    <link href='css/play.css' rel='stylesheet'>
+    <link href='css/spinner.css' rel='stylesheet'>
+
+
+	<!-- Favicon  -->
+    <link rel="icon" href="images/logo.png">
+</head>
+<body style='background-color: black;'>
+
+       
+    <div id='app-play-nav'>
+        <df-play-nav></df-play-nav>
+    </div>
+
+
+    <!-- Scripts -->
+    
+        <div class='canvas-container top-content'>
+            <div class='user-wrapper wrapper'>
+                <canvas id ="userCanvas" class="video-canvas user-canvas"></canvas>
+            </div>
+            <div class='play-wrapper wrapper'>
+                <canvas id="playCanvas" class="video-canvas play-canvas" ></canvas>
+            </div>
+        </div>
+    
+        <div class='video-container'>
+            <div class='user-wrapper wrapper'>
+                <video id="userVideo" class='user-video video'  autoplay playsinline ></video>
+            </div>
+            <div class='play-wrapper wrapper'>
+                <video id="playVideo" class='play-video video'  autoplay playsinline></video>
+            </div>
+        </div>
+
+    <div class='line-center line-bottom'>
+        <a  href='share.html'>
+            <button id="play-start-btn" class="w-btn w-btn-gra1 content-hide">Share</button>
+        </a>
+    </div>
+    <div style='margin-bottom:5rem;'><br/><br/><br/></div>
+          <!-- spinner -->
+    <!-- <div class="lds-facebook"><div></div><div></div><div></div></div> -->
+
+
+    
+     
+    <!-- View Template -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <script src='js/view/nav.js'></script>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="js/bootstrap.min.js"></script> <!-- Bootstrap framework -->
+    <script src="js/scripts.js"></script> <!-- Custom scripts -->
+    <script src='js/play.js'></script>
+
+
+</body>
+</html>
