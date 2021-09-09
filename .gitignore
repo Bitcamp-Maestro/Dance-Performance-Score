@@ -1,8 +1,9 @@
 
 template
-webapp/nav
-webapp/webfonts
 *.zip
+/model*
+/data
+/media
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
