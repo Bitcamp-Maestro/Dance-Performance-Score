@@ -96,9 +96,7 @@ upload_card.addEventListener('dragleave', e=>{
 })
 upload_card.addEventListener('drop', e=>{
     e.preventDefault()
-    // console.log(e.dataTransfer)
     console.log(e.dataTransfer.files)
-    // console.log(e.dataTransfer.items)
     const video_file = e.dataTransfer.files[0]
     options.upload_file = video_file
     
@@ -186,12 +184,8 @@ start_btn.addEventListener('click', async e=>{
     data.append('display', option_list[2].getAttribute('data-value'))
     data.append('video', options.upload_file, options.upload_file.name)
     data.append('songs', 'asdf')
-    // options.mode = option_list[0].getAttribute('data-value')
-    // options.upload = option_list[1].getAttribute('data-value')
-    // options.display = option_list[2].getAttribute('data-value')
     console.log(data)
     let result = await sendOption(data)
-    console.log('result')
     console.log(result)
     // location.href = '/play'
 })

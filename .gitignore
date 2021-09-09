@@ -4,6 +4,7 @@ template
 /model*
 /data
 /media
+config.*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
