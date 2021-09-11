@@ -44,6 +44,7 @@ class OptionSong(models.Model):
     songs = models.ForeignKey(Song, on_delete=models.CASCADE)
 
 class Play(models.Model):
-    option = models.ForeignKey(Option, on_delete=models.CASCADE)
+    # option = models.ForeignKey(Option, on_delete=models.CASCADE)
+
     time = models.TextField()
-    play_file_path = models.TextField()
+    play_file_path = models.FileField(upload_to='play_videos')

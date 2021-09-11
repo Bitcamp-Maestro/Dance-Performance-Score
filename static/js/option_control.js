@@ -100,7 +100,6 @@ song_cards.forEach(item=>item.addEventListener('click', e=>{
 /*
     Button Event
 */
-
 function switch_option (target_option) {
     option_container.forEach(i=>i.classList.remove('content-visible'))
     option_container.forEach(i=>i.classList.add('content-hide'))
@@ -196,7 +195,7 @@ start_btn.addEventListener('click', async e=>{
     data.append('display', option_list[2].getAttribute('data-value'))
     data.append('songs', JSON.stringify(options.songs))
     console.log(data)
-    let res = await sendOption(data)
+    let res = await sendServer('http://127.0.0.1:8000/play/option/', data)
     console.log(res)
     if(res.redirected){
         window.location.assign(res.url)
@@ -207,9 +206,8 @@ start_btn.addEventListener('click', async e=>{
 /*
     Server Request
 */
-async function sendOption(options){
-    const URL = 'http://127.0.0.1:8000'
-    const request = new Request(URL + '/play/option/', {
+async function sendServer(URL, datas){
+    const request = new Request(URL + '', {
         headers:{
             'X-CSRFToken': getCookie("csrftoken"),
         }
@@ -217,7 +215,7 @@ async function sendOption(options){
     let res = await fetch(request, {
         method : 'POST',
         mode : 'same-origin',
-        body : options,
+        body : datas,
     })
     return res
 }

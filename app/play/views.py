@@ -1,6 +1,6 @@
 from django import template
 from django.views.generic.base import RedirectView
-from play.models import OptionForm, Option
+from play.models import OptionForm, Option, Play
 from json.encoder import JSONEncoder
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
@@ -72,6 +72,12 @@ class PlayView(TemplateView):
 
     def post(self, req, *args, **kwargs):
         print(req)
-        template = loader.get_template(self.template_name)
-        context = {'test':1}
-        return HttpResponse(template.render(context, req))
+        print('video recived')
+        print(req.POST)
+        print(req.FILES)
+
+        play_option = Play(mode = req.POST['date'], video=req.FILES['video'])
+
+        return JsonResponse({
+            'result': 200,
+            }, json_dumps_params={'ensure_ascii': True})
