@@ -53,13 +53,13 @@
     
         <div class='video-container'>
             <div class='user-wrapper wrapper'>
-                <video id="userVideo" class='user-video video'  autoplay playsinline ></video>
+                <video id="userVideo" class='user-video video' data-pid="{{pid}}" data-title="{{title}}" data-aratist="{{artist}}" autoplay playsinline ></video>
             </div>
             <div class='play-wrapper wrapper'>
-                <video id="playVideo" class='play-video video'  autoplay playsinline></video>
+                <video id="playVideo" class='play-video video' src="{{video_url}}" autoplay playsinline></video>
             </div>
         </div>
-
+        
     <div class='line-center line-bottom'>
         <a  href='/share'>
             <button id="play-start-btn" class="w-btn w-btn-gra1 content-hide">Share</button>
@@ -67,7 +67,6 @@
     </div>
     <div style='margin-bottom:5rem;'><br/><br/><br/></div>
           <!-- spinner -->
-    <!-- <div class="lds-facebook"><div></div><div></div><div></div></div> -->
 
 
     

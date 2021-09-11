@@ -41,7 +41,7 @@ Vue.component('df-option-mode',{
                                 </ul>
                             </div>
                             <div class="card-buttons mt-30">
-                                <a href="#" class="btn card-btn1 select-btn"  >Select</a>
+                                <a  class="btn card-btn1 select-btn"  >Select</a>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@ Vue.component('df-option-mode',{
                                 </ul>
                             </div>
                             <div class="card-buttons mt-30">
-                                <a href="#" class="btn card-btn1 select-btn">Select</a>
+                                <a  class="btn card-btn1 select-btn">Select</a>
                             </div>
                         </div>
                     </div>
@@ -125,7 +125,7 @@ Vue.component('df-option-upload', {
                             </ul>
                         </div>
                         <div class="card-buttons mt-30" style="padding-bottom: 25px;">
-                            <a href="#" class="btn card-btn1 select-btn">Select</a>
+                            <a  class="btn card-btn1 select-btn">Select</a>
                         </div>
                     </div>
                 </div>
@@ -151,7 +151,7 @@ Vue.component('df-option-upload', {
                         </div>
                     </br></br></br>
                         <div class="card-buttons mt-30" >
-                            <a href="#" class="btn card-btn1 select-btn">Select</a>
+                            <a  class="btn card-btn1 select-btn">Select</a>
                         </div>
                     </div>
                 </div>
@@ -207,7 +207,7 @@ Vue.component('df-option-display', {
                             </ul>
                         </div>
                         <div class="card-buttons mt-30">
-                            <a href="#" class="btn card-btn1 select-btn"  >Select</a>
+                            <a  class="btn card-btn1 select-btn"  >Select</a>
                         </div>
                     </div>
                 </div>
@@ -232,7 +232,7 @@ Vue.component('df-option-display', {
                             </ul>
                         </div>
                         <div class="card-buttons mt-30">
-                            <a href="#" class="btn card-btn1 select-btn"  >Select</a>
+                            <a  class="btn card-btn1 select-btn"  >Select</a>
                         </div>
                     </div>
                 </div>
@@ -256,7 +256,7 @@ Vue.component('df-option-display', {
                             </ul>
                         </div>
                         <div class="card-buttons mt-30">
-                            <a href="#" class="btn card-btn1 select-btn"  >Select</a>
+                            <a  class="btn card-btn1 select-btn"  >Select</a>
                         </div>
                        
                     </div>

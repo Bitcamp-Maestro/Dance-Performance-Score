@@ -37,6 +37,16 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+ASGI_APPLICATION = 'server.asgi.application'
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,6 +58,7 @@ INSTALLED_APPS = [
     'play',
     'product',
     'rest_framework',
+    'channels'
 ]
 
 REST_FRAMEWORK = {

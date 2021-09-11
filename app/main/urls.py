@@ -6,9 +6,9 @@ from .views import CommunityView, CommunityVideoView, ShareView, SignView, Index
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
-    path('sign/', SignView.as_view()),
-    path('community/', CommunityView.as_view()),
-    path('community/view/', CommunityVideoView.as_view()),
-    path('share/', ShareView.as_view()),
-    path('user/', UserView.as_view()),
+    path('sign/', SignView.as_view(), name='sign'),
+    path('community/', CommunityView.as_view(), name='community'),
+    path('community/view/', CommunityVideoView.as_view(), name='video_view'),
+    path('share/', ShareView.as_view(), name='community_share'),
+    path('user/', UserView.as_view(), name='user'),
 ]
