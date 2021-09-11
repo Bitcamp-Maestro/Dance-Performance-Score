@@ -21,8 +21,11 @@ class PlayConsumer(WebsocketConsumer):
         pass
     def receive(self, text_data):
         json_data = json.loads(text_data)
+        if json_data['type'] =='close':
+            self.disconnect(json_data['pid'])
         message = json_data['message']
         print(message)
+
         self.send(text_data=json.dumps({
             'type' : 'check',
             'message' : message,

@@ -9,4 +9,5 @@ urlpatterns = [
     path('option/', OptionView.as_view(), name='option'),
     path('api/options', OptionView.as_view(), name='options'),
     path('<str:play_id>/', PlayView.as_view(), name='playapi'),
+    path('?pid=<str:play_id>', PlayView.as_view(), name='playapi'),
 ]  

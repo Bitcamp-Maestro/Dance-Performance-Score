@@ -1,20 +1,23 @@
 class PlayMain {
-    constructor(navigator, msg_handler) {
+    constructor(navigator, msg_handler, pid) {
         this.canvas = document.getElementById('userCanvas'),
         this.context = this.canvas.getContext('2d'),
         this.video = document.getElementById('userVideo'),
         this.play_video = document.getElementById('playVideo'),
-
         this.playCanvas = document.getElementById('playCanvas'),
         this.playContext = this.playCanvas.getContext('2d'),
-        this.playVideo = document.getElementById('playVideo');
         this.navigator = navigator
         this.navigator.getMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetuserMedia || navigator.mediaDevices.msGetUserMedia;
         this.rec = null
-        this.score_loop_id = null
+        
         this.score = 0
-
+       
         this.msg_handler = msg_handler
+        this.config = {
+            pid: pid,
+            id: this.msg_handler.clientID,
+            start_date: Date.now()
+        }
     }
     init_handler(){
         this.msg_handler.setReceiveCallBack(data=>{
@@ -101,17 +104,15 @@ class PlayMain {
         this.rec.ondataavailable = e => chunks.push(e.data);
 
         this.rec.onstop = e => {
-            clearInterval(this.score_loop_id)
+            this.msg_handler.close(this.config.pid)
             let title = this.video.getAttribute('data-title')
             let video_title = `${title}_playvideo.mp4`
             const vid = this.exportVid(new Blob(chunks, {type: 'video/mp4'}), video_title)
-            const data = new FormData()
-            const file = new File(new Blob(chunks, {type: 'video/mp4'}), video_title, {'type':'video/mp4'})
-            data.append('video', file, file.name)
-            this.msg_handler.sendServer('http://127.0.0.1/play', {
-                'video' : file,
-                'date' : new Date(Date.now()).toString()
-            })
+            const play_data = new FormData()
+            const file = new File(chunks, video_title, {'type':'video/mp4'})
+            play_data.append('video', file, file.name)
+            play_data.append('datetime', new Date(Date.now()).toString())
+            this.msg_handler.sendResult('http://127.0.0.1:8000/play/?pid=' + this.config.pid, play_data)
         };
         this.rec.start();
 
@@ -131,49 +132,51 @@ class PlayMain {
 }
 
 class MessageHandler {
-    constructor(URL) {
+    constructor(URL, pid=null) {
         this.clientID = "client 1"
-        this.msg = {
-            pid: document.querySelector('#userVideo').getAttribute('data-pid'),
-            type: "message",
-            text: "hello",
-            id: this.clientID,
-            date: Date.now()
-        }
-        this.PLAY_URL = URL + this.msg.pid
-        this.socket = new WebSocket(this.PLAY_URL)
+        this.URL = URL
+        this.socket = new WebSocket(this.URL)
         this.receivedCallBack = null
         this.init()
     }
     init() {
         this.socket.onopen = e => {
-            this.sendMessage('connected with client : ' + this.msg.pid)
-            this.sendMessage(this.msg)
+            this.sendMessage('check', 'connected with client : ' + this.msg.pid)
+            this.sendMessage('check', this.msg)
         }
         this.socket.onmessage = e => {
             const data = JSON.parse(e.data)
             this.receivedCallBack(data)
         }
         this.socket.onclose = e=>{
+            this.socket.close()
             console.log('disconnected')
         }
     }
-    sendMessage(msg) {
-        this.socket.send(JSON.stringify({'message': msg}))
+    sendMessage(type, msg) {
+        this.socket.send(JSON.stringify({
+            'type' : type,
+            'message': msg
+        }))
     }
     setReceiveCallBack(callback){
         this.receivedCallBack = callback
     }
-    close() {
+    close(pid=null) {
+        this.socket.send(JSON.stringify({
+            'type' : 'close',
+            'pid' : pid,
+            'message': 'close',
+        }))
         this.socket.close()
     }
     makeMessage(func) {
         func()
     }
-    async sendServer(URL, datas) {
+    async sendResult(URL, datas) {
         const request = new Request(URL + '', {
             headers: {
-                'X-CSRFToken': getCookie("csrftoken")
+                'X-CSRFToken': this.getCookie("csrftoken")
             }
         })
         let res = await fetch(request, {
@@ -202,7 +205,8 @@ class MessageHandler {
 }
 
 function main() {
-    let msg_handler = new MessageHandler('ws://127.0.0.1:8000/ws/play/')
-    new PlayMain(navigator, msg_handler).main()
+    const pid = document.querySelector('#userVideo').getAttribute('data-pid')
+    let msg_handler = new MessageHandler('ws://127.0.0.1:8000/ws/play/' + pid)
+    new PlayMain(navigator, msg_handler, pid).main()
 }
 main()

@@ -45,9 +45,6 @@ class OptionView(TemplateView, RedirectView):
         return res
 
 
-
-      
-
 class PlayView(TemplateView):
     template_name = 'play.html'
     
@@ -76,8 +73,8 @@ class PlayView(TemplateView):
         print(req.POST)
         print(req.FILES)
 
-        play_option = Play(mode = req.POST['date'], video=req.FILES['video'])
-
+        play_data = Play(datetime = req.POST['datetime'], video=req.FILES['video'])
+        play_data.save()
         return JsonResponse({
             'result': 200,
             }, json_dumps_params={'ensure_ascii': True})
