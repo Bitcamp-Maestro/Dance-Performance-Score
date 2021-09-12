@@ -28,7 +28,11 @@ class OptionView(TemplateView, RedirectView):
 
         if req.POST['upload'] == 'upload':
             play_option = Option(mode = req.POST['mode'], upload=req.POST['upload'], songs=req.POST['songs'], video=req.FILES['video'])
-            # play_option.save()
+            play_option.save()
+        else :
+            play_option = Option(mode = req.POST['mode'], upload=req.POST['upload'], songs=req.POST['songs'], video=req.FILES)
+            play_option.save()
+            
         # form = OptionForm(req.POST)
         # if form.is_valid() :
         #     form.save()
@@ -57,12 +61,16 @@ class PlayView(TemplateView):
         
         # print(req.GET.get('pid', None))
         # print(req.GET['pid'])
-        template = loader.get_template(self.template_name)
+        user_option = Option.objects.last()
+        print(user_option.video.url)
+
         context = {
             'pid' : req.GET['pid'],
             'title' : 'Secret Garden',
             'artist' : 'OH MY GIRL',
+            'play_mode' : user_option.upload,
             'video_url' : '/static/target_videos/secretgarden1-3.mp4',
+            'user_video_url' : user_option.video.url,
         }
         # return HttpResponse(template.render(context, req))
         return render(req, self.template_name, context)

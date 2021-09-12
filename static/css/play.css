@@ -28,6 +28,7 @@ html {
     padding: 20px;
     height: 100%;
     display:none;
+    /* visibility: hidden; */
 }
 .wrapper {
     height: 95%;

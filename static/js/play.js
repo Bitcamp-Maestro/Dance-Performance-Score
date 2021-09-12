@@ -9,7 +9,8 @@ class PlayMain {
         this.navigator = navigator
         this.navigator.getMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetuserMedia || navigator.mediaDevices.msGetUserMedia;
         this.rec = null
-        
+        this.fps = 30
+
         this.score = 0
        
         this.msg_handler = msg_handler
@@ -19,7 +20,29 @@ class PlayMain {
             start_date: Date.now()
         }
     }
+    main() {
+        this.init_handler()
+        this.video.addEventListener('play', e => {
+            console.log('play')
+            this.draw();
+            this.record();
+        }, false);
+        this.play_video.addEventListener('ended', e => {
+            this.rec.stop()
+        })
+        if(this.video.getAttribute('data-play-mode') !== 'upload'){
+            this.initCaptureVideo(this.video);
+        }else{
+            // this.video.play()
+            // this.play_video.play()
+        }
+
+        window.onresize = this.resizeCanvas();
+        this.resizeCanvas();
+    }
+
     init_handler(){
+        console.log('asdf')
         this.msg_handler.setReceiveCallBack(data=>{
             switch (data.type) {
                 case 'message':
@@ -29,20 +52,7 @@ class PlayMain {
                     break
             }
         })
-    }
-    main() {
-        this.init_handler()
-        this.video.addEventListener('play', e => {
-            this.draw();
-            this.record();
-        }, false);
-        this.play_video.addEventListener('ended', e => {
-            this.rec.stop()
-        })
-        this.initCaptureVideo(this.video);
-
-        window.onresize = this.resizeCanvas();
-        this.resizeCanvas();
+        console.log(this.msg_handler.receivedCallBack)
     }
 
     initCaptureVideo(video) {
@@ -74,6 +84,7 @@ class PlayMain {
         // user display
         this.context.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
         this.context.font = '2.5rem serif';
+        this.context.strokeStyle= 'blue'
         this.context.strokeText('USER DISPLAY', 20, 50);
 
         this.context.font = '0.5 rem serif';
@@ -87,18 +98,19 @@ class PlayMain {
         this.playContext.font = '2.5rem serif';
         this.playContext.strokeText('PLAY DISPLAY', 20, 50);
 
-        setTimeout(this.draw.bind(this), 1000 / 30); //30 fps
+        setTimeout(this.draw.bind(this), 1000 / this.fps); //20 fps
     }
     updateScore(score) {
         this.score += score
         console.log(this.score)
         this.context.font = '1 rem serif';
+        this.context.strokeStyle= 'blue'
         this.context.strokeText(this.score, 20, this.canvas.height - 50);
     }
 
     record() {
         const chunks = [];
-        const stream = this.canvas.captureStream(30);
+        const stream = this.canvas.captureStream(this.fps);
         this.rec = new MediaRecorder(stream);
 
         this.rec.ondataavailable = e => chunks.push(e.data);
@@ -107,7 +119,7 @@ class PlayMain {
             this.msg_handler.close(this.config.pid)
             let title = this.video.getAttribute('data-title')
             let video_title = `${title}_playvideo.mp4`
-            const vid = this.exportVid(new Blob(chunks, {type: 'video/mp4'}), video_title)
+            this.exportVid(new Blob(chunks, {type: 'video/mp4'}), video_title)
             const play_data = new FormData()
             const file = new File(chunks, video_title, {'type':'video/mp4'})
             play_data.append('video', file, file.name)
@@ -141,12 +153,15 @@ class MessageHandler {
     }
     init() {
         this.socket.onopen = e => {
-            this.sendMessage('check', 'connected with client : ' + this.msg.pid)
-            this.sendMessage('check', this.msg)
+            this.sendMessage('check', 'connected with client : ' + this.clientID)
         }
         this.socket.onmessage = e => {
             const data = JSON.parse(e.data)
-            this.receivedCallBack(data)
+            try{
+                this.receivedCallBack(data)
+            }catch(error){
+                console.log(error)
+            }
         }
         this.socket.onclose = e=>{
             this.socket.close()

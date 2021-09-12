@@ -29,7 +29,7 @@ class Option(models.Model):
     upload = models.TextField(max_length=4, blank=False, choices=UPLOAD)
     # upload_file_path = models.TextField()
     songs = models.TextField(blank=False)
-    video = models.FileField(upload_to='user_videos', blank=True)
+    video = models.FileField(upload_to='user_videos', blank=True, null=True)
 
 class OptionForm(forms.ModelForm):
     class Meta:
