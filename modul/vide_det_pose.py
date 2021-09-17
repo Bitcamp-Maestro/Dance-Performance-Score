@@ -1,43 +1,52 @@
 import os
-from moviepy.video.compositing.concatenate import concatenate_videoclips
-
-from numpy.lib.function_base import append
-import pandas as pd
 import cv2
-from moviepy.editor import VideoFileClip, clips_array, vfx, CompositeVideoClip
 
-from sklearn.metrics.pairwise import cosine_similarity
-
+# mmpose, mmdet 함수 호출
 from mmpose.apis import inference_top_down_pose_model, init_pose_model, process_mmdet_results, vis_pose_result
 from mmdet.apis import inference_detector, init_detector
 
-from PIL import ImageFont
+# 유사도 측정 라이브러리
+from sklearn.metrics.pairwise import cosine_similarity
+
+# 비디오 mix 라이브러리
+from video_mix import Video_Mix
 
 def det_Pose_Video():
+    """
+    video1 : 유저가 업로드하고자 하는 비디오
+    video2 : 비교할 영상
+    output : 파일을 저장할 풀더 이름
 
+    """
     ALL = 0
-
-    ############################################# 변수 ####################################################################
-    SHOW = False                            # 보여줄건지 선택 변수
+    # Video_Mix(video1, video2, name="sample")
+    ############################################# 변수 ##################################################################################
+    SHOW = True                                # WINDOW에 보여줄건지 선택 변수
     # SAVE = True                               # 저장할건지 선택 변수
     DEVICE = "cuda:0"                           # DEVICE 선택 변수 cpu, cuda, ---
 
 
     VIDEO_PATH = "./final_clips.mp4"
 
-
-    DET_CONFIG = "configs/detection/faster_rcnn_r50_fpn_coco.py" # Detection config 파일
-    DET_CHECKPOINT = "checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth" # Detection 훈련 모델 파일
-    POSE_CONFIG = "configs/pose/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/hrnet_w48_coco_256x192.py" # Pose config 파일
-    POSE_CHECKPOINT = "checkpoints/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth" # Pose 훈련 모델 파일
-    OUT_VIDEO_ROOT = "sample" # 저장 파일 위치 설정
+    # Detection config 파일
+    DET_CONFIG = "configs/detection/faster_rcnn_r50_fpn_coco.py" 
+    # Detection 훈련 모델 파일
+    DET_CHECKPOINT = "checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth" 
+    
+    # Pose config 파일
+    POSE_CONFIG = "configs/pose/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/hrnet_w48_coco_256x192.py" 
+    # Pose 훈련 모델 파일
+    POSE_CHECKPOINT = "checkpoints/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth" 
+    
+    
+    OUT_VIDEO_ROOT = "ss" # 저장 파일 위치 설정
 
     DET_CAT_ID = 1      # Category id for bounding box detection model
     BBOX_THR = 0.3      # Bounding box score threshold
     KPT_THR = 0.3       # Keypoint score threshold
     RADIUS = 4          # Keypoint radius for visualization
     THICKNESS = 1       # Link thickness for visualization
-    
+    #######################################################################################################################################
     # 1. build the detection moedl from a fonfig file and a checkpoint file
     det_model = init_detector(DET_CONFIG, DET_CHECKPOINT, device=DEVICE)
     
@@ -100,6 +109,7 @@ def det_Pose_Video():
             return_heatmap=return_heatmap,
             outputs=output_layer_names)
         # print(pose_results[0]["bbox"])
+        ############################################################ 유사도 측정 ##################################################################################
         try:
             b1_point = pose_results[0]["bbox"] # 첫번째 사람 
             b2_point = pose_results[1]["bbox"] # 오른쪽 사람
@@ -176,16 +186,19 @@ def det_Pose_Video():
                 elif i == 16:    
                     right_ankle_2 = [[(p_point[0]-b2_point[0])/(b2_point[2]-b2_point[0]), (p_point[1]-b2_point[1])/(b2_point[3]-b2_point[1])]]
 
+            # 머리부분
             nose_score = cosine_similarity(nose_1, nose_2)
             head_bottom_score = cosine_similarity(head_bottom_1, head_bottom_2)
             head_top_score = cosine_similarity(head_top_1, head_top_2)
             left_ear_score = cosine_similarity(left_ear_1, left_ear_2)
             right_ear_score = cosine_similarity(right_ear_1, right_ear_2)
 
+            # 몸 부분
             left_shoulder_score = cosine_similarity(left_shoulder_1, left_shoulder_2)
             right_shoulder_score = cosine_similarity(right_shoulder_1, right_shoulder_2)
             left_hip_score = cosine_similarity(left_hip_1, left_hip_2)
             right_hip_score = cosine_similarity(right_hip_1, right_hip_2)
+
 
             left_elbow_score = cosine_similarity(left_elbow_1, left_elbow_2)
             right_elbow_score = cosine_similarity(right_elbow_1, right_elbow_2)
@@ -196,12 +209,13 @@ def det_Pose_Video():
             left_ankle_score = cosine_similarity(left_ankle_1, left_ankle_2)
             right_ankle_score = cosine_similarity(right_ankle_1, right_ankle_2)
             
+            # 
+            all_score = ((nose_score + head_bottom_score + head_top_score + left_ear_score + right_ear_score)/5
+                            + (left_shoulder_score + right_shoulder_score + left_elbow_score + right_elbow_score)/4 
+                            + left_wrist_score + right_wrist_score + left_hip_score + right_hip_score 
+                            + left_knee_score + right_knee_score + left_ankle_score + right_ankle_score)/10
             
-            all_score = (nose_score + head_bottom_score + head_top_score + left_ear_score 
-                                + right_ear_score + left_shoulder_score + right_shoulder_score 
-                                + left_elbow_score + right_elbow_score + left_wrist_score + right_wrist_score
-                                + left_hip_score + right_hip_score + left_knee_score + right_knee_score
-                                + left_ankle_score + right_ankle_score)/17
+            # 점수 산출 
             if all_score >= 0.998:
                 ALL += 5
                 score = 5
@@ -230,7 +244,9 @@ def det_Pose_Video():
        
         except:
             pass
-
+        #############################################################################################################################################################
+        
+        
         # show the results
         vis_img = vis_pose_result(
             pose_model,
@@ -244,6 +260,8 @@ def det_Pose_Video():
 
         text = "+ {} | Your current score : {}".format(score, ALL)
         if SHOW == True:
+            cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+            cv2.resizeWindow('Image', 1920,540)
             cv2.putText(vis_img,text, (50,100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0),2,cv2.LINE_AA)
             cv2.imshow('Image', vis_img)
 
@@ -262,13 +280,7 @@ def det_Pose_Video():
     cv2.destroyAllWindows()
 
     print("전체 스코어 점수 : {}".format(ALL))
-    # print(NOSE)
-    # z = []
-    # for i in zip(NOSE,HEAD_BOTTOM, HEAD_TOP, LEFT_EAR, RIGHT_EAR, LEFT_SHOULDER, RIGHT_SHOULDER, LEFT_ELBOW, RIGHT_ELBOW, LEFT_WRIST, RIGHT_WRIST, LEFT_HIP, RIGHT_HIP, LEFT_KNEE, RIGHT_KNEE, LEFT_ANKLE, RIGHT_ANKLE):
-    #     z.append(i)
-    # df = pd.DataFrame(z, columns=('NOSE','HEAD_BOTTOM', 'HEAD_TOP', 'LEFT_EAR', 'RIGHT_EAR', 'LEFT_SHOULDER', 'RIGHT_SHOULDER', 'LEFT_ELBOW', 'RIGHT_ELBOW', 'LEFT_WRIST', 'RIGHT_WRIST', 'LEFT_HIP', 'RIGHT_HIP', 'LEFT_KNEE', 'RIGHT_KNEE', 'LEFT_ANKLE', 'RIGHT_ANKLE'))
-    # print(df)
-    # df.to_csv("sample/sample.csv")
+   
 
 if __name__ == '__main__':
     det_Pose_Video()
