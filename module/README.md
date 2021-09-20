@@ -18,41 +18,41 @@
 
 a. Create a conda virtual enviroment and activate it.
 
-'''shell
+```shell
 conda create -n dancer-flow python=3.8 -y
 conda activate dacer-flow
-'''
+```
 
 b. Install [Pytorch](https://pytorch.org/)
-'''shell
+```shell
 conda install pytorch torchvision torchaudio -c pytorch
-'''
+```
 
 c. Install Opencv-python
-'''shell
+```shell
 pip install opencv-python
-'''
+```
 
 d. Install xtcocotools
-'''shell
+```shell
 git clone https://github.com/jin-s13/xtcocoapi.git
 cd xtcocotools
 pip install -r requirements.txt
 pip install -v -e .
 cd ..
-'''
+```
 
 e. Install MMCV
-'''shell
+```shell
 pip install mmcv-full
-'''
+```
 
 f. Install mmdet
-'''shell
+```shell
 pip install mmdet
-'''
+```
 
 g. Install mmpose
-'''shell
+```shell
 pip install mmpose
-'''
+```
