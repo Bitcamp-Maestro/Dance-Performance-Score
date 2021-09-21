@@ -1,6 +1,6 @@
-# MMLAB
-## MMCV, MMDET, MMPOSE
+# DANCER-FLOW MODULE
 
+## MMCV, MMDET, MMPOSE
 ## Requirements
 - window10, mac
 - python 3.8
@@ -9,13 +9,11 @@
 - CUDA 11.4
 - opencv-python
 - [xtcocotools](https://github.com/jin-s13/xtcocoapi)
-
-- [mmcv]
+- [mmcv](https://github.com/open-mmlab/mmcv.git)
 - [mmdet](https://github.com/open-mmlab/mmdetection)
-- [mmpose]
+- [mmpose](https://github.com/open-mmlab/mmpose.git)
 
 ## Quick install
-
 a. Create a conda virtual enviroment and activate it.
 
 ```shell

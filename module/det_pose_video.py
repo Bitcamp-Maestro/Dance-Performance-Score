@@ -1,6 +1,12 @@
 import os
 import warnings
 import cv2
+import pandas as pd
+
+import json
+
+from data_form import Form
+
 
 from mmpose.apis.inference import (inference_top_down_pose_model, 
                                     init_pose_model, 
@@ -85,8 +91,10 @@ class Play():
 
         # e.g. use ('backbone', ) to return backbone feature
         output_layer_names = None
-
+        result_box = {}
+        idx = 0
         while cap.isOpened():
+            idx += 1
             flag, img = cap.read()
             if not flag:
                 break
@@ -106,6 +114,15 @@ class Play():
                 # dataset=dataset,
                 return_heatmap=return_heatmap,
                 outputs=output_layer_names)
+
+
+            # print(pose_results)            
+            bounding_Box = pose_results[0]["bbox"]
+            result_dict={}
+            for i, p_point in enumerate(pose_results[0]["keypoints"]):
+                data = Form.data_form(dict=result_dict, i = i, keypoint = p_point)
+            data = Form.make_dic(idx, bounding_Box, result_dict)
+            result_box[idx] = (data)
 
             # show the results
             vis_img = vis_pose_result(
@@ -131,17 +148,25 @@ class Play():
         if save_out_video:
             videoWriter.release()
         cv2.destroyAllWindows()
+        # save_data_form(data)
+        with open("./sample.json", "w") as outfile:
+            json.dump(result_box, outfile, indent=4)
 
 
 if __name__ == '__main__':
     
-    DET_CONFIG = "configs/detection/faster_rcnn_r50_fpn_coco.py"                                                # Detection config 파일
-    DET_CHECKPOINT = "https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth"                  # Detection 훈련 모델 파일
-    POSE_CONFIG = "configs/pose/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/hrnet_w48_coco_256x192.py"       # Pose config 파일
-    POSE_CHECKPOINT = "https://download.openmmlab.com/mmpose/checkpoints/pose/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth"                           # Pose 훈련 모델 파일
+    # Detction 설정
+    DET_CONFIG_FASTER_R_CNN_R50_FPN_COCO = "configs/detection/faster_rcnn_r50_fpn_coco.py"                                                                                                        # Detection config 파일
+    DET_CHECKPOINT_FASTER_R_CNN_R50_FPN_COCO = "https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth"        # Detection 훈련 모델 파일
+    
+    # Pose 설정
+    POSE_CONFIG_HRNET_W48_COCO_256X192 = "configs/pose/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/hrnet_w48_coco_256x192.py"                                                               # Pose config 파일
+    POSE_CHECKPOINT_HRNET_W48_COCO_256X192 = "https://download.openmmlab.com/mmpose/checkpoints/pose/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth"                                             # Pose 훈련 모델 파일
+    
+    # 영상 경로
     VIDEO = "./sample_data/target.mp4"
     
     play= Play()
-    play.det__init__(DET_CONFIG, DET_CHECKPOINT, device="cpu")
-    play.pose__init__(POSE_CONFIG, POSE_CHECKPOINT, device="cpu")
-    play.det_Pose_Video(VIDEO)
+    play.det__init__(DET_CONFIG_FASTER_R_CNN_R50_FPN_COCO, DET_CHECKPOINT_FASTER_R_CNN_R50_FPN_COCO, device="cpu")
+    play.pose__init__(POSE_CONFIG_HRNET_W48_COCO_256X192, POSE_CHECKPOINT_HRNET_W48_COCO_256X192, device="cpu")
+    play.det_Pose_Video(VIDEO, outpath="result")
