@@ -1,12 +1,13 @@
 import os
-import warnings
+
 import cv2
-import pandas as pd
+
 
 import json
 
-from data_form import Form
-
+from utils.data_form import Form
+from utils.similarity import single_score_similarity 
+from utils.scoring import scoring
 
 from mmpose.apis.inference import (inference_top_down_pose_model, 
                                     init_pose_model, 
@@ -18,7 +19,7 @@ from mmdet.apis.inference import (inference_detector,
 
 
 class Play():
-    def __init__(self):
+    def __init__(self, option_1=0,option_2=0, option_3=0) -> None:
         """
         Input file:
             Model Input
@@ -29,6 +30,9 @@ class Play():
                 Video() : file, .mp4,
                 Output_phat : 저장될 위치 경로
         """
+        self.option_1 = option_1
+        self.option_2 = option_2
+        self.option_3 = option_3
         pass
 
 
@@ -52,7 +56,19 @@ class Play():
         self.pose_checkpoint = pose_checkpoint
         self.pose_device = device
 
-    def det_Pose_Video(self, video, outpath="result"):
+
+
+    def det_Pose_Video(self, user_video,  outpath="result"):
+        
+        ############# SCORE 변수 ##########################
+        FACE_SCORE = 0
+        BODY_SCORE = 0
+        LEFT_ARM_SCORE = 0
+        RIGHT_ARM_SCORE = 0
+        LEFT_LEG_SCORE = 0
+        RIGHT_LEG_SCORE = 0
+        #################################################
+
         SHOW = True                                 # 보여줄건지 선택 변수
         DET_CAT_ID = 1      # Category id for bounding box detection model
 
@@ -66,32 +82,18 @@ class Play():
         # dataset = pose_model.cfg.data['test']['type']
         
         # 3. 영상 파일을 불러오기
-        cap = cv2.VideoCapture(video)
-        # assert cap.isOpened(), f'Faild to load video file {VIDEO_PATH}'
+        cap = cv2.VideoCapture(user_video)
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        size = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
+                int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        videoWriter = cv2.VideoWriter(
+            os.path.join(outpath, f'DancerFlow_{os.path.basename(video)}'), fourcc, fps, size)
 
-        # 만약 out 루트가 있는지 없는지 확인
-        if outpath == '':
-            save_out_video = False
-        else:
-            os.makedirs(outpath, exist_ok=True)
-            save_out_video = True
-
-        if save_out_video:
-            fps = cap.get(cv2.CAP_PROP_FPS)
-            size = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
-                    int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-            fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-            videoWriter = cv2.VideoWriter(
-                os.path.join(outpath,
-                            f'DancerFlow_{os.path.basename(video)}'), fourcc,
-                fps, size)
-
-        # optional
-        return_heatmap = False
 
         # e.g. use ('backbone', ) to return backbone feature
-        output_layer_names = None
-        result_box = {}
+
+        RESULT_BOX = {}
         idx = 0
         while cap.isOpened():
             idx += 1
@@ -112,24 +114,41 @@ class Play():
                 bbox_thr=0.5,
                 format='xyxy',
                 # dataset=dataset,
-                return_heatmap=return_heatmap,
-                outputs=output_layer_names)
+                return_heatmap=False,
+                outputs=None)
 
 
             # print(pose_results)            
             bounding_Box = pose_results[0]["bbox"]
             result_dict={}
             for i, p_point in enumerate(pose_results[0]["keypoints"]):
-                data = Form.data_form(dict=result_dict, i = i, keypoint = p_point)
+                result_dict = Form.data_form(dict=result_dict, i = i, keypoint = p_point)
             data = Form.make_dic(idx, bounding_Box, result_dict)
-            result_box[idx] = (data)
+            RESULT_BOX[idx] = (data)
+
+
+            ################### 유사도 측정 알고리즘 추가 ##################################
+            similarity_score = single_score_similarity(
+                                    user_pose_result= data,
+                                    target_pose_result= data,
+                                    user_frame=0,
+                                    target_frame=0)
+            # Scoring 
+            FACE_SCORE = scoring(similarity_score["face_score"], FACE_SCORE)
+            BODY_SCORE = scoring(similarity_score["body_score"], BODY_SCORE)
+            LEFT_ARM_SCORE = scoring(similarity_score["left_arm_score"], LEFT_ARM_SCORE)
+            RIGHT_ARM_SCORE = scoring(similarity_score["right_arm_score"], RIGHT_ARM_SCORE)
+            LEFT_LEG_SCORE = scoring(similarity_score["left_leg_score"], LEFT_LEG_SCORE)
+            RIGHT_LEG_SCORE = scoring(similarity_score["right_leg_score"], RIGHT_LEG_SCORE)
+            print(FACE_SCORE, BODY_SCORE, LEFT_ARM_SCORE, RIGHT_ARM_SCORE, LEFT_LEG_SCORE, RIGHT_LEG_SCORE)
+            ############################################################################
+
 
             # show the results
             vis_img = vis_pose_result(
                 pose_model,
                 img,
                 pose_results,
-                # dataset=dataset,
                 kpt_score_thr=0.5,
                 radius=4,               # 원 크기
                 thickness=2,            # 관절 두께
@@ -137,21 +156,20 @@ class Play():
 
             if SHOW == True:
                 cv2.imshow('Image', vis_img)
-
-            if save_out_video:
-                videoWriter.write(vis_img)
+            videoWriter.write(vis_img)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
             
         cap.release()
-        if save_out_video:
-            videoWriter.release()
+        videoWriter.release()
         cv2.destroyAllWindows()
-        # save_data_form(data)
-        with open("./sample.json", "w") as outfile:
-            json.dump(result_box, outfile, indent=4)
 
+        ## 결과값을 json파일로 저장
+        with open("./sample.json", "w") as outfile:
+            json.dump(RESULT_BOX, outfile, indent=4)
+        
+        return RESULT_BOX
 
 if __name__ == '__main__':
     
