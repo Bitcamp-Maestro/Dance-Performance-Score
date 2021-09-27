@@ -47,4 +47,5 @@ class Play(models.Model):
     # option = models.ForeignKey(Option, on_delete=models.CASCADE)
 
     datetime = models.TextField()
+    score = models.IntegerField(default=0)
     video = models.FileField(upload_to='play_videos', blank=True)

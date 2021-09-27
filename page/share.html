@@ -16,7 +16,15 @@
 
     <!-- Template -->
 	<link href="/static/css/view/nav.css" rel="stylesheet">
-
+<style>
+    
+.polygon-chart {
+  display: block;
+  margin: 50px auto;
+  width: 400px;
+  height: 400px;
+}
+</style>
     
 </head>
 <body>
@@ -33,7 +41,7 @@
             <h2>Play Video Share</h2>
         </div>    
     </div>
-    
+
     <!-- contact section -->
     <section class="contact_section">
         <div class="container">
@@ -44,7 +52,22 @@
                             <h4 class="share_user"><img src="/static/images/user.png" alt="" class="user_img">User Name</h4>
                             <h3>Title : Aurora(Today Romeo Remix)</h3>
                             <h4>Artist : k-391</h4>
-                            <img src="/static/images/sample2.jpeg" alt="" class="user_video">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <img src="/static/images/sample2.jpeg" alt="" class="user_video">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="polygon-chart" class="polygon-chart">
+                        <div class="polygon-chart-label">
+                            <span class="label-head-body">Head-Body</span>
+                            <span class="label-left-arm">Left-Arm</span>
+                            <span class="label-right-arm">Right-Arm</span>
+                            <span class="label-left-leg">Left-Leg</span>
+                            <span class="label-right-leg">Right-Leg</span>
                         </div>
                     </div>
                 </div>
@@ -81,6 +104,10 @@
     <script src="/static/js/view/nav.js"></script>
     
     <script src="/static/js/scripts.js"></script>
+
+    <script src="/static/lib/PolygonChart.umd.js"></script>
+    <script src="/static/js/share.js"></script>
+
 
     <script type="text/javascript" src="/static/js/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>

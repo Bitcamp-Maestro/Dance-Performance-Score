@@ -34,18 +34,18 @@ document.querySelector(".navbar-toggler").addEventListener("click", () => {
   	document.querySelector(".offcanvas-collapse").classList.toggle("open");
 });
 
-/* Card Slider - Swiper */
-var cardSlider = new Swiper('.card-slider', {
-	autoplay: {
-		delay: 4000,
-		disableOnInteraction: false
-	},
-	loop: true,
-	navigation: {
-		nextEl: '.swiper-button-next',
-		prevEl: '.swiper-button-prev'
-	}
-});
+// /* Card Slider - Swiper */
+// var cardSlider = new Swiper('.card-slider', {
+// 	autoplay: {
+// 		delay: 4000,
+// 		disableOnInteraction: false
+// 	},
+// 	loop: true,
+// 	navigation: {
+// 		nextEl: '.swiper-button-next',
+// 		prevEl: '.swiper-button-prev'
+// 	}
+// });
 
 
 /* Modal Button Close And Scroll To Link */

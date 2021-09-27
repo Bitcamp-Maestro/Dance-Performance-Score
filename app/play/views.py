@@ -47,6 +47,7 @@ class OptionView(TemplateView, RedirectView):
         res = HttpResponse(status=307)
         res['Location'] = f'/play/?pid={pid}'
         return res
+        
 
 
 class PlayView(TemplateView):
@@ -69,7 +70,8 @@ class PlayView(TemplateView):
             'title' : 'Secret Garden',
             'artist' : 'OH MY GIRL',
             'play_mode' : user_option.upload,
-            'video_url' : '/static/target_videos/secretgarden1-3.mp4',
+            # 'video_url' : '/static/target_videos/secretgarden1-3.mp4',
+            'video_url' : 'https://cache.midibus.kinxcdn.com/name/ch_17bdc199/17c131b8dd5313bf_720P',
             'user_video_url' : user_option.video.url,
         }
         # return HttpResponse(template.render(context, req))
@@ -77,12 +79,12 @@ class PlayView(TemplateView):
 
     def post(self, req, *args, **kwargs):
         print(req)
-        print('video recived')
+        print('video reci`ved')
         print(req.POST)
         print(req.FILES)
 
-        play_data = Play(datetime = req.POST['datetime'], video=req.FILES['video'])
+        play_data = Play(datetime = req.POST['datetime'], score=int(req.POST['score']), video=req.FILES['video'])
         play_data.save()
         return JsonResponse({
             'result': 200,
-            }, json_dumps_params={'ensure_ascii': True})
+        }, json_dumps_params={'ensure_ascii': True})
