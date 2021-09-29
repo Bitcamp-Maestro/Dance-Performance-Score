@@ -9,9 +9,8 @@ def single_score_similarity(user_pose_result, target_pose_result, user_frame=0, 
         target_frame : default = 0frame.
     
     output
-        socre{
-            face_score : int()
-            body_score : int()
+        score{
+            face_body_score : int()
             left_arm_score : int()
             right_arm_score : int()
             left_leg_score : int()
@@ -37,25 +36,24 @@ def single_score_similarity(user_pose_result, target_pose_result, user_frame=0, 
     ktpd = tpd["keypoints"]
 
     #User_pose_result
-    #얼굴
+    #얼굴+몸
     nose_key1 = kupd["nose"]
     left_eye_key1 = kupd["left_eye"]
     right_eye_key1 = kupd["right_eye"]
     left_ear_key1 = kupd["left_ear"]
     right_ear_key1 = kupd["right_ear"]
-    face_key_x1 = ((nose_key1[0]+left_eye_key1[0]+right_eye_key1[0]+left_ear_key1[0]+right_ear_key1[0])/5)
-    face_key_y1 = ((nose_key1[1]+left_eye_key1[1]+right_eye_key1[1]+left_ear_key1[1]+right_ear_key1[1])/5)
-    face_key_nm_x1 = (face_key_x1-center1[0])/(bx1_2 - bx1_1)
-    face_key_nm_y1= (face_key_y1-center1[1])/(by1_2-by1_1)
-    #몸
     left_shoulder_key1 = kupd["left_shoulder"]
     right_shoulder_key1 = kupd["right_shoulder"]
     left_hip_key1 = kupd["left_hip"]
     right_hip_key1 = kupd["right_hip"]
-    body_key_x1 = ((left_shoulder_key1[0]+ right_shoulder_key1[0]+ left_hip_key1[0]+ right_hip_key1[0])/4)
-    body_key_y1 = ((left_shoulder_key1[1]+ right_shoulder_key1[1]+ left_hip_key1[1]+ right_hip_key1[1])/4)
-    body_key_nm_x1 = (body_key_x1-center1[0])/(bx1_2 - bx1_1)
-    body_key_nm_y1= (body_key_y1-center1[1])/(by1_2-by1_1)
+
+    face_body_key_x1 = ((((nose_key1[0]+left_eye_key1[0]+right_eye_key1[0]+left_ear_key1[0]+right_ear_key1[0])/5)
+                        + ((left_shoulder_key1[0]+ right_shoulder_key1[0]+ left_hip_key1[0]+ right_hip_key1[0])/4))/2)
+    face_body_key_y1 = ((((nose_key1[1]+left_eye_key1[1]+right_eye_key1[1]+left_ear_key1[1]+right_ear_key1[1])/5) 
+                        + ((left_shoulder_key1[1]+ right_shoulder_key1[1]+ left_hip_key1[1]+ right_hip_key1[1])/4))/2)
+    face_body_key_nm_x1 = (face_body_key_x1-center1[0])/(bx1_2 - bx1_1)
+    face_body_key_nm_y1= (face_body_key_y1-center1[1])/(by1_2-by1_1)
+
     #왼팔
     left_elbow_key1 = kupd["left_elbow"]
     left_wrist1 = kupd["left_wrist"]
@@ -86,25 +84,24 @@ def single_score_similarity(user_pose_result, target_pose_result, user_frame=0, 
     right_leg_key_nm_y1= (right_leg_key_y1-center1[1])/(by1_2-by1_1)
 
     #target_pose_result
-    #얼굴
-    nose_key2 = ktpd["nose"]
-    left_eye_key2 = ktpd["left_eye"]
-    right_eye_key2 = ktpd["right_eye"]
-    left_ear_key2 = ktpd["left_ear"]
-    right_ear_key2 = ktpd["right_ear"]
-    face_key_x2 = ((nose_key2[0]+left_eye_key2[0]+right_eye_key2[0]+left_ear_key2[0]+right_ear_key2[0])/5)
-    face_key_y2 = ((nose_key2[1]+left_eye_key2[1]+right_eye_key2[1]+left_ear_key2[1]+right_ear_key2[1])/5)
-    face_key_nm_x2 = (face_key_x2-center2[0])/(bx2_2 - bx2_1)
-    face_key_nm_y2= (face_key_y2-center2[1])/(by2_2-by2_1)
-    #몸
-    left_shoulder_key2 = ktpd["left_shoulder"]
-    right_shoulder_key2 = ktpd["right_shoulder"]
-    left_hip_key2 = ktpd["left_hip"]
-    right_hip_key2 = ktpd["right_hip"]
-    body_key_x2 = ((left_shoulder_key2[0]+ right_shoulder_key2[0]+ left_hip_key2[0]+ right_hip_key2[0])/4)
-    body_key_y2 = ((left_shoulder_key2[1]+ right_shoulder_key2[1]+ left_hip_key2[1]+ right_hip_key2[1])/4)
-    body_key_nm_x2 = (body_key_x2-center2[0])/(bx2_2 - bx2_1)
-    body_key_nm_y2= (body_key_y2-center2[1])/(by2_2-by2_1)
+    #얼굴+몸
+    nose_key2 = kupd["nose"]
+    left_eye_key2 = kupd["left_eye"]
+    right_eye_key2 = kupd["right_eye"]
+    left_ear_key2 = kupd["left_ear"]
+    right_ear_key2 = kupd["right_ear"]
+    left_shoulder_key2 = kupd["left_shoulder"]
+    right_shoulder_key2 = kupd["right_shoulder"]
+    left_hip_key2 = kupd["left_hip"]
+    right_hip_key2 = kupd["right_hip"]
+
+    face_body_key_x2 = ((((nose_key2[0]+left_eye_key2[0]+right_eye_key2[0]+left_ear_key2[0]+right_ear_key2[0])/5)
+                        + ((left_shoulder_key2[0]+ right_shoulder_key2[0]+ left_hip_key2[0]+ right_hip_key2[0])/4))/2)
+    face_body_key_y2 = ((((nose_key2[1]+left_eye_key2[1]+right_eye_key2[1]+left_ear_key2[1]+right_ear_key2[1])/5) 
+                        + ((left_shoulder_key2[1]+ right_shoulder_key2[1]+ left_hip_key2[1]+ right_hip_key2[1])/4))/2)
+    face_body_key_nm_x2 = (face_body_key_x2-center2[0])/(bx2_2 - bx2_1)
+    face_body_key_nm_y2= (face_body_key_y2-center2[1])/(by2_2-by2_1)
+
     #왼팔
     left_elbow_key2 = ktpd["left_elbow"]
     left_wrist2 = ktpd["left_wrist"]
@@ -134,26 +131,22 @@ def single_score_similarity(user_pose_result, target_pose_result, user_frame=0, 
     right_leg_key_nm_x2 = (right_leg_key_x2-center2[0])/(bx2_2 - bx2_1)
     right_leg_key_nm_y2= (right_leg_key_y2-center2[1])/(by2_2-by2_1)
     
-    face_score = cosine_similarity([[face_key_nm_x1, face_key_nm_y1]],[[face_key_nm_x2, face_key_nm_y2]])
-    body_score = cosine_similarity([[body_key_nm_x1, body_key_nm_y1]],[[body_key_nm_x2, body_key_nm_y2]])
+    face_body_score = cosine_similarity([[face_body_key_nm_x1, face_body_key_nm_y1]],[[face_body_key_nm_x2, face_body_key_nm_y1]])  
     left_arm_score = cosine_similarity([[left_arm_key_nm_x1, left_arm_key_nm_y1]],[[left_arm_key_nm_x2, left_arm_key_nm_y2]])
     right_arm_score = cosine_similarity([[right_arm_key_nm_x1, right_arm_key_nm_y1]],[[right_arm_key_nm_x2, right_arm_key_nm_y2]])
     left_leg_score = cosine_similarity([[left_leg_key_nm_x1, left_leg_key_nm_y1]],[[left_leg_key_nm_x2, left_leg_key_nm_y2]])
     right_leg_score = cosine_similarity([[right_leg_key_nm_x1, right_leg_key_nm_y1]],[[right_leg_key_nm_x2, right_leg_key_nm_y2]])
     
     result = dict()
-    result["face_score"] = face_score
-    result["body_score"] = body_score
+    result["face_body_score"] = face_body_score
     result["left_arm_score"] = left_arm_score
     result["right_arm_score"] = right_arm_score
     result["left_leg_score"] = left_leg_score
     result["right_leg_score"] = right_leg_score
     return result
 
-
 def multi_score_similarity():
     pass
-
 
 if __name__== "__Main__":
     single_score_similarity()
