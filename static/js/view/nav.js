@@ -33,7 +33,7 @@ Vue.component('df-index-nav', {
                         <a class="nav-link" href="#howto">Ranking</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn-solid-reg sign-btn" href="/sign" >Sign in</a>
+                        <a class="btn-solid-reg sign-btn" href="/login" >Sign in</a>
                     </li>
                 </ul>
             </div> <!-- end of navbar-collapse -->
@@ -80,7 +80,7 @@ Vue.component('df-main-nav', {
                         <a class="nav-link" href="#Ranking">Ranking</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn-solid-reg sign-btn" href="/sign" >Sign in</a>
+                        <a class="btn-solid-reg sign-btn" href="/login" >Sign in</a>
                     </li>
                 </ul>
             </div> <!-- end of navbar-collapse -->
@@ -115,7 +115,7 @@ Vue.component('df-play-nav', {
             <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ms-auto navbar-nav-scroll">
                     <li class="nav-item">
-                        <a class="btn-solid-reg sign-btn" href="/sign" >Sign in</a>
+                        <a class="btn-solid-reg sign-btn" href="/login" >Sign in</a>
                     </li>
                 </ul>
             </div> <!-- end of navbar-collapse -->

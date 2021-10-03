@@ -13,11 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from play.views import PlayView
+
 from django.contrib import admin
 from django.urls import path
-import product
-from product.views import ProductListAPI
 from django.urls import include, path
 from rest_framework import routers
 from product import views
@@ -29,12 +27,9 @@ router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
-    # path('', include(router.urls)),
+    path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('main/', include('main.urls')),
     path('play/', include('play.urls')),
-    path('admin/', admin.site.urls),
-    # path('product', include('product.urls')),
-    # path('api/product/', ProductListAPI.as_view()),
-    # path('api-auth', include('rest_framework.urls', namespace='rest_framework'))
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

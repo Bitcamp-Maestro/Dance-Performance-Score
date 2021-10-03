@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'play',
     'product',
     'rest_framework',
-    'channels'
+    'channels',
 ]
 
 REST_FRAMEWORK = {

@@ -5,22 +5,25 @@ from json.encoder import JSONEncoder
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, request
 from django.template import context, loader
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
+
 
 class OptionView(TemplateView, RedirectView):
     template_name = 'option.html'
-
     def get(self, req, *args, **kwargs):
+        if req.session.get('user'):
+            print(req)
+            template = loader.get_template(self.template_name)
+            context = {'test':1}
+            return HttpResponse(template.render(context, req))
+        else:
+            return render(req, 'login.html')
 
-        print(req)
-        template = loader.get_template(self.template_name)
-        context = {'test':1}
-        return HttpResponse(template.render(context, req))
-    
     def post(self, req, *args,**kwargs):
         print('option recived')
         print(req.POST)
