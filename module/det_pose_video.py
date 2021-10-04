@@ -11,7 +11,7 @@ from mmdet.apis.inference import (inference_detector, init_detector)
 
 
 class Play():
-    def __init__(self, option_1=0,option_2=0, option_3=0) -> None:
+    def __init__(self, option_1=0,option_2=0, option_3=0):
         """
         Input file:
             Model Input
@@ -25,9 +25,6 @@ class Play():
         self.option_1 = option_1
         self.option_2 = option_2
         self.option_3 = option_3
-        pass
-
-
 
     def det__init__(self, config, checkpoint, device="cuda:0"):
         """
@@ -62,8 +59,7 @@ class Play():
         SHOW = True                                 # 보여줄건지 선택 변수
         DET_CAT_ID = 1      # Category id for bounding box detection model
         RESULT_BOX = {}
-        RESULT_BOX_1 = {}
-        RESULT_BOX_2 = {}
+
         # 3. 영상 파일을 불러오기
         cap = cv2.VideoCapture(user_video)
         fps = cap.get(cv2.CAP_PROP_FPS)
@@ -72,8 +68,6 @@ class Play():
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         videoWriter = cv2.VideoWriter(
             os.path.join(outpath, f'DancerFlow_{os.path.basename(user_video)}'), fourcc, fps, size)
-
-
         
         idx = 0
         while cap.isOpened():
@@ -106,7 +100,7 @@ class Play():
                 for i, p_point in enumerate(pose_results[0]["keypoints"]):
                     result_dict_1 = Form.data_form(dict=result_dict, i = i, keypoint = p_point)
                 data_1 = Form.make_dic(idx, bounding_Box_1, result_dict_1)
-                RESULT_BOX_1[idx] = (data_1)
+                RESULT_BOX[idx] = (data_1)
                 for i, p_point in enumerate(pose_results[0]["keypoints"]):
                     result_dict_2 = Form.data_form(dict=result_dict, i = i, keypoint = p_point)
                 data_2 = Form.make_dic(idx, bounding_Box_2, result_dict_2)
