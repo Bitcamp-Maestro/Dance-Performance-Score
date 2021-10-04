@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'product',
     'rest_framework',
     'channels',
+    'user',
 ]
 
 REST_FRAMEWORK = {
@@ -147,7 +148,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_DIR = os.path.join(PROJECT_DIR, 'static')
 STATICFILES_DIRS = [
-    STATIC_DIR,
+    STATIC_DIR
 ]
 
 

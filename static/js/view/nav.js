@@ -33,12 +33,17 @@ Vue.component('df-index-nav', {
                         <a class="nav-link" href="#howto">Ranking</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn-solid-reg sign-btn" href="/login" >Sign in</a>
+                    {% if request.session.user %}
+                    <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
+                        <a class="btn-solid-reg sign-btn" href="/user/logout" >logout</a>
+                    {% else %}
+                        <a class="btn-solid-reg sign-btn" href="/user/login" >login</a>
+                    {% endif %}
                     </li>
                 </ul>
             </div> <!-- end of navbar-collapse -->
         </div> <!-- end of container -->
-    </nav> <!-- end of navbar -->
+    </nav> <!-- end of navbar -->  
     <!-- end of navigation -->`,
 
 });
@@ -80,7 +85,12 @@ Vue.component('df-main-nav', {
                         <a class="nav-link" href="#Ranking">Ranking</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn-solid-reg sign-btn" href="/login" >Sign in</a>
+                    {% if request.session.user %}
+                    <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
+                    <a class="btn-solid-reg sign-btn" href="/user/logout" >logout</a>
+                    {% else %}
+                    <a class="btn-solid-reg sign-btn" href="/user/login" >login</a>
+                    {% endif %}
                     </li>
                 </ul>
             </div> <!-- end of navbar-collapse -->
@@ -115,7 +125,12 @@ Vue.component('df-play-nav', {
             <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ms-auto navbar-nav-scroll">
                     <li class="nav-item">
-                        <a class="btn-solid-reg sign-btn" href="/login" >Sign in</a>
+                    {% if request.session.user %}
+                    <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
+                    <a class="btn-solid-reg sign-btn" href="/user/logout" >logout</a>
+                    {% else %}
+                    <a class="btn-solid-reg sign-btn" href="/user/login" >login</a>
+                    {% endif %}
                     </li>
                 </ul>
             </div> <!-- end of navbar-collapse -->

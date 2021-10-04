@@ -1,30 +1,30 @@
-<div class = "raw">
-    <div class = "col-12" >
-      <div class = "col-12 text-center">
-<h1>로그인</h1>
-<br><br>
+<!DOCTYPE html>
+<html lang="en">
 
-</div>
-<form method = "POST">
-  {% csrf_token %}
-  
-  <div class="form-group">
-    <label for="username">사용자 이름</label>
-    <input type="text" 
-    class="form-control" 
-    name = "username" 
-    id="username" 
-    placeholder="이름을 입력하세요">
-  </div>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 
-  <div class="form-group">
-    <label for="password">비밀번호</label>
-    <input type="password" 
-    name = "password" 
-    class="form-control" id="password" placeholder="비밀번호를 입력하세요">
-  </div>
-
-
-  <span style="color:red;"><strong>{{ error }}</strong> </span>
-  <button type="submit" class="btn btn-primary">로그인</button>
-</form>
+  <link rel="stylesheet" href="../../static/css/login.css?after">
+</head>
+<body width="100%" height="100%">
+  <form method="POST" class="loginForm">
+    {% csrf_token %}
+    <h2>Login</h2>
+    <div class="idForm">
+      <input type="text" class="id" name="username" id="username" placeholder="ID">
+    </div>
+    <div class="passForm">
+      <input type="password" class="pw" placeholder="PW" name="password" id="password">
+    </div>
+    <button type="submit" class="btn btn-primary">LOG IN</button>
+    <br>
+    <span style="color:red;"><strong>{{ error }}</strong> </span>
+    <div class="bottomText">
+      Don't you have ID? <a href="../../user/register">sign up</a>
+    </div>
+  </form>
+</body>
+</html>

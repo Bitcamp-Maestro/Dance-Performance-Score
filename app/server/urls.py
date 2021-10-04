@@ -31,5 +31,6 @@ urlpatterns = [
     path('', include('main.urls')),
     path('main/', include('main.urls')),
     path('play/', include('play.urls')),
+    path('user/', include('user.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
