@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<!-- Mirrored from htmlstream.com/front-dashboard/users-leaderboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Oct 2021 10:02:41 GMT -->
+
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Leaderboard | Front - Admin &amp; Dashboard Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <link rel="stylesheet" href="../static/assets/css/vendor.min.css">
+  <link rel="stylesheet" href="../static/assets/vendor/icon-set/style.css">
+
+
+  <link href="/static/css/view/nav.css" rel="stylesheet">
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <!-- CSS Front Template -->
+  <link rel="stylesheet" href="../static/assets/css/theme.minc619.css?v=1.0">
+
+  <!-- ======================================== -->
+  <link rel="stylesheet" href="../static/assets/css/add.css">
+  <!-- ======================================== -->
+  
+  <!-- <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'> -->
+  
+  <!-- <link href="/static/css/fontawesome-all.min.css" rel="stylesheet"> -->
+  <!-- <link href="/static/css/swiper.css" rel="stylesheet"> -->
+  <!-- <link href="/static/css/main_styles.css" rel="stylesheet"> -->
+  <!-- <link href="/static/css/main_custum.css" rel="stylesheet"> -->
+  <!-- ====================================test==================================== -->
+  <!-- <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="assets/css/slicknav.css">
+  <link rel="stylesheet" href="assets/css/flaticon.css">
+  <link rel="stylesheet" href="assets/css/progressbar_barfiller.css">
+  <link rel="stylesheet" href="assets/css/gijgo.css">
+  <link rel="stylesheet" href="assets/css/animate.min.css">
+  <link rel="stylesheet" href="assets/css/animated-headline.css">
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="assets/css/themify-icons.css">
+	<link rel="stylesheet" href="assets/css/slick.css">
+	<link rel="stylesheet" href="assets/css/nice-select.css">
+	<link rel="stylesheet" href="assets/css/style.css"> -->
+  <!-- ====================================test==================================== -->
+</head>
+
+<body class="   footer-offset">
+  <!-- <div class="contain text-center">
+    <img alt="Android Basics Leaderboard" class="mb-2" src="https://d125fmws0bore1.cloudfront.net/assets/svgs/icon_trophy_leaderboard-3442a4b2312e6cdd02aa9870e636dc082890277a6267c4ed986a750fef7cbb35.svg">
+    
+              
+  </div>
+   -->
+  <script src="../static/assets/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js"></script>
+
+
+
+  <!-- End Search Form -->
+
+  <!-- ========== HEADER ========== -->
+
+
+
+
+
+  <!-- ========== END HEADER ========== -->
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+  <!-- ==================================test=========================================== -->
+  <!-- ? Preloader Start -->
+  <!-- <div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+            <div class="preloader-circle"></div>
+            <div class="preloader-img pere-text">
+                <img src="assets/img/logo/loder.png" alt="">
+            </div>
+        </div>
+    </div>
+</div> -->
+  <!-- ====================================test========================================= -->
+
+  <!-- End Navbar Vertical -->
+  <!-- Navigation -->
+  <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation">
+    <div class="container">
+      <!-- Image Logo -->
+      <a class="navbar-brand logo-image" href="/"><img src="/static/images/logo.png"
+          alt="alternative"><span>DancerFlow</span></a>
+
+      <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav ms-auto navbar-nav-scroll">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#header">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#community">Community</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#aboutus">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/ranking">Ranking</a>
+          </li>
+          <li class="nav-item">
+            {% if request.session.user %}
+            <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
+            <a class="btn-solid-reg sign-btn" href="/user/logout">logout</a>
+            {% else %}
+            <a class="btn-solid-reg sign-btn" href="/user/login">login</a>
+            {% endif %}
+          </li>
+        </ul>
+      </div> <!-- end of navbar-collapse -->
+    </div> <!-- end of container -->
+  </nav> <!-- end of navbar -->
+  <!-- End Navigation -->
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content container-fluid" style="
+      width: 944px;
+  ">
+
+
+      <div class="top3">
+        <div class="two item">
+          <div class="pos">
+            🥈
+          </div>
+          <div class="pic" style="background-image: url(../static/assets/img/160x160/img3.jpg)"></div>
+          <div class="name">
+            David Harrison
+          </div>
+          <div class="score">
+            6453
+          </div>
+        </div>
+        <div class="one item">
+          <div class="pos">
+            🥇
+          </div>
+          <div class="pic" style="background-image: url(../static/assets/img/160x160/img10.jpg)"></div>
+          <div class="name">
+            Amanda Harvey
+          </div>
+          <div class="score">
+            6794
+          </div>
+        </div>
+        <div class="three item">
+          <div class="pos">
+            🥉
+          </div>
+          <div class="pic" style="background-image: url(../static/assets/img/160x160/images.jfif)"></div>
+          <div class="name">
+            Hunter
+          </div>
+          <div class="score">
+            6034
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="row align-items-end">
+          <div class="col-sm mb-2 mb-sm-0">
+            <!-- <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-no-gutter">
+                  <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Pages</a></li>
+                  <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Users</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Leaderboard</li>
+                </ol> -->
+            </nav>
+
+            <!-- <h1 class="page-header-title">Leaderboard</h1> -->
+          </div>
+
+          <div class="col-sm-auto">
+            <!-- Nav -->
+            <ul class="nav nav-segment" id="leaderboardTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="all-time-tab" data-toggle="tab" href="#all-time" role="tab">
+                  Total
+                </a>
+              </li>
+              <!-- <li class="nav-item">
+                  <a class="nav-link" id="weekly-tab" data-toggle="tab" href="#weekly" role="tab">
+                    Weekly
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="monthly-tab" data-toggle="tab" href="#monthly" role="tab">
+                    Monthly
+                  </a>
+                </li> -->
+              <li class="nav-item">
+                <a class="nav-link" id="Pop-tab" data-toggle="tab" href="#Pop" role="tab">
+                  Pop
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="K-pop-tab" data-toggle="tab" href="#K-pop" role="tab">
+                  K-pop
+                </a>
+              </li>
+            </ul>
+            <!-- End Nav -->
+          </div>
+        </div>
+        <!-- End Row -->
+      </div>
+      <!-- End Page Header -->
+      <!-- Card -->
+      <div class="card overflow-hidden">
+        <!-- Tab Content -->
+        <div class="tab-content" id="leaderboardTabContent">
+          <div class="tab-pane fade show active" id="all-time" role="tabpanel" aria-labelledby="all-time-tab">
+            <!-- Table -->
+            <div class="table-responsive">
+              <table
+                class="table table-borderless table-thead-bordered table-nowrap table-text-center table-align-middle card-table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col" style="width: 2rem;">Rank</th>
+                    <th scope="col" class="text-left">Name</th>
+                    <th scope="col">UploadTime</th>
+                    <th scope="col">favorite</th>
+                    <!-- <th scope="col">Progress</th>
+                      <th scope="col">E-Rate</th> -->
+                    <th scope="col">Score</th>
+                    <!-- <th scope="col">Avg</th> -->
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td><span class="text-warning" style="font-size: 1.5rem;">🥇</span></td>
+                    <td class="text-left">
+                      <a class="d-flex align-items-center" href="">
+                        <div class="avatar avatar-circle">
+                          <img class="avatar-img" src="../static/assets/img/160x160/img10.jpg" alt="Image Description">
+                        </div>
+                        <div class="ml-3">
+                          <span class="d-block h5 text-hover-primary mb-0">Amanda Harvey</span>
+                        </div>
+                      </a>
+                    </td>
+                    <td>20</td>
+                    <td>35</td>
+
+                    <td>505</td>
+
+
+                  <tr>
+                    <td><span class="text-secondary" style="font-size: 1.5rem;">🥈</span></td>
+                    <td class="text-left">
+                      <a class="d-flex align-items-center" href="">
+                        <div class="avatar avatar-circle">
+                          <img class="avatar-img" src="../static/assets/img/160x160/img3.jpg" alt="Image Description">
+                        </div>
+                        <div class="ml-3">
+                          <span class="d-block h5 text-hover-primary mb-0">David Harrison</span>
+                        </div>
+                      </a>
+                    </td>
+                    <td>12</td>
+                    <td>54</td>
+
+                    <td>467</td>
+
+                  <tr>
+                    <td><span style="font-size: 1.5rem; color: #924b18;">🥉</span></td>
+                    <td class="text-left">
+                      <a class="d-flex align-items-center" href="">
+                        <div class="avatar avatar-soft-info avatar-circle">
+                          <img class="avatar-img" src="../static/assets/img/160x160/images.jfif"
+                            alt="Image Description"></img>
+                        </div>
+                        <div class="ml-3">
+                          <span class="d-block h5 text-hover-primary mb-0">Hunter</span>
+                        </div>
+                      </a>
+                    </td>
+                    <td>62</td>
+                    <td>31</td>
+
+                    <td>460</td>
+
+                  <tr>
+                    <td>4</td>
+                    <td class="text-left">
+                      <a class="d-flex align-items-center" href="">
+                        <div class="avatar avatar-circle">
+                          <img class="avatar-img" src="../static/assets/img/160x160/img8.jpg" alt="Image Description">
+                        </div>
+                        <div class="ml-3">
+                          <span class="d-block h5 text-hover-primary mb-0">Linda Bates</span>
+                        </div>
+                      </a>
+                    </td>
+                    <td>0</td>
+                    <td>76</td>
+
+                    <td>414</td>
+
+                  <tr>
+                    <td>5</td>
+                    <td class="text-left">
+                      <a class="d-flex align-items-center" href="">
+                        <div class="avatar avatar-soft-dark avatar-circle">
+                          <span class="avatar-initials">B</span>
+                        </div>
+                        <div class="ml-3">
+                          <span class="d-block h5 text-hover-primary mb-0">Brian Halligan</span>
+                        </div>
+                      </a>
+                    </td>
+                    <td>8</td>
+                    <td>25</td>
+
+                    <td>372</td>
+
+                  <tr>
+                    <td>6</td>
+                    <td class="text-left">
+                      <a class="d-flex align-items-center" href="">
+                        <div class="avatar avatar-circle">
+                          <img class="avatar-img" src="../static/assets/img/160x160/img6.jpg" alt="Image Description">
+                        </div>
+                        <div class="ml-3">
+                          <span class="d-block h5 text-hover-primary mb-0">Costa Quinn</span>
+                        </div>
+                      </a>
+                    </td>
+                    <td>44</td>
+                    <td>4</td>
+
+                    <td>399</td>
+
+
+                  <tr>
+                    <td>7</td>
+                    <td class="text-left">
+                      <a class="d-flex align-items-center" href="">
+                        <div class="avatar avatar-soft-primary avatar-circle">
+                          <span class="avatar-initials">M</span>
+                        </div>
+                        <div class="ml-3">
+                          <span class="d-block h5 text-hover-primary mb-0">Mark Colbert</span>
+                        </div>
+                      </a>
+                    </td>
+                    <td>25</td>
+                    <td>115</td>
+                    <td>390</td>
+
+                  <tr>
+                    <td>8</td>
+                    <td class="text-left">
+                      <a class="d-flex align-items-center" href="">
+                        <div class="avatar avatar-circle">
+                          <img class="avatar-img" src="../static/assets/img/160x160/img9.jpg" alt="Image Description">
+                        </div>
+                        <div class="ml-3">
+                          <span class="d-block h5 text-hover-primary mb-0">Ella Lauda</span>
+                        </div>
+                      </a>
+                    </td>
+                    <td>55</td>
+                    <td>15</td>
+
+                    <td>204</td>
+
+
+                  <tr>
+                    <td>9</td>
+                    <td class="text-left">
+                      <a class="d-flex align-items-center" href="">
+                        <div class="avatar avatar-circle">
+                          <img class="avatar-img" src="../static/assets/img/160x160/img5.jpg" alt="Image Description">
+                        </div>
+                        <div class="ml-3">
+                          <span class="d-block h5 text-hover-primary mb-0">Finch Hoot</span>
+                        </div>
+                      </a>
+                    </td>
+                    <td>4</td>
+                    <td>57</td>
+
+                    <td>202</td>
+
+                  <tr>
+                    <td>10</td>
+                    <td class="text-left">
+                      <a class="d-flex align-items-center" href="">
+                        <div class="avatar avatar-soft-danger avatar-circle">
+                          <span class="avatar-initials">C</span>
+                        </div>
+                        <div class="ml-3">
+                          <span class="d-block h5 text-hover-primary mb-0">Chris Mathew</span>
+                        </div>
+                      </a>
+                    </td>
+                    <td>9</td>
+                    <td>61</td>
+
+                    <td>159</td>
+
+                </tbody>
+              </table>
+            </div>
+            <!-- End Table -->
+          </div>
+
+
+
+          <div class="tab-pane fade show active" id="Pop" role="tabpanel" aria-labelledby="Pop-tab">
+            <!-- Table -->
+            <div class="card">
+              <!-- Title -->
+              <div class="title">
+                <h1>Pop chart</h1>
+
+              </div>
+
+              <!--Rancking -->
+              <div class="box">
+                <!-- #01 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">01</div>
+                <!-- Cover -->
+                <div class="cover"><img src="https://m.media-amazon.com/images/I/91-kmdlsEsL._SS500_.jpg" alt="01">
+                </div>
+                <!-- Name -->
+                <div class="nate"><span>Mi gente</span> J Balin & Willy William</div>
+                <!-- Button -->
+                <div class="link"><a href="">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #02 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">02</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
+                <!-- Name -->
+                <div class="nate"><span>Feels</span> Calvin Harris</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #03 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">03</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
+                <!-- Name -->
+                <div class="nate"><span>Attention</span> Charlie Puth</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #03 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">04</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
+                <!-- Name -->
+                <div class="nate"><span>Attention</span> Charlie Puth</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #03 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">05</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
+                <!-- Name -->
+                <div class="nate"><span>Attention</span> Charlie Puth</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #03 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">06</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
+                <!-- Name -->
+                <div class="nate"><span>Attention</span> Charlie Puth</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #02 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">07</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
+                <!-- Name -->
+                <div class="nate"><span>Feels</span> Calvin Harris</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #02 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">08</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
+                <!-- Name -->
+                <div class="nate"><span>Feels</span> Calvin Harris</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #02 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">09</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
+                <!-- Name -->
+                <div class="nate"><span>Feels</span> Calvin Harris</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #02 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">10</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
+                <!-- Name -->
+                <div class="nate"><span>Feels</span> Calvin Harris</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="tab-pane fade show active" id="K-pop" role="tabpanel" aria-labelledby="K-pop-tab">
+            <!-- Table -->
+            <!-- Table -->
+            <div class="card">
+              <!-- Title -->
+              <div class="title">
+                <h1>K-pop chart</h1>
+
+              </div>
+
+              <!--Rancking -->
+              <div class="box">
+                <!-- #01 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">01</div>
+                <!-- Cover -->
+                <div class="cover"><img src="https://m.media-amazon.com/images/I/91-kmdlsEsL._SS500_.jpg" alt="01">
+                </div>
+                <!-- Name -->
+                <div class="nate"><span>Savage Love</span> 방탄소년단</div>
+                <!-- Button -->
+                <div class="link"><a href="">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #02 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">02</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
+                <!-- Name -->
+                <div class="nate"><span>Next level</span> aespa</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #03 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">03</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
+                <!-- Name -->
+                <div class="nate"><span>신호등</span> 이무진</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #03 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">04</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
+                <!-- Name -->
+                <div class="nate"><span>Attention</span> Charlie Puth</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #03 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">05</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
+                <!-- Name -->
+                <div class="nate"><span>Attention</span> Charlie Puth</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #03 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">06</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
+                <!-- Name -->
+                <div class="nate"><span>Attention</span> Charlie Puth</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #02 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">07</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
+                <!-- Name -->
+                <div class="nate"><span>Feels</span> Calvin Harris</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #02 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">08</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
+                <!-- Name -->
+                <div class="nate"><span>Feels</span> Calvin Harris</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #02 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">09</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
+                <!-- Name -->
+                <div class="nate"><span>Feels</span> Calvin Harris</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
+              </div>
+
+              <!-- Separator -->
+              <div class="separator"></div>
+
+              <div class="box">
+                <!-- #02 -->
+                <!-- Number-->
+                <div class="number" style="width: 60px;">10</div>
+                <!-- Cover -->
+                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
+                <!-- Name -->
+                <div class="nate"><span>Feels</span> Calvin Harris</div>
+                <!-- Button -->
+                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
+              </div>
+            </div>
+
+            <!-- End Table -->
+          </div>
+        </div>
+        <!-- End Tab Content -->
+      </div>
+      <!-- End Card -->
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+
+    <div class="footer">
+      <div class="row justify-content-between align-items-center">
+        <div class="col">
+          <p class="font-size-sm mb-0">&copy; Front. <span class="d-none d-sm-inline-block">2020 Htmlstream.</span></p>
+        </div>
+        <div class="col-auto">
+          <div class="d-flex justify-content-end">
+            <!-- List Dot -->
+            <ul class="list-inline list-separator">
+              <li class="list-inline-item">
+                <a class="list-separator-link" href="#">FAQ</a>
+              </li>
+
+              <li class="list-inline-item">
+                <a class="list-separator-link" href="#">License</a>
+              </li>
+
+              <li class="list-inline-item">
+                <!-- Keyboard Shortcuts Toggle -->
+                <div class="hs-unfold">
+                  <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
+                    data-hs-unfold-options='{
+                              "target": "#keyboardShortcutsSidebar",
+                              "type": "css-animation",
+                              "animationIn": "fadeInRight",
+                              "animationOut": "fadeOutRight",
+                              "hasOverlay": true,
+                              "smartPositionOff": true
+                             }'>
+                    <i class="tio-command-key"></i>
+                  </a>
+                </div>
+                <!-- End Keyboard Shortcuts Toggle -->
+              </li>
+            </ul>
+            <!-- End List Dot -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- End Footer -->
+  </main>
+
+
+
+
+
+
+  <!-- JS Implementing Plugins -->
+  <script src="../static/assets/js/vendor.min.js"></script>
+  <script src="../static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+
+
+
+  <!-- JS Front -->
+  <script src="../static/assets/js/theme.min.js"></script>
+
+
+</body>
+
+<!-- Mirrored from htmlstream.com/front-dashboard/users-leaderboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Oct 2021 10:03:06 GMT -->
+
+</html>

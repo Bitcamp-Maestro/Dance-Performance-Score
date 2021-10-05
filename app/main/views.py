@@ -67,3 +67,14 @@ class UserView(TemplateView):
 
     def post(self, req):
         pass
+
+class RankingView(TemplateView):
+
+    template_name = 'ranking.html'
+    def get(self, req):
+        template = loader.get_template(self.template_name)
+        context = {'req_id':1}
+        return HttpResponse(template.render(context, req))
+
+    def post(self, req):
+        pass
