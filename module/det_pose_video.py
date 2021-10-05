@@ -50,7 +50,7 @@ class Play():
 
 
     def det_Pose_Video(self, user_video,  outpath="result", option=True):
-        FACE_SCORE = 0
+        FACE_BODY_SCORE = 0
         BODY_SCORE = 0
         LEFT_ARM_SCORE = 0
         RIGHT_ARM_SCORE = 0
@@ -59,6 +59,7 @@ class Play():
         SHOW = True                                 # 보여줄건지 선택 변수
         DET_CAT_ID = 1      # Category id for bounding box detection model
         RESULT_BOX = {}
+        RESULT_BOX_2 = {}
 
         # 3. 영상 파일을 불러오기
         cap = cv2.VideoCapture(user_video)
@@ -96,14 +97,17 @@ class Play():
                 # 0.1V 단 한 영상에 한명씩 나올 때  
                 bounding_Box_1 = pose_results[0]["bbox"]
                 bounding_Box_2 = pose_results[1]["bbox"]
-                result_dict={}
-                for i, p_point in enumerate(pose_results[0]["keypoints"]):
-                    result_dict_1 = Form.data_form(dict=result_dict, i = i, keypoint = p_point)
+                result_dict_1={}
+                result_dict_2={}
+                for i1, p1_point in enumerate(pose_results[0]["keypoints"]):
+                    result_dict_1 = Form.data_form(dict=result_dict_1, i = i1, keypoint = p1_point)
                 data_1 = Form.make_dic(idx, bounding_Box_1, result_dict_1)
+                # print(result_dict)
                 RESULT_BOX[idx] = (data_1)
-                for i, p_point in enumerate(pose_results[0]["keypoints"]):
-                    result_dict_2 = Form.data_form(dict=result_dict, i = i, keypoint = p_point)
+                for i2, p2_point in enumerate(pose_results[1]["keypoints"]):
+                    result_dict_2 = Form.data_form(dict=result_dict_2, i = i2, keypoint = p2_point)
                 data_2 = Form.make_dic(idx, bounding_Box_2, result_dict_2)
+                RESULT_BOX_2[idx] = (data_2)
             else:
                 ## 단일 영상을 불러 올 때
                 # 단 target의 경우 좌표 값을 불러와야 한다.
@@ -123,12 +127,18 @@ class Play():
                                     user_frame=0,
                                     target_frame=0)
             # Scoring 
-            FACE_SCORE = scoring(similarity_score["face_score"], FACE_SCORE)
-            BODY_SCORE = scoring(similarity_score["body_score"], BODY_SCORE)
+            FACE_BODY_SCORE = scoring(similarity_score["face_body_score"], FACE_BODY_SCORE)
+            # BODY_SCORE = scoring(similarity_score["body_score"], BODY_SCORE)
             LEFT_ARM_SCORE = scoring(similarity_score["left_arm_score"], LEFT_ARM_SCORE)
             RIGHT_ARM_SCORE = scoring(similarity_score["right_arm_score"], RIGHT_ARM_SCORE)
             LEFT_LEG_SCORE = scoring(similarity_score["left_leg_score"], LEFT_LEG_SCORE)
             RIGHT_LEG_SCORE = scoring(similarity_score["right_leg_score"], RIGHT_LEG_SCORE)
+            # print(RESULT_BOX_2)
+            print("얼굴+몸 점수 : ",FACE_BODY_SCORE)
+            print("왼쪽 팔 점수 : ",LEFT_ARM_SCORE)
+            print("오른 팔 점수 : ",RIGHT_ARM_SCORE)
+            print("왼쪽 발 점수 : ",LEFT_LEG_SCORE)
+            print("오른 발 점수 : ",RIGHT_LEG_SCORE)
             ############################################################################
 
             # show the results
@@ -169,9 +179,9 @@ if __name__ == '__main__':
     POSE_CHECKPOINT_HRNET_W48_COCO_256X192 = "https://download.openmmlab.com/mmpose/checkpoints/pose/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth"                                             # Pose 훈련 모델 파일
     
     # 영상 경로
-    VIDEO_1 = "./sample_data/target.mp4" # 유저 업로드 영상
+    VIDEO_1 = "./sample_data/test.mp4" # 유저 업로드 영상
 
     play= Play()
-    play.det__init__(DET_CONFIG_FASTER_R_CNN_R50_FPN_COCO, DET_CHECKPOINT_FASTER_R_CNN_R50_FPN_COCO, device="cpu")
-    play.pose__init__(POSE_CONFIG_HRNET_W48_COCO_256X192, POSE_CHECKPOINT_HRNET_W48_COCO_256X192, device="cpu")
+    play.det__init__(DET_CONFIG_FASTER_R_CNN_R50_FPN_COCO, DET_CHECKPOINT_FASTER_R_CNN_R50_FPN_COCO, device="cuda:0")
+    play.pose__init__(POSE_CONFIG_HRNET_W48_COCO_256X192, POSE_CHECKPOINT_HRNET_W48_COCO_256X192, device="cuda:0")
     play.det_Pose_Video(VIDEO_1, outpath="result")

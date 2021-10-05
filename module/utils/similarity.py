@@ -47,10 +47,8 @@ def single_score_similarity(user_pose_result, target_pose_result, user_frame=0, 
     left_hip_key1 = kupd["left_hip"]
     right_hip_key1 = kupd["right_hip"]
 
-    face_body_key_x1 = ((((nose_key1[0]+left_eye_key1[0]+right_eye_key1[0]+left_ear_key1[0]+right_ear_key1[0])/5)
-                        + ((left_shoulder_key1[0]+ right_shoulder_key1[0]+ left_hip_key1[0]+ right_hip_key1[0])/4))/2)
-    face_body_key_y1 = ((((nose_key1[1]+left_eye_key1[1]+right_eye_key1[1]+left_ear_key1[1]+right_ear_key1[1])/5) 
-                        + ((left_shoulder_key1[1]+ right_shoulder_key1[1]+ left_hip_key1[1]+ right_hip_key1[1])/4))/2)
+    face_body_key_x1 = (nose_key1[0]+left_eye_key1[0]+right_eye_key1[0]+left_ear_key1[0]+right_ear_key1[0] + left_shoulder_key1[0]+ right_shoulder_key1[0]+ left_hip_key1[0]+ right_hip_key1[0])/9
+    face_body_key_y1 = (nose_key1[1]+left_eye_key1[1]+right_eye_key1[1]+left_ear_key1[1]+right_ear_key1[1] + left_shoulder_key1[1]+ right_shoulder_key1[1]+ left_hip_key1[1]+ right_hip_key1[1])/9
     face_body_key_nm_x1 = (face_body_key_x1-center1[0])/(bx1_2 - bx1_1)
     face_body_key_nm_y1= (face_body_key_y1-center1[1])/(by1_2-by1_1)
 
