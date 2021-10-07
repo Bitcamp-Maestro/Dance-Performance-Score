@@ -9,7 +9,8 @@ from django.http import HttpResponse, request
 from django.template import context, loader
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
-
+import socket
+import json
 # Create your views here.
 
 
@@ -67,6 +68,17 @@ class PlayView(TemplateView):
         # print(req.GET['pid'])
         user_option = Option.objects.last()
         print(user_option.video.url)
+        host = "192.168.0.12"  # 챗봇 엔진 서버 IP 주소
+        port = 5050  # 챗봇 엔진 서버 통신 포트
+        mySocket = socket.socket()
+        mySocket.connect((host, port))
+        json_data = {
+            "pid" : req.GET['pid'],
+            "target" : "C:/JGBH/Dancer-Flow/model_server/module/sample_data/BTS-Dynamite1-3.mp4",
+            "path" : "C:/JGBH/Dancer-Flow/model_server/module/sample_data/sample.mp4"
+        }
+        message = json.dumps(json_data)
+        mySocket.send(message.encode())
 
         context = {
             'pid' : req.GET['pid'],
@@ -77,6 +89,8 @@ class PlayView(TemplateView):
             'video_url' : 'https://cache.midibus.kinxcdn.com/name/ch_17bdc199/17c131b8dd5313bf_720P',
             'user_video_url' : user_option.video.url,
         }
+
+
         # return HttpResponse(template.render(context, req))
         return render(req, self.template_name, context)
 
