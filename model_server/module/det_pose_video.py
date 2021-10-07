@@ -137,7 +137,7 @@ class Play():
                 RIGHT_ARM_SCORE = scoring(similarity_score["right_arm_score"], RIGHT_ARM_SCORE)
                 LEFT_LEG_SCORE = scoring(similarity_score["left_leg_score"], LEFT_LEG_SCORE)
                 RIGHT_LEG_SCORE = scoring(similarity_score["right_leg_score"], RIGHT_LEG_SCORE)
-                TOTAL_SCORE = (FACE_BODY_SCORE, LEFT_ARM_SCORE, RIGHT_ARM_SCORE, LEFT_LEG_SCORE, RIGHT_LEG_SCORE)
+                TOTAL_SCORE = (FACE_BODY_SCORE + LEFT_ARM_SCORE + RIGHT_ARM_SCORE + LEFT_LEG_SCORE + RIGHT_LEG_SCORE)/5
 
                 print("얼굴 몸 점수 : ",FACE_BODY_SCORE)
                 print("왼쪽 팔 점수 : ",LEFT_ARM_SCORE)
