@@ -5,11 +5,11 @@ from .utils.dtw import Dtw
 from .utils.mix_video import mix_video
 
 def video__init__(user_video, target_video, output):
-    Clip(user_video, "sample_data/audio/wav1.wav")
-    Clip(target_video, "sample_data/audio/wav2.wav")
+    Clip(user_video, "wav1.wav")
+    Clip(target_video, "wav2.wav")
     
-    x1, sr = Audio("sample_data/audio/wav1.wav")
-    x2, sr = Audio("sample_data/audio/wav2.wav")
+    x1, sr = Audio("wav1.wav")
+    x2, sr = Audio("wav2.wav")
     
     x1_chroma = Melody(x1, sr)
     x2_chroma = Melody(x2, sr)

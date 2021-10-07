@@ -189,7 +189,7 @@ class Play():
         with open(FILE_NAME, "w") as outfile:
             json.dump(RESULT_BOX, outfile, indent=4)
         
-        return RESULT_BOX
+        return post
 
 # if __name__ == '__main__':
     

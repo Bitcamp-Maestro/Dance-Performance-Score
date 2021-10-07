@@ -22,7 +22,7 @@ def to_client(conn, addr, params):
             # 클라이언트 연결이 끊어지거나, 오류가 있는 경우
             print('클라이언트 연결 끊어짐')
             exit(0)
-        
+        print(read)
         # json 데이터로 변환
         try:
             recv_json_data = json.loads(read.decode())
@@ -30,11 +30,16 @@ def to_client(conn, addr, params):
             print("데이터 수신 : ", recv_json_data)
             path = recv_json_data['path']
             pid = recv_json_data['pid']
+            target = recv_json_data["target"]
         except:
             path = read["path"]
         print("시작전")
         print("path : ", path)
-        play.det_Pose_Video(user_video=path, play_id=pid)
+        
+        video__init__(user_video=path, target_video=target, output="result")
+        
+        message = play.det_Pose_Video(user_video="media/result.mp4", play_id=pid)
+        conn.send(message)
         print("끝남")
     except Exception as ex:
         print(ex)
