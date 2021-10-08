@@ -53,11 +53,11 @@ class Play():
 
 
     def det_Pose_Video(self, user_video,  play_id, option=True):
-        DB_host = "127.0.0.1"
-        DB_port = 27017
-        a = MongoClient(host=DB_host, port=DB_port)
-        db = a["DancerFlow"]
-        col = db["Playss"]
+        # DB_host = "127.0.0.1"
+        # DB_port = 27017
+        # a = MongoClient(host=DB_host, port=DB_port)
+        # db = a["DancerFlow"]
+        # col = db["Playss"]
         FILE_NAME = "./{}.json".format(play_id)
         FACE_BODY_SCORE = 0
         LEFT_ARM_SCORE = 0
@@ -146,19 +146,19 @@ class Play():
                 print("오른 발 점수 : ",RIGHT_LEG_SCORE)
                 print("최종 점수 : ", TOTAL_SCORE)
 
-                post = {
-                    "id" : play_id,
-                    "TOTAL_Score" : TOTAL_SCORE,
-                    "Parts_Score" : {
-                        "FACE_BODY_SCORE" : FACE_BODY_SCORE,
-                        "LEFT_ARM_SCORE" : LEFT_ARM_SCORE,
-                        "RIGHT_ARM_SCORE" : RIGHT_ARM_SCORE,
-                        "LEFT_LEG_SCORE" : LEFT_LEG_SCORE,
-                        "RIGHT_LEG_SCORE" : RIGHT_LEG_SCORE,
-                        "key_point_file_path" : FILE_NAME
-                    }
-                }
-                col.insert_one(post)
+                # post = {
+                #     "id" : play_id,
+                #     "TOTAL_Score" : TOTAL_SCORE,
+                #     "Parts_Score" : {
+                #         "FACE_BODY_SCORE" : FACE_BODY_SCORE,
+                #         "LEFT_ARM_SCORE" : LEFT_ARM_SCORE,
+                #         "RIGHT_ARM_SCORE" : RIGHT_ARM_SCORE,
+                #         "LEFT_LEG_SCORE" : LEFT_LEG_SCORE,
+                #         "RIGHT_LEG_SCORE" : RIGHT_LEG_SCORE,
+                #         "key_point_file_path" : FILE_NAME
+                #     }
+                # }
+                # col.insert_one(post)
 
                 ############################################################################
 
@@ -189,7 +189,7 @@ class Play():
         with open(FILE_NAME, "w") as outfile:
             json.dump(RESULT_BOX, outfile, indent=4)
         
-        return post
+        # return post
 
 # if __name__ == '__main__':
     
