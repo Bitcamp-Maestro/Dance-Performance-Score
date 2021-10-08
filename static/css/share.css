@@ -22,7 +22,6 @@ body {
 
 .share-container{
   margin: 3rem;
-  display: flex;
 }
 .contact-div .share-container h2{
   font-weight: 600;

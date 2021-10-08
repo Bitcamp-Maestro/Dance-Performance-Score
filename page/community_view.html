@@ -23,11 +23,48 @@
  
 
 
-  <!-- Navigation -->
-  <div id='app-main-nav'>
-    <df-main-nav></df-main-nav>
-  </div>
-  <!-- End Navigation -->
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation">
+        <div class="container">
+            <!-- Image Logo -->
+            <a class="navbar-brand logo-image" href="/"><img src="/static/images/logo.png"
+                    alt="alternative"><span>DancerFlow</span></a>
+
+            <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav ms-auto navbar-nav-scroll">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#header">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/community">Community</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#aboutus">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ranking">Ranking</a>
+                    </li>
+                    <li class="nav-item">
+                        {% if request.session.user %}
+                        <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
+                        <a class="btn-solid-reg sign-btn" href="/user/logout">logout</a>
+                        {% else %}
+                        <a class="btn-solid-reg sign-btn" href="/user/login">login</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div> <!-- end of navbar-collapse -->
+        </div> <!-- end of container -->
+    </nav> <!-- end of navbar -->
+    <!-- End Navigation -->
 
 
     <!-- title 제목 -->
@@ -48,7 +85,7 @@
 
         <!-- 메인 영상 -->    
         <div class="img-box" style="border: 10px solid white; border-image: linear-gradient(to right, rgb(0, 0, 0), #5e0449aa, #0c5997aa);border-image-slice: 1;">
-            <img src="/static/images/smaple1.jpeg" style="width: 100%;" alt="">
+            <video src='/media/play_videos/Dynamite_playvideo_5NUrhk5.mp4' width='100%' height="700rem" controls></video>
         </div>
         
 

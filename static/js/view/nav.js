@@ -1,6 +1,5 @@
 
 
-
 /*
     Index page navigation template
 */
@@ -10,11 +9,9 @@ Vue.component('df-index-nav', {
         <div class="container">
             <!-- Image Logo -->
             <a class="navbar-brand logo-image" href="/"><img src="/static/images/logo.png" alt="alternative"><span>DancerFlow</span></a> 
-
             <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ms-auto navbar-nav-scroll">
                     <li class="nav-item">
@@ -33,17 +30,17 @@ Vue.component('df-index-nav', {
                         <a class="nav-link" href="#howto">Ranking</a>
                     </li>
                     <li class="nav-item">
-                    {% if request.session.user %}
-                    <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
-                        <a class="btn-solid-reg sign-btn" href="/user/logout" >logout</a>
-                    {% else %}
-                        <a class="btn-solid-reg sign-btn" href="/user/login" >login</a>
-                    {% endif %}
+                        {% if request.session.user %}
+                        <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
+                        <a class="btn-solid-reg sign-btn" href="/user/logout">logout</a>
+                        {% else %}
+                        <a class="btn-solid-reg sign-btn" href="/user/login">login</a>
+                        {% endif %}
                     </li>
                 </ul>
             </div> <!-- end of navbar-collapse -->
         </div> <!-- end of container -->
-    </nav> <!-- end of navbar -->  
+    </nav> <!-- end of navbar -->
     <!-- end of navigation -->`,
 
 });
@@ -51,7 +48,8 @@ Vue.component('df-index-nav', {
 
 
 let app_index_nav = new Vue({
-    el:'#app-index-nav'
+    el:'#app-index-nav',
+    delimiters : ['[[', ']]'],
 });
 
 
@@ -65,11 +63,9 @@ Vue.component('df-main-nav', {
         <div class="container">
             <!-- Image Logo -->
             <a class="navbar-brand logo-image" href="/"><img src="/static/images/logo.png" alt="alternative"><span>DancerFlow</span></a> 
-
             <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ms-auto navbar-nav-scroll">
                     <li class="nav-item">
@@ -85,12 +81,7 @@ Vue.component('df-main-nav', {
                         <a class="nav-link" href="#Ranking">Ranking</a>
                     </li>
                     <li class="nav-item">
-                    {% if request.session.user %}
-                    <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
-                    <a class="btn-solid-reg sign-btn" href="/user/logout" >logout</a>
-                    {% else %}
-                    <a class="btn-solid-reg sign-btn" href="/user/login" >login</a>
-                    {% endif %}
+                        <a class="btn-solid-reg sign-btn" href="/sign" >Sign in</a>
                     </li>
                 </ul>
             </div> <!-- end of navbar-collapse -->
@@ -103,7 +94,8 @@ Vue.component('df-main-nav', {
 
 
 let app_main_nav = new Vue({
-    el:'#app-main-nav'
+    el:'#app-main-nav',
+    delimiters : ['[[', ']]'],
 });
 
 
@@ -113,24 +105,17 @@ let app_main_nav = new Vue({
 */
 Vue.component('df-play-nav', {
     template : `<!-- Navigation -->
-    <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation">
+    <nav id="navbar" class="hide navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation">
         <div class="container">
             <!-- Image Logo -->
             <a class="navbar-brand logo-image" href="/"><img src="/static/images/logo.png" alt="alternative"><span>DancerFlow</span></a> 
-
             <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ms-auto navbar-nav-scroll">
                     <li class="nav-item">
-                    {% if request.session.user %}
-                    <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
-                    <a class="btn-solid-reg sign-btn" href="/user/logout" >logout</a>
-                    {% else %}
-                    <a class="btn-solid-reg sign-btn" href="/user/login" >login</a>
-                    {% endif %}
+                        <!-- <a class="btn-solid-reg sign-btn" href="/sign" >Sign in</a> -->
                     </li>
                 </ul>
             </div> <!-- end of navbar-collapse -->
@@ -144,12 +129,8 @@ Vue.component('df-play-nav', {
 
 
 let app_play_nav = new Vue({
-    el:'#app-play-nav'
+    el:'#app-play-nav',
+    delimiters : ['[[', ']]'],
 });
-
-
-
-
-
 
 

@@ -311,7 +311,7 @@ Vue.component('df-option-song',{
                         <div class="icon"></div>
                         <i class="fal fa-badge-dollar"></i>
                         <div class="name">
-                            <div class="song-title">Permission to Dance</div>
+                            <div class="song-title">Dynamite</div>
                             <div class="artist">BTS</div>
                         </div>
                     </div>

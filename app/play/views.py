@@ -5,7 +5,7 @@ from json.encoder import JSONEncoder
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.http import HttpResponse, request
+from django.http import HttpResponse
 from django.template import context, loader
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
@@ -13,19 +13,23 @@ import socket
 import json
 # Create your views here.
 
-
 class OptionView(TemplateView, RedirectView):
     template_name = 'option.html'
+
     def get(self, req, *args, **kwargs):
+
+        # print(req)
+        # template = loader.get_template(self.template_name)
+        # context = {'test':1}
+        # return HttpResponse(template.render(context, req))
+    
         if req.session.get('user'):
             print(req)
             template = loader.get_template(self.template_name)
             context = {'test':1}
             return HttpResponse(template.render(context, req))
         else:
-            # return render(req, 'login.html')
-            return redirect("/user/login")
-
+            return redirect('/user/login')
     def post(self, req, *args,**kwargs):
         print('option recived')
         print(req.POST)
@@ -80,18 +84,18 @@ class PlayView(TemplateView):
         }
         message = json.dumps(json_data)
         mySocket.send(message.encode())
-
         context = {
             'pid' : req.GET['pid'],
-            'title' : 'Secret Garden',
-            'artist' : 'OH MY GIRL',
+            'title' : 'Dynamite',
+            'artist' : 'BTS',
+            # 'play_mode' : 'upload',
             'play_mode' : user_option.upload,
-            # 'video_url' : '/static/target_videos/secretgarden1-3.mp4',
-            'video_url' : 'https://cache.midibus.kinxcdn.com/name/ch_17bdc199/17c131b8dd5313bf_720P',
+            # 'video_url' : '/static/target_videos/dynamite.mp4',
+            # 'video_url' : 'https://cache.midibus.kinxcdn.com/name/ch_17bdc199/17c131b8dd5313bf_720P',
+            'video_url' : 'https://cache.midibus.kinxcdn.com/name/ch_17bdc199/17c5d6a3a8a8d84c_720P',
+            # 'user_video_url' : 'http://192.168.0.12:5050/module/sample_data/result_test.mp4',
             'user_video_url' : user_option.video.url,
         }
-
-
         # return HttpResponse(template.render(context, req))
         return render(req, self.template_name, context)
 
