@@ -23,7 +23,8 @@ class OptionView(TemplateView, RedirectView):
             context = {'test':1}
             return HttpResponse(template.render(context, req))
         else:
-            return render(req, 'login.html')
+            # return render(req, 'login.html')
+            return redirect("/user/login")
 
     def post(self, req, *args,**kwargs):
         print('option recived')
