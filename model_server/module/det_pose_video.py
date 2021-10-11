@@ -8,7 +8,7 @@ from .utils.scoring import scoring
 from mmpose.apis.inference import (inference_top_down_pose_model, init_pose_model, process_mmdet_results, vis_pose_result)
 from mmdet.apis.inference import (inference_detector, init_detector)
 
-
+from pymongo import MongoClient
 
 class Play():
     def __init__(self, option_1=0,option_2=0, option_3=0):
@@ -49,7 +49,12 @@ class Play():
         self.pose_model = init_pose_model(pose_config, pose_checkpoint, device=pose_device)
 
 
-    def det_Pose_Video(self, user_video,  play_id, conn, option=True):
+    def det_Pose_Video(self, user_video,  play_id, option=True):
+        DB_host = "127.0.0.1"
+        DB_port = 27017
+        a = MongoClient(host=DB_host, port=DB_port)
+        db = a["DancerFlow"]
+        col = db["Playss"]
 
         FILE_NAME = "./{}.json".format(play_id)
         FACE_BODY_SCORE = 0
@@ -64,7 +69,7 @@ class Play():
 
         # 3. 영상 파일을 불러오기
         cap = cv2.VideoCapture(user_video)
-
+        
         idx = 0
         while cap.isOpened():
             idx += 1
@@ -126,13 +131,41 @@ class Play():
                 RIGHT_LEG_SCORE = scoring(similarity_score["right_leg_score"], RIGHT_LEG_SCORE)
                 TOTAL_SCORE = (FACE_BODY_SCORE + LEFT_ARM_SCORE + RIGHT_ARM_SCORE + LEFT_LEG_SCORE + RIGHT_LEG_SCORE)/5
 
+                print("얼굴 몸 점수 : ",FACE_BODY_SCORE)
+                print("왼쪽 팔 점수 : ",LEFT_ARM_SCORE)
+                print("오른 팔 점수 : ",RIGHT_ARM_SCORE)
+                print("왼쪽 발 점수 : ",LEFT_LEG_SCORE)
+                print("오른 발 점수 : ",RIGHT_LEG_SCORE)
+                print("최종 점수 : ", TOTAL_SCORE)
 
-                json_data = {
-                    "ING" : "ING",
-                    "TOTAL_SCORE" : TOTAL_SCORE
+                post = {
+                    "id" : play_id,
+                    "TOTAL_Score" : TOTAL_SCORE,
+                    "Parts_Score" : {
+                        "FACE_BODY_SCORE" : FACE_BODY_SCORE,
+                        "LEFT_ARM_SCORE" : LEFT_ARM_SCORE,
+                        "RIGHT_ARM_SCORE" : RIGHT_ARM_SCORE,
+                        "LEFT_LEG_SCORE" : LEFT_LEG_SCORE,
+                        "RIGHT_LEG_SCORE" : RIGHT_LEG_SCORE,
+                        "key_point_file_path" : FILE_NAME
+                    }
                 }
-                message = json.dumps(json_data)
-                conn.send(message.encode())
+                col.insert_one(post)
+
+                ############################################################################
+
+                # show the results
+                vis_img = vis_pose_result(
+                    self.pose_model,
+                    img,
+                    pose_results,
+                    kpt_score_thr=0.5,
+                    radius=4,               # 원 크기
+                    thickness=2,            # 관절 두께
+                    show=False)
+                if SHOW == True:
+                    cv2.imshow('Image', vis_img)
+                # videoWriter.write(vis_img)
 
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
@@ -149,7 +182,7 @@ class Play():
         with open(FILE_NAME, "w") as outfile:
             json.dump(RESULT_BOX, outfile, indent=4)
         
-        # return post
+        return post
 
 if __name__ == '__main__':
     
