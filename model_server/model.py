@@ -1,3 +1,4 @@
+from re import I
 import threading
 from pymongo import MongoClient
 import json
@@ -36,11 +37,16 @@ def to_client(conn, addr, params):
         print("시작전")
         print("path : ", path)
         
-        video__init__(user_video=path, target_video=target, output="result")
+        # video__init__(user_video=path, target_video=target, output="result")
         
-        message = play.det_Pose_Video(user_video="media/result.mp4", play_id=pid)
-        conn.send(message)
+        play.det_Pose_Video(user_video="module/sample_data/sss.mp4", play_id=pid, conn = conn)
+        json_data = {
+            "ING" : "finish"
+        }
+        message = json.dumps(json_data)
+        conn.send(message.encode())
         print("끝남")
+    
     except Exception as ex:
         print(ex)
 
@@ -70,9 +76,10 @@ if __name__ == "__main__":
 
     # Server port number
     port = 5050
+    Ip = "127.0.0.1"
     listen = 100
 
-    bot = Server(port, listen)
+    bot = Server(srv_port=port, listen_num=listen, Ip=Ip)
     bot.create_sock()
     print("bot start")
     

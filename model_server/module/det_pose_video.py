@@ -1,6 +1,3 @@
-from functools import total_ordering
-import os
-from re import M
 import cv2
 import json
 
@@ -11,7 +8,7 @@ from .utils.scoring import scoring
 from mmpose.apis.inference import (inference_top_down_pose_model, init_pose_model, process_mmdet_results, vis_pose_result)
 from mmdet.apis.inference import (inference_detector, init_detector)
 
-from pymongo import MongoClient
+
 
 class Play():
     def __init__(self, option_1=0,option_2=0, option_3=0):
@@ -52,12 +49,8 @@ class Play():
         self.pose_model = init_pose_model(pose_config, pose_checkpoint, device=pose_device)
 
 
-    def det_Pose_Video(self, user_video,  play_id, option=True):
-        # DB_host = "127.0.0.1"
-        # DB_port = 27017
-        # a = MongoClient(host=DB_host, port=DB_port)
-        # db = a["DancerFlow"]
-        # col = db["Playss"]
+    def det_Pose_Video(self, user_video,  play_id, conn, option=True):
+
         FILE_NAME = "./{}.json".format(play_id)
         FACE_BODY_SCORE = 0
         LEFT_ARM_SCORE = 0
@@ -71,13 +64,7 @@ class Play():
 
         # 3. 영상 파일을 불러오기
         cap = cv2.VideoCapture(user_video)
-        fps = cap.get(cv2.CAP_PROP_FPS)
-        size = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
-                int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        videoWriter = cv2.VideoWriter(
-            os.path.join("result", f'DancerFlow_{os.path.basename(user_video)}'), fourcc, fps, size)
-        
+
         idx = 0
         while cap.isOpened():
             idx += 1
@@ -139,41 +126,14 @@ class Play():
                 RIGHT_LEG_SCORE = scoring(similarity_score["right_leg_score"], RIGHT_LEG_SCORE)
                 TOTAL_SCORE = (FACE_BODY_SCORE + LEFT_ARM_SCORE + RIGHT_ARM_SCORE + LEFT_LEG_SCORE + RIGHT_LEG_SCORE)/5
 
-                print("얼굴 몸 점수 : ",FACE_BODY_SCORE)
-                print("왼쪽 팔 점수 : ",LEFT_ARM_SCORE)
-                print("오른 팔 점수 : ",RIGHT_ARM_SCORE)
-                print("왼쪽 발 점수 : ",LEFT_LEG_SCORE)
-                print("오른 발 점수 : ",RIGHT_LEG_SCORE)
-                print("최종 점수 : ", TOTAL_SCORE)
 
-                # post = {
-                #     "id" : play_id,
-                #     "TOTAL_Score" : TOTAL_SCORE,
-                #     "Parts_Score" : {
-                #         "FACE_BODY_SCORE" : FACE_BODY_SCORE,
-                #         "LEFT_ARM_SCORE" : LEFT_ARM_SCORE,
-                #         "RIGHT_ARM_SCORE" : RIGHT_ARM_SCORE,
-                #         "LEFT_LEG_SCORE" : LEFT_LEG_SCORE,
-                #         "RIGHT_LEG_SCORE" : RIGHT_LEG_SCORE,
-                #         "key_point_file_path" : FILE_NAME
-                #     }
-                # }
-                # col.insert_one(post)
+                json_data = {
+                    "ING" : "ING",
+                    "TOTAL_SCORE" : TOTAL_SCORE
+                }
+                message = json.dumps(json_data)
+                conn.send(message.encode())
 
-                ############################################################################
-
-                # show the results
-                vis_img = vis_pose_result(
-                    self.pose_model,
-                    img,
-                    pose_results,
-                    kpt_score_thr=0.5,
-                    radius=4,               # 원 크기
-                    thickness=2,            # 관절 두께
-                    show=False)
-                if SHOW == True:
-                    cv2.imshow('Image', vis_img)
-                videoWriter.write(vis_img)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
 
@@ -181,7 +141,7 @@ class Play():
                 pass
 
         cap.release()
-        videoWriter.release()
+        # videoWriter.release()
         cv2.destroyAllWindows()
 
         
@@ -191,20 +151,20 @@ class Play():
         
         # return post
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
     
-#     # Detction 설정
-#     DET_CONFIG_FASTER_R_CNN_R50_FPN_COCO = "configs/detection/faster_rcnn_r50_fpn_coco.py"                                                                                                        # Detection config 파일
-#     DET_CHECKPOINT_FASTER_R_CNN_R50_FPN_COCO = "https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth"        # Detection 훈련 모델 파일
+    # Detction 설정
+    DET_CONFIG_FASTER_R_CNN_R50_FPN_COCO = "configs/detection/faster_rcnn_r50_fpn_coco.py"                                                                                                        # Detection config 파일
+    DET_CHECKPOINT_FASTER_R_CNN_R50_FPN_COCO = "https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth"        # Detection 훈련 모델 파일
     
-#     # Pose 설정
-#     POSE_CONFIG_HRNET_W48_COCO_256X192 = "configs/pose/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/hrnet_w48_coco_256x192.py"                                                               # Pose config 파일
-#     POSE_CHECKPOINT_HRNET_W48_COCO_256X192 = "https://download.openmmlab.com/mmpose/checkpoints/pose/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth"                                             # Pose 훈련 모델 파일
+    # Pose 설정
+    POSE_CONFIG_HRNET_W48_COCO_256X192 = "configs/pose/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/hrnet_w48_coco_256x192.py"                                                               # Pose config 파일
+    POSE_CHECKPOINT_HRNET_W48_COCO_256X192 = "https://download.openmmlab.com/mmpose/checkpoints/pose/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth"                                             # Pose 훈련 모델 파일
     
-#     # 영상 경로
-#     VIDEO_1 = "./sample_data/test.mp4" # 유저 업로드 영상
+    # 영상 경로
+    VIDEO_1 = "./sample_data/test.mp4" # 유저 업로드 영상
 
-#     play= Play()
-#     play.det__init__(DET_CONFIG_FASTER_R_CNN_R50_FPN_COCO, DET_CHECKPOINT_FASTER_R_CNN_R50_FPN_COCO, device="cuda:0")
-#     play.pose__init__(POSE_CONFIG_HRNET_W48_COCO_256X192, POSE_CHECKPOINT_HRNET_W48_COCO_256X192, device="cuda:0")
-#     play.det_Pose_Video(VIDEO_1, outpath="result")
+    play= Play()
+    play.det__init__(DET_CONFIG_FASTER_R_CNN_R50_FPN_COCO, DET_CHECKPOINT_FASTER_R_CNN_R50_FPN_COCO, device="cuda:0")
+    play.pose__init__(POSE_CONFIG_HRNET_W48_COCO_256X192, POSE_CHECKPOINT_HRNET_W48_COCO_256X192, device="cuda:0")
+    play.det_Pose_Video(VIDEO_1, outpath="result")

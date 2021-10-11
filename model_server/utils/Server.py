@@ -1,15 +1,16 @@
 import socket
 
 class Server:
-    def __init__(self, srv_port, listen_num):
+    def __init__(self,Ip, srv_port, listen_num):
         self.port = srv_port
         self.listen = listen_num
         self.mySock = None
+        self.IP = Ip
 
     # sock 생성
     def create_sock(self):
         self.mySock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.mySock.bind(("192.168.0.12", int(self.port)))
+        self.mySock.bind((self.IP, int(self.port)))
         self.mySock.listen(int(self.listen))
         return self.mySock
 

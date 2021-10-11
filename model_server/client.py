@@ -17,19 +17,28 @@ while True:
     mySocket = socket.socket()
     mySocket.connect((host, port))
 
-    # 챗봇 엔진 질의 요청
+    # 모델 엔진 질의 요청
     json_data = {
-        'path': query,
-        'BotType': "MyService"
+            "pid" : "qqq",
+            "target" : "C:/JGBH/Dancer-Flow/model_server/module/sample_data/BTS-Dynamite1-3.mp4",
+            "path" : "C:/JGBH/Dancer-Flow/model_server/module/sample_data/sample.mp4"
     }
     message = json.dumps(json_data)
     mySocket.send(message.encode())
+    
+    # 챗봇 엔진 답변 받기
+    while True:
+    
+        data = mySocket.recv(2048)
+        ret_data = json.loads(data.decode())
+        if ret_data["ING"] == "finish":
+            mySocket.close()
+            break
+        else:
+            print("답변 : ")
+            print(ret_data['TOTAL_SCORE'])
 
-    # 챗봇 엔진 답변 출력
-    # data = mySocket.recv(2048).decode()
-    # ret_data = json.loads(data)
-    # print("답변 : ")
-    # print(ret_data['Answer'])
+    
     # print(ret_data)
     # print(type(ret_data))
     # print("\n")

@@ -138,3 +138,6 @@ module/sample_data/target.mp4
 module/test.ipynb
 *.mp4
 *.pth
+model_server/module/123.json
+*.wav
+*.json
