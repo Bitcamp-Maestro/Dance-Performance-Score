@@ -1,8 +1,35 @@
 from django.http import HttpResponse
+from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password #비밀번호 암호화 / 패스워드 체크(db에있는거와 일치성확인)
-
+from django.views import View
 from .models import User
+from validate_email import validate_email
+
+import json
+
+
+class EmailValidationView(View):
+    def post(self, request):
+        data=json.loads(request.body) # 데이터를 먼저 불러옴
+        email = data['email']
+        if not validate_email(email):
+            return JsonResponse({'email_error':'Email is invalid'}, status=400) #// 400 Bad request
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({'email_error':'Sorry email in use, choose another one.'}, status=409) # resource is confliting with the one already have
+        return JsonResponse({'email_valid': True})
+
+class UsernameValidationView(View):
+    def post(self, request):
+        data=json.loads(request.body) # 데이터를 먼저 불러옴
+        username = data['username']
+        if not str(username).isalnum():
+            return JsonResponse({'username_error':'username should only contain alphanumeric number'}, status=400) #// 400 Bad request
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({'username_error':'Sorry username in use, choose another one.'}, status=409) # resource is confliting with the one already have
+        return JsonResponse({'username_valid': True})
+
+
 
 # Create your views here.
 def register(request):   #회원가입 페이지를 보여주기 위한 함수
