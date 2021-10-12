@@ -11,6 +11,8 @@ from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 import socket
 import json
+
+import cv2
 # Create your views here.
 
 class OptionView(TemplateView, RedirectView):
@@ -84,7 +86,22 @@ class PlayView(TemplateView):
         }
         message = json.dumps(json_data)
         mySocket.send(message.encode())
+            # 챗봇 엔진 답변 받기
+        while True:
+            data = mySocket.recv(2048)
+            ret_data = json.loads(data.decode())
+            if ret_data["ING"] == "finish":
+                mySocket.close()
+                break
+            else:
+                print("답변 : ")
+                print(ret_data['TOTAL_SCORE'])
+                # vis_img = ret_data["IMG"]
+                # cv2.imshow('Image', vis_img)
+        
+        
         context = {
+            
             'pid' : req.GET['pid'],
             'title' : 'Dynamite',
             'artist' : 'BTS',
