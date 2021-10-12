@@ -49,12 +49,12 @@ class Play():
         self.pose_model = init_pose_model(pose_config, pose_checkpoint, device=pose_device)
 
 
-    def det_Pose_Video(self, user_video,  play_id, option=True):
-        DB_host = "127.0.0.1"
-        DB_port = 27017
-        a = MongoClient(host=DB_host, port=DB_port)
-        db = a["DancerFlow"]
-        col = db["Playss"]
+    def det_Pose_Video(self, user_video,  play_id, conn, option=True):
+        # DB_host = "127.0.0.1"
+        # DB_port = 27017
+        # a = MongoClient(host=DB_host, port=DB_port)
+        # db = a["DancerFlow"]
+        # col = db["Playss"]
 
         FILE_NAME = "./{}.json".format(play_id)
         FACE_BODY_SCORE = 0
@@ -138,19 +138,19 @@ class Play():
                 print("오른 발 점수 : ",RIGHT_LEG_SCORE)
                 print("최종 점수 : ", TOTAL_SCORE)
 
-                post = {
-                    "id" : play_id,
-                    "TOTAL_Score" : TOTAL_SCORE,
-                    "Parts_Score" : {
-                        "FACE_BODY_SCORE" : FACE_BODY_SCORE,
-                        "LEFT_ARM_SCORE" : LEFT_ARM_SCORE,
-                        "RIGHT_ARM_SCORE" : RIGHT_ARM_SCORE,
-                        "LEFT_LEG_SCORE" : LEFT_LEG_SCORE,
-                        "RIGHT_LEG_SCORE" : RIGHT_LEG_SCORE,
-                        "key_point_file_path" : FILE_NAME
-                    }
-                }
-                col.insert_one(post)
+                # post = {
+                #     "id" : play_id,
+                #     "TOTAL_Score" : TOTAL_SCORE,
+                #     "Parts_Score" : {
+                #         "FACE_BODY_SCORE" : FACE_BODY_SCORE,
+                #         "LEFT_ARM_SCORE" : LEFT_ARM_SCORE,
+                #         "RIGHT_ARM_SCORE" : RIGHT_ARM_SCORE,
+                #         "LEFT_LEG_SCORE" : LEFT_LEG_SCORE,
+                #         "RIGHT_LEG_SCORE" : RIGHT_LEG_SCORE,
+                #         "key_point_file_path" : FILE_NAME
+                #     }
+                # }
+                # col.insert_one(post)
 
                 ############################################################################
 
@@ -169,7 +169,14 @@ class Play():
 
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
-
+                
+                ############################ client로 데이터 전송 #################################
+                json_data = {
+                    "total_score" : TOTAL_SCORE
+                }
+                message = json.dumps(json_data)
+                conn.send(message.encode())
+                ###################################################################################
             else:
                 pass
 
@@ -182,8 +189,6 @@ class Play():
         with open(FILE_NAME, "w") as outfile:
             json.dump(RESULT_BOX, outfile, indent=4)
         
-        return post
-
 if __name__ == '__main__':
     
     # Detction 설정

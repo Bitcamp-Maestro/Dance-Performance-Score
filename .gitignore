@@ -141,3 +141,5 @@ module/test.ipynb
 model_server/module/123.json
 *.wav
 *.json
+*.wav
+*.wav
