@@ -1,0 +1,140 @@
+
+body,
+html {
+    height: 100%;
+    z-index: 1;
+
+}
+@media (min-width:992px){
+    .navbar{
+        margin-top:0px;
+        padding-top:0px;
+    }
+}
+
+/* Play Container */
+#play-content{
+    height:100%;
+}
+.top-content {
+    margin-top: 3.5rem;
+}
+.canvas-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* padding: 20px; */
+    height: 100%;
+
+}
+.video-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 20px;
+    height: 100%;
+    display:none;
+    /* visibility: hidden; */
+}
+.wrapper {
+    height: 95%;
+    width: 100%;
+    background: #ccc;
+    border: 10px solid #ddd;
+    margin: 0 auto;
+
+}
+.score-bad{
+    border: 10px solid !important;
+    /* border-radius: 20px !important; */
+    border-image: linear-gradient(to right, #ff5454, #ffbb54, #dc6232) !important;
+    border-image-slice: 1 !important;
+}
+.score-good{
+    border: 10px solid !important;
+    /* border-radius: 20px !important; */
+    border-image: linear-gradient(to right, #ffbb54, #54ff70, #32bbdc) !important;
+    border-image-slice: 1 !important;
+}
+.score-perfect{
+    border: 10px solid !important;
+    /* border-radius: 20px !important; */
+    border-image: linear-gradient(to right, #f954ff, #32bbdc, #a65bf8) !important;
+    border-image-slice: 1 !important;
+}
+
+.video-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.video {
+    width: 100%;
+    height: 100%;
+}
+
+.line-center{
+    display:flex;
+    justify-content: center;
+}
+.w-btn-gra1 {
+    background: linear-gradient(-45deg, #1994af 0%, #a65bf8, #fd8a9d 100%);
+    color: white;
+    margin-top: 1rem;
+
+}
+.w-btn {
+position: relative;
+border: none;
+display: inline-block;
+padding: 1rem 3.5rem;
+border-radius: 1rem;
+box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+text-decoration: none;
+font-weight: 600;
+transition: 0.3s;
+}
+
+/* share container*/
+#result-share{
+    
+}
+
+/* content change */
+
+.content-hide{
+    animation : fade-out 2s;
+    animation-fill-mode: forwards;
+    display: none;
+}
+.content-visible{
+    animation: fade-in 2s;
+    animation-fill-mode: forwards;
+    display: block;
+}
+@keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+  
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+/* media query */
+@media(min-width:992px) {
+    .navbar {
+        padding-top: 0;
+    }
+
+}
