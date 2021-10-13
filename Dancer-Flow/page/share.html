@@ -35,69 +35,80 @@
         <df-play-nav></df-play-nav>
     </div>  <!-- End Navigation -->
 
+    <!-- Play Video Share   -->
+    <div id='result-share'>
 
-    <div class="contact-div">
-        <div class="container">
-            <h2>Play Video Share</h2>
-        </div>    
-    </div>
-
-    <!-- contact section -->
-    <section class="contact_section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="detail-box">
-                        <div class="heading_container">
-                            <h4 class="share_user"><img src="/static/images/user.png" alt="" class="user_img">User Name</h4>
-                            <h3>Title : Aurora(Today Romeo Remix)</h3>
-                            <h4>Artist : k-391</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <img src="/static/images/sample2.jpeg" alt="" class="user_video">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div id="polygon-chart" class="polygon-chart">
-                        <div class="polygon-chart-label">
-                            <span class="label-head-body">Head-Body</span>
-                            <span class="label-left-arm">Left-Arm</span>
-                            <span class="label-right-arm">Right-Arm</span>
-                            <span class="label-left-leg">Left-Leg</span>
-                            <span class="label-right-leg">Right-Leg</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="contact-form">
-                        <h5>
-                            Score : 2342
-                        </h5>
-                        <form action="">
-                            <div>
-                                <input type="text" placeholder="Title" />
-                            </div>
-                            <div>
-                                <input type="text" placeholder="Content" class="input_content" />
-                            </div>
-                            <div>
-                                <input type="text" placeholder="HashTag" />
-                            </div>
-                            
-                            <div class="d-flex justify-content-center">
-                                <a href='/community/view'>
-                                    <div class="w-btn w-btn-gra1">Share</div>
-                                </a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div class="contact-div">
+            <div class="container">
+                <h2>Play Video Share</h2>
+            </div>    
         </div>
-    </section>
+
+        <!-- contact section -->
+        <section class="contact_section">
+            <div class="share-container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="detail-box">
+                            <div class="heading_container">
+                                <h4 class="share_user"><img src="/static/images/user.png" alt="" class="user_img">User Name</h4>
+                                <h3>Title : Aurora(Today Romeo Remix)</h3>
+                                <h4>Artist : k-391</h4>
+                            </div>
+                            <div class='button-line line-center line-bottom content-visible'>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="play-video-preview" class="col-md-6">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="polygon-chart" class="polygon-chart">
+                            <div class="polygon-chart-label">
+                                <span class="label-head-body">Head-Body</span>
+                                <span class="label-left-arm">Left-Arm</span>
+                                <span class="label-right-arm">Right-Arm</span>
+                                <span class="label-left-leg">Left-Leg</span>
+                                <span class="label-right-leg">Right-Leg</span>
+                            </div>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="col-md-6">
+                        <div class="contact-form">
+                            <h5>
+                                Score : 2342
+                            </h5>
+                            <form action="" method="post">
+                                <div>
+                                    <input type="text" placeholder="Title" />
+                                </div>
+                                <div>
+                                    <input type="text" placeholder="Content" class="input_content" />
+                                </div>
+                                <div>
+                                    <input type="text" placeholder="HashTag" />
+                                </div>
+                                
+                                <div class="d-flex justify-content-center">
+                                    <a href='/community/view' id='sendButton' onsubmit="">
+                                        <div class="w-btn w-btn-gra1">Share</div>
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <br/><br/><br/>
+    </div>
+    
 
     <!-- View Template -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>

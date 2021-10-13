@@ -19,6 +19,9 @@ font-family: 'Spoqa Han Sans Neo', 'sans-serif';
     justify-content: center;
 }
 
+.pricing-card-area{
+  padding-top:2rem;
+}
 
 /* item */
 /* 버튼 색깔 */

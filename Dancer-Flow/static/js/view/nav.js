@@ -1,5 +1,6 @@
 
 
+
 /*
     Index page navigation template
 */
@@ -9,9 +10,11 @@ Vue.component('df-index-nav', {
         <div class="container">
             <!-- Image Logo -->
             <a class="navbar-brand logo-image" href="/"><img src="/static/images/logo.png" alt="alternative"><span>DancerFlow</span></a> 
+
             <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ms-auto navbar-nav-scroll">
                     <li class="nav-item">
@@ -63,9 +66,11 @@ Vue.component('df-main-nav', {
         <div class="container">
             <!-- Image Logo -->
             <a class="navbar-brand logo-image" href="/"><img src="/static/images/logo.png" alt="alternative"><span>DancerFlow</span></a> 
+
             <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ms-auto navbar-nav-scroll">
                     <li class="nav-item">
@@ -109,9 +114,11 @@ Vue.component('df-play-nav', {
         <div class="container">
             <!-- Image Logo -->
             <a class="navbar-brand logo-image" href="/"><img src="/static/images/logo.png" alt="alternative"><span>DancerFlow</span></a> 
+
             <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ms-auto navbar-nav-scroll">
                     <li class="nav-item">
@@ -132,5 +139,10 @@ let app_play_nav = new Vue({
     el:'#app-play-nav',
     delimiters : ['[[', ']]'],
 });
+
+
+
+
+
 
 

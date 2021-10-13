@@ -39,6 +39,7 @@ class PlayManager {
         this.playCanvas = document.getElementById('playCanvas')
         // this.playContext = this.playCanvas.getContext('2d'),
         if(this.video.getAttribute('data-play-mode') === 'realtime'){
+
             this.navigator = navigator
             this.navigator.getMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetuserMedia || navigator.mediaDevices.msGetUserMedia;
         }
@@ -63,8 +64,9 @@ class PlayManager {
 
     }
     init() {
-        window.onresize = this.resizeCanvas.bind(this);
+        window.onresize = this.resizeCanvas.bind(this)
         this.resizeCanvas.bind(this)()
+        this.init_share_form()
 
         this.video.addEventListener('play', e => {
             console.log('play')
@@ -87,16 +89,20 @@ class PlayManager {
             // this.draw_play()
         }, false);
 
-        // this.play_video.addEventListener('play', e=>{
-
-        // })
-      
         if(this.video.getAttribute('data-play-mode') === 'realtime'){
             this.initCaptureVideo(this.video);
         }else if(this.video.getAttribute('data-play-mode') === 'upload'){
             // this.video.play()
             // this.play_video.play()
         }
+    }
+
+    init_share_form(){
+        const form = document.getElementById('shareForm')
+        form.addEventListener('sendButton', e=>{
+            
+        })
+
     }
 
     init_handler(){
@@ -281,6 +287,8 @@ class PlayManager {
             recorder.ondataavailable = e => chunks.push(e.data);
             recorder.onstop = e => {
                 // this.msg_handler.send(data)
+                 console.log(e)
+                 console.log(e.timeStamp)
                 let data =new File(chunks,`${this.config.pid}_${e.timeStamp}.mp4`, {type: 'video/mp4'})
                 data.arrayBuffer().then(buf=>{
                     let text_buf = text_enc.encode(`${this.config.pid}_${e.timeStamp};`)
@@ -303,23 +311,23 @@ class PlayManager {
             setTimeout(()=> recorder.stop(), 2000); // we'll have a 2s media file
             recorder.start();
          }
-         if (this.video.getAttribute('data-play-mode') == 'upload'){
+         if (this.video.getAttribute('data-play-mode') == 'realtime'){
              // generate a new file every 5s
-             setInterval(send_chunk.bind(this), 2000);
+            //  setInterval(send_chunk.bind(this), 2000);
          }
           
         this.rec.addEventListener('dataavailable', e=>{
             chunks.push(e.data)
-            console.log(e)
-            console.log(e.data)
-
-            return
-            let blob = new Blob([chunks[0], e.data], {type: 'video/mp4'})
-            console.log(chunks)
+            // console.log(e)
+            // console.log(e.data)
+            
+            let blob = new File([e.data], 'asdf.mp4', {type: 'video/mp4'})
+            // console.log(chunks)
             console.log(blob)
-            console.log(chunks.slice(chunks.length-1))
+            // console.log(chunks.slice(chunks.length-1))
             // this.msg_handler.send(blob)
             this.msg_handler.send(blob)
+            return
      
             blob.arrayBuffer().then(buf=>{
                 let text_buf = text_enc.encode(`${this.config.pid}_${e.timeStamp};`)
@@ -342,8 +350,17 @@ class PlayManager {
             
             const play_data = new FormData()
             const file = new File(chunks, video_title, {'type':'video/mp4'})
-            play_data.append('video', file, file.name)
-            play_data.append('score', this.score)
+            const parts_score = {
+                'face_body' : 2842,
+                'left_arm' : 3941,
+                'right_arm' : 2271,
+                'right_leg' : 2141,
+                'left_leg' : 3522,
+            }
+            play_data.append('pid', this.config.pid)
+            play_data.append('play_video', file, file.name)
+            play_data.append('total_score', this.score)
+            play_data.append('parts_score', JSON.stringify(parts_score))
             play_data.append('datetime', new Date(Date.now()).toString())
             this.msg_handler.sendResult('http://220.123.224.95:9000/play/?pid=' + this.config.pid, play_data)
         })
@@ -386,8 +403,11 @@ class PlayManager {
         
         this.context.font = `${0.0055*this.canvas.width}rem Brush Script MT`;
         this.context.strokeStyle= '#a65bf8'
-        this.context.strokeText('Play Done...', 20, 50);
-        this.context.fillText('Play Done...', 20, 50);
+        this.context.strokeText('Play Done...', this.canvas.width/2-50, this.canvas.height/2-80);
+        this.context.fillText('Play Done...', this.canvas.width/2-50, this.canvas.height/2-80);
+
+        const scoreText = document.getElementById('scoreText')
+        scoreText.innerText = 'Score : ' + this.score 
 
         setTimeout(this.redirectToShare, 1500)
     }
@@ -403,6 +423,7 @@ class PlayManager {
 
         window.location = (""+window.location).replace(/#[A-Za-z0-9_]*$/,'')+"#result-share"        
     }
+    
 }
 
 class MessageHandler {
@@ -506,7 +527,9 @@ class MessageHandler {
 function main() {
     const pid = document.querySelector('#userVideo').getAttribute('data-pid')
     // let msg_handler = new MessageHandler('ws://192.168.0.12:5050')
+    // let msg_handler = new MessageHandler('ws://192.168.0.28:8000/ws/play/' + pid)
     let msg_handler = new MessageHandler('ws://220.123.224.95:9000/ws/play/' + pid)
+    console.log(navigator)
     const manager = new PlayManager(navigator, msg_handler, pid)
     manager.main()
 }

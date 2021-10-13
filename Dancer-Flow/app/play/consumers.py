@@ -28,10 +28,10 @@ class PlayConsumer(WebsocketConsumer):
 
         if bytes_data != None:
             self.stamp += 1
-            # with open(os.path.join(self.app_path, f"..\\media\\chunks\\test7_{self.stamp}.mp4"), 'wb') as f:
-            #     f.write(bytes_data)
-            print(type(bytes_data))
-            data = bytes_data.split(b';')
+            with open(os.path.join(self.app_path, f"..\\media\\chunks\\test7_{self.stamp}.mp4"), 'wb') as f:
+                f.write(bytes_data)
+            # print(type(bytes_data))
+            # data = bytes_data.split(b';')
             # with open(os.path.join(self.app_path, f"..\\media\\chunks\\{data[0].decode('ascii')}.mp4"), 'wb') as f:
             #     f.write(data[1])
             return

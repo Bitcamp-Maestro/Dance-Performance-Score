@@ -55,6 +55,7 @@
         </div> <!-- end of container -->
     </nav> <!-- end of navbar -->
     <!-- end of navigation -->
+
     <div id='play-mask' class='play-mask'>
 
     </div>
@@ -99,10 +100,10 @@
                     <div class="col-md-6">
                         <div class="detail-box">
                             <div class="heading_container">
-                                <h4 class="share_user"><img src="/static/images/user.png" alt="" class="user_img">User
-                                    Name</h4>
-                                <h3>Title : Aurora(Today Romeo Remix)</h3>
-                                <h4>Artist : k-391</h4>
+                                <h4 class="share_user"><img src="/static/images/user.png" alt="" class="user_img">{{
+                                    user.name }}</h4>
+                                <h3>Title :{{ title }}</h3>
+                                <h4>Artist : {{ artist }}</h4>
                             </div>
                             <div class='button-line line-center line-bottom content-visible'>
                             </div>
@@ -130,36 +131,41 @@
                     <br /><br />
                     <div class="col-md-6">
                         <div class="contact-form">
-                            <h5>
-                                Score : 2342
-                            </h5>
-                            <form action="">
+                            <h5 id="scoreText"></h5>
+                            <form action="/play/preshare" method="post" id='shareForm'>
+                                {% csrf_token %}
                                 <div>
-                                    <input type="text" placeholder="Title" />
+                                    <input type="text" name='title' placeholder="Title" />
                                 </div>
                                 <div>
-                                    <input type="text" placeholder="Content" class="input_content" />
+                                    <input type="text" name='content' placeholder="Content" class="input_content" />
                                 </div>
                                 <div>
-                                    <input type="text" placeholder="HashTag" />
+                                    <input type="text" name='tags' placeholder="HashTag" />
                                 </div>
-
+                                <input type="hidden" name='pid' value="{{pid}}" />
                                 <div class="d-flex justify-content-center">
-                                    <a href='/community/view'>
-                                        <div class="w-btn w-btn-gra1">Share</div>
-                                    </a>
+                                    <a href=''>
+                                        <input type='submit' id='sendButton' class="w-btn w-btn-gra1" value='Share'>
                                 </div>
-                            </form>
+                                </a>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </section>
-        <br /><br /><br />
+    </div>
+    </section>
+    <br /><br /><br />
     </div>
 
 
     <!-- View Template -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
@@ -175,6 +181,8 @@
 
     <script src="/static/lib/PolygonChart.umd.js"></script>
     <script src="/static/js/share.js"></script>
+
+
 
 
 </body>

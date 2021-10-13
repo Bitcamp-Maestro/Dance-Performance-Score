@@ -4,7 +4,7 @@
 */
 Vue.component('df-option-mode',{
     template:`
-    <section class="pricing-card-area section-padding30 section-bg" data-background="assets/img/gallery/section_bg1.png">
+    <section class="pricing-card-area section-bg" data-background="assets/img/gallery/section_bg1.png">
         <div class="container">
                 <!-- Section Tittle -->
                 <div class="row d-flex justify-content-center">
@@ -36,7 +36,7 @@ Vue.component('df-option-mode',{
                                     <strong><h6>Upload A Video</h6></strong>
                                 </div>
                                 </br>
-                                <strong>Lorem ipsum dolor sit amet,</strong></br>
+                                <strong>Lorem ipsum dolor dddsit amet,</strong></br>
                                 <strong>consectetur</strong>
                                 </ul>
                             </div>
@@ -86,7 +86,8 @@ Vue.component('df-option-mode',{
 
 
 let app_option_mode = new Vue({
-    el: "#app-option-mode"
+    el: "#app-option-mode",
+    delimiters : ['[[', ']]'],
 });
 
 
@@ -95,7 +96,7 @@ let app_option_mode = new Vue({
 */
 Vue.component('df-option-upload', {
     template:`
-    <section class="pricing-card-area section-padding30 section-bg" data-background="assets/img/gallery/section_bg1.png">
+    <section class="pricing-card-area section-bg" data-background="assets/img/gallery/section_bg1.png">
         <div class="container">
                 <!-- Section Tittle -->
                 <div class="row d-flex justify-content-center">
@@ -162,7 +163,8 @@ Vue.component('df-option-upload', {
 });
 
 let app_option_upload = new Vue({
-    el: '#app-option-upload'
+    el: '#app-option-upload',
+    delimiters : ['[[', ']]'],
 })
 
 
@@ -172,7 +174,7 @@ let app_option_upload = new Vue({
 
 Vue.component('df-option-display', {
     template:`
-    <section class="pricing-card-area section-padding30 section-bg" data-background="assets/img/gallery/section_bg1.png">
+    <section class="pricing-card-area section-bg" data-background="assets/img/gallery/section_bg1.png">
         <div class="container">
                 <!-- Section Tittle -->
                 <div class="row d-flex justify-content-center">
@@ -268,7 +270,8 @@ Vue.component('df-option-display', {
 
 
 let app_option_display = new Vue({
-    el : '#app-option-display'
+    el : '#app-option-display',
+    delimiters : ['[[', ']]'],
 })
 
 Vue.component('df-option-song',{
@@ -311,7 +314,7 @@ Vue.component('df-option-song',{
                         <div class="icon"></div>
                         <i class="fal fa-badge-dollar"></i>
                         <div class="name">
-                            <div class="song-title">Dynamite</div>
+                            <div class="song-title">Permission to Dance</div>
                             <div class="artist">BTS</div>
                         </div>
                     </div>
@@ -501,5 +504,6 @@ Vue.component('df-option-song',{
 
 
 let app_option_song = new Vue({
-    el : '#app-option-song'
+    el : '#app-option-song',
+    delimiters : ['[[', ']]'],
 })

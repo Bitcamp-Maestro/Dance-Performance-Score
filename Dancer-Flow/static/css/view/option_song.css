@@ -203,7 +203,6 @@ body{
 
   /* Navigation */
   .navbar {
-      padding-top: 1.75rem;
       background :rgba(0, 0, 0,0);
       box-shadow:none;
       transition: all 0.2s;
@@ -276,7 +275,6 @@ body{
   /* end of general styles */
   
   .navbar{
-      padding-top: 1.75rem;
       background :rgba(0, 0, 0,0);
       box-shadow:none;
   }

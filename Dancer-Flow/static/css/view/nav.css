@@ -1,5 +1,6 @@
 
 
+
 /**********************/
 /*     Navigation     */
 /**********************/
@@ -203,7 +204,6 @@
 
     /* Navigation */
     .navbar {
-        padding-top: 1.75rem;
         background :rgba(0, 0, 0,0);
         box-shadow:none;
         transition: all 0.2s;
@@ -276,7 +276,6 @@
     /* end of general styles */
     
     .navbar{
-        padding-top: 1.75rem;
         background :rgba(0, 0, 0,0);
         box-shadow:none;
     }
@@ -335,3 +334,12 @@
     text-decoration: none;
 }
 
+
+
+.hide{
+    visibility: hidden;
+}
+.hide:hover{
+    visibility: visible;
+    background: rgba(30, 30, 30, 0.3);
+}

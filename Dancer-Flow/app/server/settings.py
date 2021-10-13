@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import json
-
+from firebase_admin import credentials
+from firebase_admin import firestore
+import firebase_admin
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,6 +31,12 @@ with open(os.path.join(PROJECT_DIR, 'config.json'), 'r') as f:
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = CONFIG['DB_KEY']
+
+print(os.path.join(PROJECT_DIR, 'firebase_account.json'))
+cred = credentials.Certificate(os.path.join(PROJECT_DIR, 'firebase_account.json'))
+default_app = firebase_admin.initialize_app(cred)
+
+DB = firestore.client()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -58,8 +67,7 @@ INSTALLED_APPS = [
     'play',
     'product',
     'rest_framework',
-    'channels',
-    'user',
+    'channels'
 ]
 
 REST_FRAMEWORK = {
@@ -70,11 +78,13 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    # 'corsheadrs.middleware.CorsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'server.urls'
@@ -106,6 +116,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+
+    # 'default' : {
+    #     'ENGINE' : 'djongo',
+    #     'NAME' : 'dancerflow_db',
+    #     'HOST' : '127.0.0.1',
+    #     'PORT' : 27017,
+    # }
 }
 
 
@@ -148,7 +165,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_DIR = os.path.join(PROJECT_DIR, 'static')
 STATICFILES_DIRS = [
-    STATIC_DIR
+    STATIC_DIR,
 ]
 
 
@@ -164,3 +181,9 @@ MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CORS 
+# CORS_ORIGIN_ALLOW_ALL = False
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:8000',
+# )
