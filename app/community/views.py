@@ -7,3 +7,6 @@ def community(request):
 
 def community_view(request):
   return render(request, "community/view.html")
+
+# def index(request):
+#   allvideos=Video)
