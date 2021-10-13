@@ -99,7 +99,6 @@ class PlayView(TemplateView):
                 # vis_img = ret_data["IMG"]
                 # cv2.imshow('Image', vis_img)
         
-        
         context = {
             
             'pid' : req.GET['pid'],

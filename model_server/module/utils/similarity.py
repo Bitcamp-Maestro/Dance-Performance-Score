@@ -98,7 +98,7 @@ def single_score_similarity(user_pose_result, target_pose_result, user_frame=0, 
     face_body_key_y2 = ((((nose_key2[1]+left_eye_key2[1]+right_eye_key2[1]+left_ear_key2[1]+right_ear_key2[1])/5) 
                         + ((left_shoulder_key2[1]+ right_shoulder_key2[1]+ left_hip_key2[1]+ right_hip_key2[1])/4))/2)
     face_body_key_nm_x2 = (face_body_key_x2-center2[0])/(bx2_2 - bx2_1)
-    face_body_key_nm_y2= (face_body_key_y2-center2[1])/(by2_2-by2_1)
+    face_body_key_nm_y2 = (face_body_key_y2-center2[1])/(by2_2-by2_1)
 
     #왼팔
     left_elbow_key2 = ktpd["left_elbow"]
@@ -129,7 +129,7 @@ def single_score_similarity(user_pose_result, target_pose_result, user_frame=0, 
     right_leg_key_nm_x2 = (right_leg_key_x2-center2[0])/(bx2_2 - bx2_1)
     right_leg_key_nm_y2= (right_leg_key_y2-center2[1])/(by2_2-by2_1)
     
-    face_body_score = cosine_similarity([[face_body_key_nm_x1, face_body_key_nm_y1]],[[face_body_key_nm_x2, face_body_key_nm_y1]])  
+    face_body_score = cosine_similarity([[face_body_key_nm_x1, face_body_key_nm_y1]],[[face_body_key_nm_x2, face_body_key_nm_y2]])  
     left_arm_score = cosine_similarity([[left_arm_key_nm_x1, left_arm_key_nm_y1]],[[left_arm_key_nm_x2, left_arm_key_nm_y2]])
     right_arm_score = cosine_similarity([[right_arm_key_nm_x1, right_arm_key_nm_y1]],[[right_arm_key_nm_x2, right_arm_key_nm_y2]])
     left_leg_score = cosine_similarity([[left_leg_key_nm_x1, left_leg_key_nm_y1]],[[left_leg_key_nm_x2, left_leg_key_nm_y2]])

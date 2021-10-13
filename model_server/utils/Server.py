@@ -1,7 +1,7 @@
 import socket
 
 class Server:
-    def __init__(self,Ip, srv_port, listen_num):
+    def __init__(self, Ip, srv_port, listen_num):
         self.port = srv_port
         self.listen = listen_num
         self.mySock = None

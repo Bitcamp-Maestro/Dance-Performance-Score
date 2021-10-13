@@ -1,5 +1,8 @@
 import cv2
 import json
+import base64
+import time
+import numpy
 
 from .utils.data_form import Form
 from .utils.similarity import single_score_similarity 
@@ -62,7 +65,7 @@ class Play():
         RIGHT_ARM_SCORE = 0
         LEFT_LEG_SCORE = 0
         RIGHT_LEG_SCORE = 0
-        SHOW = True                                 # 보여줄건지 선택 변수
+        SHOW = False                                 # 보여줄건지 선택 변수
         DET_CAT_ID = 1      # Category id for bounding box detection model
         RESULT_BOX = {}
         RESULT_BOX_2 = {}
@@ -76,7 +79,7 @@ class Play():
             flag, img = cap.read()
             if not flag:
                 break
-            if idx % 2 == 0:
+            if cap.get(cv2.CAP_PROP_POS_FRAMES) % 2 == 0:
                 # test a single image, the resulting box is (x1, y1, x2, y2)
                 mmdet_results = inference_detector(self.det_model, img)
 
@@ -91,53 +94,54 @@ class Play():
                     format='xyxy',
                     return_heatmap=False,
                     outputs=None)
+                try:
+                    if option == True:
+                        ## 두개의 영상을 하나로 합칠 때
+                        # 0.1V 단 한 영상에 한명씩 나올 때  
+                        bounding_Box_1 = pose_results[0]["bbox"]
+                        bounding_Box_2 = pose_results[1]["bbox"]
+                        result_dict_1={}
+                        result_dict_2={}
+                        for i1, p1_point in enumerate(pose_results[0]["keypoints"]):
+                            result_dict_1 = Form.data_form(dict=result_dict_1, i = i1, keypoint = p1_point)
+                        data_1 = Form.make_dic(idx, bounding_Box_1, result_dict_1)
+                        # print(result_dict)
+                        RESULT_BOX[idx] = (data_1)
+                        for i2, p2_point in enumerate(pose_results[1]["keypoints"]):
+                            result_dict_2 = Form.data_form(dict=result_dict_2, i = i2, keypoint = p2_point)
+                        data_2 = Form.make_dic(idx, bounding_Box_2, result_dict_2)
+                        RESULT_BOX_2[idx] = (data_2)
+                    else:
+                        ## 단일 영상을 불러 올 때
+                        # 단 target의 경우 좌표 값을 불러와야 한다.
+                        # mongodb와 연결해서 불러올 것
+                        bounding_Box = pose_results[0]["bbox"]
+                        result_dict={}
+                        for i, p_point in enumerate(pose_results[0]["keypoints"]):
+                            result_dict = Form.data_form(dict=result_dict, i = i, keypoint = p_point)
+                        data_1 = Form.make_dic(idx, bounding_Box, result_dict)
+                        RESULT_BOX[idx] = (data_1)
+                        data_2 = ""
 
-                if option == True:
-                    ## 두개의 영상을 하나로 합칠 때
-                    # 0.1V 단 한 영상에 한명씩 나올 때  
-                    bounding_Box_1 = pose_results[0]["bbox"]
-                    bounding_Box_2 = pose_results[1]["bbox"]
-                    result_dict_1={}
-                    result_dict_2={}
-                    for i1, p1_point in enumerate(pose_results[0]["keypoints"]):
-                        result_dict_1 = Form.data_form(dict=result_dict_1, i = i1, keypoint = p1_point)
-                    data_1 = Form.make_dic(idx, bounding_Box_1, result_dict_1)
-                    # print(result_dict)
-                    RESULT_BOX[idx] = (data_1)
-                    for i2, p2_point in enumerate(pose_results[1]["keypoints"]):
-                        result_dict_2 = Form.data_form(dict=result_dict_2, i = i2, keypoint = p2_point)
-                    data_2 = Form.make_dic(idx, bounding_Box_2, result_dict_2)
-                    RESULT_BOX_2[idx] = (data_2)
-                else:
-                    ## 단일 영상을 불러 올 때
-                    # 단 target의 경우 좌표 값을 불러와야 한다.
-                    # mongodb와 연결해서 불러올 것
-                    bounding_Box = pose_results[0]["bbox"]
-                    result_dict={}
-                    for i, p_point in enumerate(pose_results[0]["keypoints"]):
-                        result_dict = Form.data_form(dict=result_dict, i = i, keypoint = p_point)
-                    data_1 = Form.make_dic(idx, bounding_Box, result_dict)
-                    RESULT_BOX[idx] = (data_1)
-                    data_2 = ""
+                    ################### 유사도 측정 알고리즘 추가 ##################################
+                    similarity_score = single_score_similarity(user_pose_result= data_1, target_pose_result= data_2)
+                    
+                    # Scoring 
+                    FACE_BODY_SCORE = scoring(similarity_score["face_body_score"], FACE_BODY_SCORE)
+                    LEFT_ARM_SCORE = scoring(similarity_score["left_arm_score"], LEFT_ARM_SCORE)
+                    RIGHT_ARM_SCORE = scoring(similarity_score["right_arm_score"], RIGHT_ARM_SCORE)
+                    LEFT_LEG_SCORE = scoring(similarity_score["left_leg_score"], LEFT_LEG_SCORE)
+                    RIGHT_LEG_SCORE = scoring(similarity_score["right_leg_score"], RIGHT_LEG_SCORE)
+                    TOTAL_SCORE = (FACE_BODY_SCORE + LEFT_ARM_SCORE + RIGHT_ARM_SCORE + LEFT_LEG_SCORE + RIGHT_LEG_SCORE)/5
 
-                ################### 유사도 측정 알고리즘 추가 ##################################
-                similarity_score = single_score_similarity(user_pose_result= data_1, target_pose_result= data_2)
-                
-                # Scoring 
-                FACE_BODY_SCORE = scoring(similarity_score["face_body_score"], FACE_BODY_SCORE)
-                LEFT_ARM_SCORE = scoring(similarity_score["left_arm_score"], LEFT_ARM_SCORE)
-                RIGHT_ARM_SCORE = scoring(similarity_score["right_arm_score"], RIGHT_ARM_SCORE)
-                LEFT_LEG_SCORE = scoring(similarity_score["left_leg_score"], LEFT_LEG_SCORE)
-                RIGHT_LEG_SCORE = scoring(similarity_score["right_leg_score"], RIGHT_LEG_SCORE)
-                TOTAL_SCORE = (FACE_BODY_SCORE + LEFT_ARM_SCORE + RIGHT_ARM_SCORE + LEFT_LEG_SCORE + RIGHT_LEG_SCORE)/5
-
-                print("얼굴 몸 점수 : ",FACE_BODY_SCORE)
-                print("왼쪽 팔 점수 : ",LEFT_ARM_SCORE)
-                print("오른 팔 점수 : ",RIGHT_ARM_SCORE)
-                print("왼쪽 발 점수 : ",LEFT_LEG_SCORE)
-                print("오른 발 점수 : ",RIGHT_LEG_SCORE)
-                print("최종 점수 : ", TOTAL_SCORE)
-
+                    print("얼굴 몸 점수 : ",FACE_BODY_SCORE)
+                    print("왼쪽 팔 점수 : ",LEFT_ARM_SCORE)
+                    print("오른 팔 점수 : ",RIGHT_ARM_SCORE)
+                    print("왼쪽 발 점수 : ",LEFT_LEG_SCORE)
+                    print("오른 발 점수 : ",RIGHT_LEG_SCORE)
+                    print("최종 점수 : ", TOTAL_SCORE)
+                except:
+                    pass
                 # post = {
                 #     "id" : play_id,
                 #     "TOTAL_Score" : TOTAL_SCORE,
@@ -155,31 +159,42 @@ class Play():
                 ############################################################################
 
                 # show the results
-                vis_img = vis_pose_result(
-                    self.pose_model,
-                    img,
-                    pose_results,
-                    kpt_score_thr=0.5,
+                vis_img = vis_pose_result( self.pose_model, img, pose_results, kpt_score_thr=0.5, 
                     radius=4,               # 원 크기
                     thickness=2,            # 관절 두께
                     show=False)
+                
                 if SHOW == True:
                     cv2.imshow('Image', vis_img)
                 # videoWriter.write(vis_img)
 
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
                 
                 ############################ client로 데이터 전송 #################################
                 json_data = {
+                    "ING" : "ing",
                     "total_score" : TOTAL_SCORE
                 }
                 message = json.dumps(json_data)
                 conn.send(message.encode())
-                ###################################################################################
-            else:
-                pass
 
+                resize_frame = cv2.resize(vis_img, dsize=(480,315), interpolation=cv2.INTER_AREA)
+                encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
+                result, imgencode = cv2.imencode('.jpg', resize_frame,encode_param)
+                data = numpy.array(imgencode)
+                stringData = base64.b64encode(data)
+                length = str(len(stringData))
+                conn.sendall(length.encode('utf-8').ljust(64))
+                conn.send(stringData)
+                print("이미지 전송")
+                # time.sleep(0.095)
+
+
+                ###################################################################################
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+            else:
+                # cv2.imshow('Image', img)
+                pass
         cap.release()
         # videoWriter.release()
         cv2.destroyAllWindows()
