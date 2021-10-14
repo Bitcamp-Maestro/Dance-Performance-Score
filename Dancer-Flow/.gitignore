@@ -12,6 +12,7 @@ config.*
 /media/target_videos/*
 /media/user_videos/*
 firebase_account.json
+test.*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

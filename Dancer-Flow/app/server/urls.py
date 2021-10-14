@@ -33,6 +33,7 @@ urlpatterns = [
     path('', include('main.urls')),
     path('main/', include('main.urls')),
     path('play/', include('play.urls')),
+    path('user/', include('user.urls')),
     path('admin/', admin.site.urls),
     # path('product', include('product.urls')),
     # path('api/product/', ProductListAPI.as_view()),

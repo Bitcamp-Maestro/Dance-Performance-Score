@@ -116,7 +116,6 @@ class PlayManager {
                     break
             }
         })
-        console.log(this.msg_handler.receivedCallBack)
     }
 
     initCaptureVideo(video) {
@@ -127,7 +126,6 @@ class PlayManager {
 
         function gotStream(stream) {
             // video.src = window.URL.createObjectURL(stream);
-            console.log(stream.getTracks())
             video.srcObject = stream;
             video.play();
         }
@@ -156,11 +154,8 @@ class PlayManager {
         // this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
         function intro(count){
-            console.log(count)
-
             this.context.clearRect(this.canvas.width/4+100,this.canvas.height/3-50, this.canvas.width/2-150, this.canvas.height/2-50);
 
-            
             // this.context.globalAlpha = 0.2;
             // this.context.fillRect(this.canvas.width/4+100, this.canvas.height/3-50, this.canvas.width/2-150, this.canvas.height/2-50)
 
@@ -234,7 +229,6 @@ class PlayManager {
     }
     updateScore(score) {
         this.score += score
-        console.log(this.score)
         this.context.font = `${0.0035*this.canvas.width}rem Brush Script MT`;
         this.context.strokeStyle= '#ffbb54'
         this.context.strokeText(this.score, 20, this.canvas.height - 30);
@@ -258,8 +252,6 @@ class PlayManager {
         const text_enc = new TextEncoder() // utf-8
         const stream = this.canvas.captureStream();
         this.rec = new MediaRecorder(stream);
-        console.log(stream)
-        console.log(this.rec)
 
         function datatoBlob(dataURL, stamp=null) {
             let array, binary, i, len;
@@ -290,14 +282,15 @@ class PlayManager {
                  console.log(e)
                  console.log(e.timeStamp)
                 let data =new File(chunks,`${this.config.pid}_${e.timeStamp}.mp4`, {type: 'video/mp4'})
-                data.arrayBuffer().then(buf=>{
-                    let text_buf = text_enc.encode(`${this.config.pid}_${e.timeStamp};`)
-                    let text_buf2 = text_enc.encode(`ajsdf_${this.config.pid}_${e.timeStamp};`)
-                    let media_buf = new Uint8Array(buf)
-                    let data = new Uint8Array(text_buf.length + media_buf.length)
-                    data.set(text_buf)
-                    data.set(media_buf, text_buf.length)
-                    this.msg_handler.send(data)
+                this.msg_handler.send(data)
+                // data.arrayBuffer().then(buf=>{
+                //     let text_buf = text_enc.encode(`${this.config.pid}_${e.timeStamp};`)
+                //     let text_buf2 = text_enc.encode(`ajsdf_${this.config.pid}_${e.timeStamp};`)
+                //     let media_buf = new Uint8Array(buf)
+                //     let data = new Uint8Array(text_buf.length + media_buf.length)
+                //     data.set(text_buf)
+                //     data.set(media_buf, text_buf.length)
+                //     this.msg_handler.send(data)
                     
                     // const videoDownloadlink = document.createElement("a");
                     // videoDownloadlink.href = URL.createObjectURL(data);
@@ -305,28 +298,26 @@ class PlayManager {
                     // videoDownloadlink.download = `${this.config.pid}_${e.timeStamp}.webm`;
                     // document.body.appendChild(videoDownloadlink);
                     // document.body.appendChild(document.createElement('br'))
-                })
+                // })
             
             }
-            setTimeout(()=> recorder.stop(), 2000); // we'll have a 2s media file
+            setTimeout(()=> recorder.stop(), 2500); // we'll have a 2.5s media file
             recorder.start();
          }
-         if (this.video.getAttribute('data-play-mode') == 'realtime'){
-             // generate a new file every 5s
-            //  setInterval(send_chunk.bind(this), 2000);
-         }
+
+        send_chunk.bind(this)
           
         this.rec.addEventListener('dataavailable', e=>{
-            chunks.push(e.data)
+            // chunks.push(e.data)
             // console.log(e)
             // console.log(e.data)
             
             let blob = new File([e.data], 'asdf.mp4', {type: 'video/mp4'})
             // console.log(chunks)
-            console.log(blob)
+            // console.log(blob)
             // console.log(chunks.slice(chunks.length-1))
             // this.msg_handler.send(blob)
-            this.msg_handler.send(blob)
+            // this.msg_handler.send(blob)
             return
      
             blob.arrayBuffer().then(buf=>{
@@ -362,7 +353,7 @@ class PlayManager {
             play_data.append('total_score', this.score)
             play_data.append('parts_score', JSON.stringify(parts_score))
             play_data.append('datetime', new Date(Date.now()).toString())
-            this.msg_handler.sendResult('http://220.123.224.95:9000/play/?pid=' + this.config.pid, play_data)
+            this.msg_handler.sendResult('http://127.0.0.1:8000/play/?pid=' + this.config.pid, play_data)
         })
 
         this.play_video.addEventListener('ended', e => {
@@ -528,7 +519,7 @@ function main() {
     const pid = document.querySelector('#userVideo').getAttribute('data-pid')
     // let msg_handler = new MessageHandler('ws://192.168.0.12:5050')
     // let msg_handler = new MessageHandler('ws://192.168.0.28:8000/ws/play/' + pid)
-    let msg_handler = new MessageHandler('ws://220.123.224.95:9000/ws/play/' + pid)
+    let msg_handler = new MessageHandler('ws://127.0.0.1:8000/ws/play/' + pid)
     console.log(navigator)
     const manager = new PlayManager(navigator, msg_handler, pid)
     manager.main()

@@ -113,58 +113,7 @@ class PlayView(TemplateView):
             song_list = []
             for song_id in play_data['songs']:
                 song_list.append(song_id.get().to_dict())
-            
-            ########################################################
-            ########################################################
-            ########################################################
-            import cv2
-            import numpy
-            import base64
-            import socket
-            import json
-            host = "127.0.0.1"  # 모델 엔진 서버 IP 주소
-            port = 5050  # 모델 엔진 서버 통신 포트
-            mySocket = socket.socket()
-            mySocket.connect((host, port))
-            json_data = {
-                    "pid" : "qqq",
-                    "target" : "C:/JGBH/Dancer-Flow/model_server/module/sample_data/BTS-Dynamite1-3.mp4",
-                    "path" : "C:/JGBH/Dancer-Flow/model_server/module/sample_data/sample.mp4"
-            }
-            message = json.dumps(json_data)
-            mySocket.send(message.encode())
-            while True:
-                data = mySocket.recv(2048)
-                ret_data = json.loads(data.decode())
-                if ret_data["ING"] == "finish":
-                    mySocket.close()
-                    break
-                else:
-                    print("답변 : ")
-                    print(ret_data['total_score'])
-                length = recvall(mySocket, 64)
-                length1 = length.decode('utf-8')
-                stringData = recvall(mySocket, int(length1))
-                data = numpy.frombuffer(base64.b64decode(stringData), numpy.uint8)
-                decimg = cv2.imdecode(data,1)
-
-
-                text = "Score : {}".format(str(ret_data['total_score']))
-                org=(50,100)
-                font = cv2.FONT_HERSHEY_SIMPLEX
-                cv2.putText(decimg, text,org, font,1,(255,0,0),2 )
-                
-                
-                
-                cv2.imshow("image", decimg)
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
-                    
-            cv2.destroyAllWindows()
-            mySocket.close()
-            ########################################################
-            ########################################################
-            ########################################################
+        
 
             context = {
                 'pid' : req.GET['pid'],
@@ -241,17 +190,3 @@ class PreShareView(TemplateView):
 
 
 
-
-
-##############################################################
-##############################################################
-##############################################################
-##############################################################
-def recvall(sock, count):
-    buf = b''
-    while count:
-        newbuf = sock.recv(count)
-        if not newbuf: return None
-        buf += newbuf
-        count -= len(newbuf)
-    return buf
