@@ -46,12 +46,13 @@ class PlayManager {
         this.rec = null
         this.fps = 30
         this.loopID = null
+        this.chunkLoopID = null
         this.score = 0
        
         this.msg_handler = msg_handler
         this.config = {
             pid: pid,
-            id: this.msg_handler.clientID,
+            id: this.msg_handler.CLIENT_ID,
             start_date: new Date(Date.now()).toString()
         }
         this.URL = this.msg_handler.URL
@@ -253,26 +254,6 @@ class PlayManager {
         const stream = this.canvas.captureStream();
         this.rec = new MediaRecorder(stream);
 
-        function datatoBlob(dataURL, stamp=null) {
-            let array, binary, i, len;
-            i = 0;
-            binary = atob(dataURL.split(',')[1]);
-            if (stamp !== null)
-            array = [];
-            while( i < stamp.length){
-                array.push(stamp.charCodeAt(i))
-                i++
-            }
-            array.push(',')
-            i = 0;
-            len = binary.length;
-            while (i < len) {
-                array.push(binary.charCodeAt(i));
-                i++;
-            }
-            return new Blob([new Uint8Array(array)], {type: 'image/png'});
-        };
-
         function send_chunk(){
             let recorder = new MediaRecorder(stream);
             let chunks = [];
@@ -301,18 +282,19 @@ class PlayManager {
                 // })
             
             }
-            setTimeout(()=> recorder.stop(), 2500); // we'll have a 2.5s media file
+            setTimeout(()=> recorder.stop(), 2000); // we'll have a 2.5s media file
             recorder.start();
          }
 
-        send_chunk.bind(this)
+         const CHUNK_LOOP_ID = setInterval(send_chunk.bind(this), 2000)
+         this.msg_handler.setChunkLoopID(CHUNK_LOOP_ID) 
           
         this.rec.addEventListener('dataavailable', e=>{
-            // chunks.push(e.data)
+            chunks.push(e.data)
             // console.log(e)
             // console.log(e.data)
             
-            let blob = new File([e.data], 'asdf.mp4', {type: 'video/mp4'})
+            // let blob = new File([e.data], 'asdf.mp4', {type: 'video/mp4'})
             // console.log(chunks)
             // console.log(blob)
             // console.log(chunks.slice(chunks.length-1))
@@ -335,6 +317,7 @@ class PlayManager {
         this.rec.addEventListener('stop', e=>{
             console.log('stopped')
             cancelAnimationFrame(this.loopID)
+            clearInterval(this.msg_handler.CHUNK_LOOP_ID)
             this.msg_handler.close(this.config.pid)
             let video_title = this.video.getAttribute('data-title') + `_playvideo.mp4`
             this.exportVid(new Blob(chunks, {type: 'video/mp4'}), video_title)
@@ -419,15 +402,16 @@ class PlayManager {
 
 class MessageHandler {
     constructor(URL, pid=null) {
-        this.clientID = "client 1"
+        this.CLIENT_ID = "client 1"
         this.URL = URL
         this.socket = new WebSocket(this.URL)
         this.receivedCallBack = null
+        this.CHUNK_LOOP_ID = null
         this.init()
     }
     init() {
         this.socket.onopen = e => {
-            this.sendMessage('check', 'connected with client : ' + this.clientID)
+            this.sendMessage('check', 'connected with client : ' + this.CLIENT_ID)
             // this.socket.send({'pid' : 'pyj1234', 'path' : 'module/sample_data/result_test.mp4'})
         }
         this.socket.onmessage = e => {
@@ -472,6 +456,9 @@ class MessageHandler {
     }
     setReceiveCallBack(callback){
         this.receivedCallBack = callback
+    }
+    setChunkLoopID(loopID){
+        this.CHUNK_LOOP_ID = loopID
     }
     close(pid=null) {
         this.socket.send(JSON.stringify({

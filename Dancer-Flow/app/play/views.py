@@ -42,7 +42,7 @@ class OptionView(TemplateView, RedirectView):
 
             return render(req, self.template_name, context)
         else:
-            return redirect('/login')
+            return redirect('login')
 
 
     def post(self, req):
@@ -115,6 +115,8 @@ class PlayView(TemplateView):
                 song_list.append(song_id.get().to_dict())
         
 
+            user_data = play_data['user'].get().to_dict()
+
             context = {
                 'pid' : req.GET['pid'],
                 'title' : song_list[0]['title'],
@@ -122,7 +124,7 @@ class PlayView(TemplateView):
                 'play_mode' : play_data['option_upload'],
                 'video_url' : song_list[0]['file_path'],
                 'user_video_url' :  os.path.join('/', play_data['upload_path']),
-                'user' : play_data['user'],
+                'user' : user_data,
             }
             return render(req, self.template_name, context)
         else :
