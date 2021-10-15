@@ -24,7 +24,7 @@ html {
     flex-direction: row;
     justify-content: center;
     /* padding: 20px; */
-    height: 70%;
+    /* height: 70%; */
 
 }
 .video-container{
@@ -64,8 +64,8 @@ html {
 }
 
 .video-canvas {
-    width: 100%;
-    height: 100%;
+    /* width: 100%;
+    height: 100%; */
 }
 
 .video {

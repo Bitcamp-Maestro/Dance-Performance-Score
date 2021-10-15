@@ -150,7 +150,7 @@ class PlayView(TemplateView):
             'play_path' : os.path.join('/', PLAY_PATH),
             'parts_score' : json.loads(req.POST['parts_score']),
             'total_score' : req.POST['total_score'],
-            'status' : 'done',
+            # 'status' : 'done',
         })
 
 
@@ -186,6 +186,7 @@ class PreShareView(TemplateView):
             'isShared' : IS_SHARED,
             'faves' : 0,
             'views' : 0,
+            'status' : 'done',
         })
 
         return redirect(f'/community/view/{req.POST["pid"]}')

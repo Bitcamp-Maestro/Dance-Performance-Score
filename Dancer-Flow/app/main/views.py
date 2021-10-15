@@ -19,13 +19,28 @@ class TestView(TemplateView):
     def get(self, req):
       
         pid = 'PSMHCkITg6zRxOJhnlwH'
-        play_doc = DB.collection(u'Play').document(u'{}'.format(pid)).get()
-        play_doc1 = DB.collection(u'Play').document(pid).get()
-        play_doc2 = DB.collection(u'Play').document(u'PSMHCkITg6zRxOJhnlwH').get()
-        print(play_doc.to_dict())
-        print(play_doc1.to_dict())
-        print(play_doc2.to_dict())
+        # play_doc = DB.collection(u'Play').document(u'{}'.format(pid)).get()
+        # play_doc1 = DB.collection(u'Play').document(pid).get()
+        # play_doc2 = DB.collection(u'Play').document(u'PSMHCkITg6zRxOJhnlwH').get()
+        # print(play_doc.to_dict())
+        # print(play_doc1.to_dict())
+        # print(play_doc2.to_dict())
+        plays = DB.collection('Play').stream()
+        user_list = []
+        for play in plays:
+            play_data = play.to_dict()
+            user_data = play_data['user'].get().to_dict()
+            user_list.append(user_data)
 
+        for user in user_list:
+            print(user)
+            # data = play.to_dict()
+            # user_ref = play['user']
+            # print(user_ref.id)
+            
+            # play_data = play_ref.get().to_dict()
+
+            # user_data = play_data['user'].get().to_dict()
 
         # render(req,self.template_name, {"day":day,"id":id,"projectname":projectname })
         return render(req, self.template_name)

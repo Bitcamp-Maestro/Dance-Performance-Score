@@ -117,7 +117,32 @@
     <script src="/static/js/scripts.js"></script>
 
     <script src="/static/lib/PolygonChart.umd.js"></script>
-    <script src="/static/js/share.js"></script>
+    <script src="/static/js/play_result.js"></script>
+    <script>
+        // // Pentagon
+        const myData = [
+            [
+                0.6119768296901937, 0.2724477365138749, 0.239318715565223, 0.8984415079405608, 0.6583948674656563
+            ],
+            // [
+            //     0.0949616836216769, 0.3719078227713477, 0.34293616595227383, 0.460621296000123, 0.7063279854775499
+            // ],
+            // [
+            //     0.8504876012507432, 0.2653933980482446, 0.3178500882778421, 0.14247086217571958, 0.37765360881841503
+            // ],
+            // [
+            //     0.5424735313476508, 0.8882713360214234, 0.17852702924856967, 0.9788178448900138, 0.42509719540882585
+            // ],
+            // [
+            //     0.404222839154583, 0.05955589031331465, 0.45782102526548796, 0.5153100462187783, 0.17176626488842728
+            // ]
+        ]
+
+
+        let polygon_chart_el = document.getElementById("polygon-chart");
+
+        create_polygon_chart(polygon_chart_el, myData).init()
+    </script>
 
 
     <script type="text/javascript" src="/static/js/jquery.min.js"></script>

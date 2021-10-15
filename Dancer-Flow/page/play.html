@@ -100,8 +100,8 @@
                     <div class="col-md-6">
                         <div class="detail-box">
                             <div class="heading_container">
-                                <h4 class="share_user"><img src="/static/images/user.png" alt="" class="user_img">{{
-                                    user.email }}</h4>
+                                <h4 class="share_user"><img src="/static/images/user.png" alt="" class="user_img">
+                                    {{ user.email }} {{ email }}</h4>
                                 <h3>Title :{{ title }}</h3>
                                 <h4>Artist : {{ artist }}</h4>
                             </div>
@@ -120,7 +120,7 @@
                     <div class="col-md-6">
                         <div id="polygon-chart" class="polygon-chart">
                             <div class="polygon-chart-label">
-                                <span class="label-head-body">Head-Body</span>
+                                <span class="label-head-body">Face-Body</span>
                                 <span class="label-left-arm">Left-Arm</span>
                                 <span class="label-right-arm">Right-Arm</span>
                                 <span class="label-left-leg">Left-Leg</span>
@@ -169,18 +169,17 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-    <script src='/static/js/view/nav.js'></script>
-
-
+   
+    
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="/static/js/bootstrap.min.js"></script> <!-- Bootstrap framework -->
     <script src="/static/js/scripts.js"></script> <!-- Custom scripts -->
-    <script src='/static/js/play.js'></script>
-
-
     <script src="/static/lib/PolygonChart.umd.js"></script>
-    <script src="/static/js/share.js"></script>
+    
+    <script src='/static/js/view/nav.js'></script>
+    <script src="/static/js/play_result.js"></script> <!-- before play.js -->
+    <script src='/static/js/play.js'></script> 
 
 
 

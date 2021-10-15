@@ -1,33 +1,3 @@
-class GameMain{
-
-    constructor(manager, display){
-        this.display = display
-        this.manager = manager
-    }
-    main(){
-
-    }
-    init(){
-
-    }
-
-    ready(){
-
-    }
-
-    start(){
-
-    }
-    play(){
-
-
-    }
-    end(){
-
-    }
-
-
-}
 
 class PlayManager {
     constructor(navigator, msg_handler, pid) {
@@ -39,7 +9,6 @@ class PlayManager {
         this.playCanvas = document.getElementById('playCanvas')
         // this.playContext = this.playCanvas.getContext('2d'),
         if(this.video.getAttribute('data-play-mode') === 'realtime'){
-
             this.navigator = navigator
             this.navigator.getMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetuserMedia || navigator.mediaDevices.msGetUserMedia;
         }
@@ -47,8 +16,14 @@ class PlayManager {
         this.fps = 30
         this.loopID = null
         this.chunkLoopID = null
-        this.score = 0
-       
+        this.total_score = 0
+        this.parts_score = {
+            'face_body' : 0,
+            'left_arm' : 0,
+            'right_arm' : 0,
+            'left_leg' : 0,
+            'right_leg' : 0,
+        }
         this.msg_handler = msg_handler
         this.config = {
             pid: pid,
@@ -65,7 +40,7 @@ class PlayManager {
 
     }
     init() {
-        window.onresize = this.resizeCanvas.bind(this)
+        // window.onresize = this.resizeCanvas.bind(this)
         this.resizeCanvas.bind(this)()
         this.init_share_form()
 
@@ -113,7 +88,7 @@ class PlayManager {
                 case 'message':
                     break;
                 case 'update_score':
-                    this.updateScore(data.score)
+                    this.updateScore(data.score, data.parts_score)
                     break
             }
         })
@@ -134,8 +109,8 @@ class PlayManager {
 
     resizeCanvas() {
         console.log('resizing')
-        let width = parseInt(window.innerWidth * 0.5);
-        let height = parseInt(window.innerHeight * 0.8);
+        let width = parseInt(window.innerWidth * 1.);
+        let height = parseInt(window.innerHeight * 0.6);
 
         this.canvas.width = width;
         this.canvas.height = height;
@@ -155,22 +130,22 @@ class PlayManager {
         // this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
         function intro(count){
-            this.context.clearRect(this.canvas.width/4+100,this.canvas.height/3-50, this.canvas.width/2-150, this.canvas.height/2-50);
+            this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
 
             // this.context.globalAlpha = 0.2;
             // this.context.fillRect(this.canvas.width/4+100, this.canvas.height/3-50, this.canvas.width/2-150, this.canvas.height/2-50)
 
-            this.context.font = `${0.0055*this.canvas.width}rem Brush Script MT`;
-            this.context.strokeText(`Ready...`, this.canvas.width/2-50, this.canvas.height/2-80);
-            this.context.fillText(`Ready...`, this.canvas.width/2-50, this.canvas.height/2-80);
+            this.context.font = `${0.004*this.canvas.width}rem Brush Script MT`;
+            this.context.strokeText(`Ready...`, (this.canvas.width * 0.818) /2, (this.canvas.height*0.798) / 2);
+            this.context.fillText(`Ready...`, (this.canvas.width * 0.818) /2, (this.canvas.height * 0.798) /2);
     
             if (count > 0){
-                this.context.strokeText(`${count}`, this.canvas.width/2-30, this.canvas.height/2-20);
-                this.context.fillText(`${count}`, this.canvas.width/2-30, this.canvas.height/2-20);
+                this.context.strokeText(`${count}`, (this.canvas.width * 0.919) /2, (this.canvas.height * 1.2519) /2);
+                this.context.fillText(`${count}`, (this.canvas.width * 0.919) /2, (this.canvas.height * 1.2519) /2);
             }
             else{
-                this.context.strokeText(`Start !`, this.canvas.width/2-50, this.canvas.height/2-20);
-                this.context.fillText(`Start !`, this.canvas.width/2-50, this.canvas.height/2-20);
+                this.context.strokeText(`Start !`, (this.canvas.width * 0.819) /2, (this.canvas.height * 1.2519) /2);
+                this.context.fillText(`Start !`, (this.canvas.width * 0.819) /2, (this.canvas.height * 1.2519) /2);
             }
                             
 
@@ -208,40 +183,46 @@ class PlayManager {
         this.context.drawImage(this.play_video, 0, 0, this.play_video.videoWidth*2, this.play_video.videoHeight, this.canvas.width/2, 0, this.canvas.width, this.canvas.height);
 
         //text
-        this.context.font = `${0.003*this.canvas.width}rem Brush Script MT`;
+        this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
         this.context.strokeStyle= '#1994af'
-        this.context.strokeText('PLAY  DISPLAY', this.canvas.width/2+10, 50);
-        this.context.fillText('PLAY  DISPLAY', this.canvas.width/2+10, 50);
+        this.context.strokeText('PLAY  DISPLAY', (this.canvas.width * 1.0155) /2, this.canvas.height * 0.105);
+        this.context.fillText('PLAY  DISPLAY', (this.canvas.width * 1.0155) /2, this.canvas.height * 0.105);
         
-        this.context.font = `${0.003*this.canvas.width}rem Brush Script MT`;
+        this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
         this.context.strokeStyle= '#ffbb54'
-        this.context.strokeText('USER  DISPLAY', 20, 50);
-        this.context.fillText('USER  DISPLAY', 20, 50);
+        this.context.strokeText('USER  DISPLAY', this.canvas.width * 0.0155, this.canvas.height * 0.105);
+        this.context.fillText('USER  DISPLAY', this.canvas.width * 0.0155, this.canvas.height * 0.105);
         
-        this.context.font = `${0.0025*this.canvas.width}rem Brush Script MT`;
-        this.context.strokeText('Score', 20, this.canvas.height - 60);
-        this.context.fillText('Score', 20, this.canvas.height - 60);
+        this.context.font = `${0.00205*this.canvas.width}rem Brush Script MT`;
+        this.context.strokeText('Score', this.canvas.width * 0.0155, this.canvas.height * 0.805 );
+        this.context.fillText('Score', this.canvas.width * 0.0155, this.canvas.height * 0.805 );
         
-        this.context.font = `${0.0035*this.canvas.width}rem Brush Script MT`;
-        this.context.strokeText(this.score, 20, this.canvas.height - 30);
-        this.context.fillText(this.score, 20, this.canvas.height - 30);
+        this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
+        this.context.strokeText(this.total_score, this.canvas.width * 0.0155, this.canvas.height * 0.925);
+        this.context.fillText(this.total_score, this.canvas.width * 0.0155, this.canvas.height * 0.925);
         
         this.loopID = window.requestAnimationFrame(this.draw_play.bind(this))
     }
-    updateScore(score) {
-        this.score += score
-        this.context.font = `${0.0035*this.canvas.width}rem Brush Script MT`;
+    updateScore(score, parts_score) {
+        this.total_score += score
+        this.parts_score['face_body'] += parts_score['face_body']
+        this.parts_score['left_arm'] += parts_score['left_arm']
+        this.parts_score['right_arm'] += parts_score['right_arm']
+        this.parts_score['left_leg'] += parts_score['left_leg']
+        this.parts_score['right_leg'] += parts_score['right_leg']
+
+        this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
         this.context.strokeStyle= '#ffbb54'
-        this.context.strokeText(this.score, 20, this.canvas.height - 30);
-        this.context.fillText(this.score, 20, this.canvas.height - 30);
+        this.context.strokeText(this.total_score, this.canvas.width * 0.0515, this.canvas.height * 0.925);
+        this.context.fillText(this.total_score, this.canvas.width * 0.0515, this.canvas.height * 0.925);
     
         this.color_frame.classList.remove('score-bad')
         this.color_frame.classList.remove('score-good')
         this.color_frame.classList.remove('score-perfect')
 
-        if(score > 300){
+        if(score > 4){
             this.color_frame.classList.add('score-perfect')
-        }else if(score > 100){
+        }else if(score > 2.5){
             this.color_frame.classList.add('score-good')
         }else{
             this.color_frame.classList.add('score-bad')
@@ -250,7 +231,6 @@ class PlayManager {
     
     record() {
         const chunks = [];
-        const text_enc = new TextEncoder() // utf-8
         const stream = this.canvas.captureStream();
         this.rec = new MediaRecorder(stream);
 
@@ -260,59 +240,21 @@ class PlayManager {
             recorder.ondataavailable = e => chunks.push(e.data);
             recorder.onstop = e => {
                 // this.msg_handler.send(data)
-                 console.log(e)
-                 console.log(e.timeStamp)
+                console.log(e)
+                console.log(e.timeStamp)
                 let data =new File(chunks,`${this.config.pid}_${e.timeStamp}.mp4`, {type: 'video/mp4'})
                 this.msg_handler.send(data)
-                // data.arrayBuffer().then(buf=>{
-                //     let text_buf = text_enc.encode(`${this.config.pid}_${e.timeStamp};`)
-                //     let text_buf2 = text_enc.encode(`ajsdf_${this.config.pid}_${e.timeStamp};`)
-                //     let media_buf = new Uint8Array(buf)
-                //     let data = new Uint8Array(text_buf.length + media_buf.length)
-                //     data.set(text_buf)
-                //     data.set(media_buf, text_buf.length)
-                //     this.msg_handler.send(data)
-                    
-                    // const videoDownloadlink = document.createElement("a");
-                    // videoDownloadlink.href = URL.createObjectURL(data);
-                    // videoDownloadlink.innerText = `${this.config.pid}_${e.timeStamp}`
-                    // videoDownloadlink.download = `${this.config.pid}_${e.timeStamp}.webm`;
-                    // document.body.appendChild(videoDownloadlink);
-                    // document.body.appendChild(document.createElement('br'))
-                // })
-            
             }
-            setTimeout(()=> recorder.stop(), 2000); // we'll have a 2.5s media file
+            setTimeout(()=> recorder.stop(), 1500); 
             recorder.start();
          }
 
-         const CHUNK_LOOP_ID = setInterval(send_chunk.bind(this), 2000)
+         const CHUNK_LOOP_ID = setInterval(send_chunk.bind(this), 1500) // have a 1.5s media file
          this.msg_handler.setChunkLoopID(CHUNK_LOOP_ID) 
           
         this.rec.addEventListener('dataavailable', e=>{
             chunks.push(e.data)
-            // console.log(e)
-            // console.log(e.data)
-            
-            // let blob = new File([e.data], 'asdf.mp4', {type: 'video/mp4'})
-            // console.log(chunks)
-            // console.log(blob)
-            // console.log(chunks.slice(chunks.length-1))
-            // this.msg_handler.send(blob)
-            // this.msg_handler.send(blob)
-            return
-     
-            blob.arrayBuffer().then(buf=>{
-                let text_buf = text_enc.encode(`${this.config.pid}_${e.timeStamp};`)
-                let text_buf2 = text_enc.encode(`ajsdf_${this.config.pid}_${e.timeStamp};`)
-                let media_buf = new Uint8Array(buf)
-                let data = new Uint8Array(text_buf.length + media_buf.length)
-                data.set(text_buf)
-                data.set(media_buf, text_buf.length)
-                this.msg_handler.send(new Blob([data]))
-            })
         })
-
 
         this.rec.addEventListener('stop', e=>{
             console.log('stopped')
@@ -324,17 +266,10 @@ class PlayManager {
             
             const play_data = new FormData()
             const file = new File(chunks, video_title, {'type':'video/mp4'})
-            const parts_score = {
-                'face_body' : 2842,
-                'left_arm' : 3941,
-                'right_arm' : 2271,
-                'right_leg' : 2141,
-                'left_leg' : 3522,
-            }
             play_data.append('pid', this.config.pid)
             play_data.append('play_video', file, file.name)
-            play_data.append('total_score', this.score)
-            play_data.append('parts_score', JSON.stringify(parts_score))
+            play_data.append('total_score', this.total_score)
+            play_data.append('parts_score', JSON.stringify(this.parts_score))
             play_data.append('datetime', new Date(Date.now()).toString())
             this.msg_handler.sendResult('http://127.0.0.1:8000/play/?pid=' + this.config.pid, play_data)
         })
@@ -375,13 +310,24 @@ class PlayManager {
     }
     endGame(){
         
-        this.context.font = `${0.0055*this.canvas.width}rem Brush Script MT`;
+        this.context.font = `${0.0045*this.canvas.width}rem Brush Script MT`;
         this.context.strokeStyle= '#a65bf8'
-        this.context.strokeText('Play Done...', this.canvas.width/2-50, this.canvas.height/2-80);
-        this.context.fillText('Play Done...', this.canvas.width/2-50, this.canvas.height/2-80);
-
+        this.context.strokeText('Play Done...', (this.canvas.width * 0.818) /2, (this.canvas.height * 0.798) /2);
+        this.context.fillText('Play Done...', (this.canvas.width * 0.818) /2, (this.canvas.height * 0.798) /2);
+        
         const scoreText = document.getElementById('scoreText')
-        scoreText.innerText = 'Score : ' + this.score 
+        scoreText.innerText = 'Score : ' + this.total_score 
+
+        let polygon_chart_el = document.getElementById("polygon-chart");
+        console.log(this.parts_score)
+        let parts_list = Object.values(this.parts_score)
+        parts_list = parts_list.map(item=>{
+            return parseFloat('0.' + item)
+        })
+        parts_list.push(parts_list.shift())
+        console.log(parts_list)
+        // play_result.js function
+        create_polygon_chart(polygon_chart_el, [parts_list]).init()
 
         setTimeout(this.redirectToShare, 1500)
     }
@@ -510,5 +456,6 @@ function main() {
     console.log(navigator)
     const manager = new PlayManager(navigator, msg_handler, pid)
     manager.main()
+
 }
 main()
