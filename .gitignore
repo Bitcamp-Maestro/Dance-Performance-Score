@@ -1,8 +1,11 @@
 
 template
-webapp/nav
-webapp/webfonts
 *.zip
+/model*
+/data
+/media
+config.*
+/static/target_videos
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -133,3 +136,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+module/result/DancerFlow_target.mp4
+module/sample_data/target.mp4
+module/test.ipynb
+*.mp4
+*.pth
+model_server/module/123.json
+*.wav
+*.json
+*.wav
+*.wav
