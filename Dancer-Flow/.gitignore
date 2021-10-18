@@ -1,9 +1,13 @@
 
 template
 *.zip
-/model*
+/model/model_server/mmdet/*
+/model/model_server/mmpose/*
+/model/model_server/module/configs/*
+/model/model_server/keypoints/*
+/model/model_server/module/sample_dadta/*
+/model/model_server/module/keypoints/*
 /data
-/media
 config.*
 /static/target_videos/*
 /static/target_audio/*
