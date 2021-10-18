@@ -1,112 +1,15 @@
-
-class PlayManager {
-    constructor(navigator, msg_handler, pid) {
+class PlayView{
+    constructor(){
         this.color_frame = document.getElementById('user-canvas-frame')
         this.canvas = document.getElementById('userCanvas'),
         this.context = this.canvas.getContext('2d'),
-        this.video = document.getElementById('userVideo'),
-        this.play_video = document.getElementById('playVideo'),
         this.playCanvas = document.getElementById('playCanvas')
-        // this.playContext = this.playCanvas.getContext('2d'),
-        if(this.video.getAttribute('data-play-mode') === 'realtime'){
-            this.navigator = navigator
-            this.navigator.getMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetuserMedia || navigator.mediaDevices.msGetUserMedia;
-        }
-        this.rec = null
-        this.fps = 30
-        this.loopID = null
-        this.chunkLoopID = null
-        this.total_score = 0
-        this.parts_score = {
-            'face_body' : 0,
-            'left_arm' : 0,
-            'right_arm' : 0,
-            'left_leg' : 0,
-            'right_leg' : 0,
-        }
-        this.msg_handler = msg_handler
-        this.config = {
-            pid: pid,
-            id: this.msg_handler.CLIENT_ID,
-            start_date: new Date(Date.now()).toString()
-        }
-        this.URL = this.msg_handler.URL
-        this.start_flag = false 
+        this.score = 0
+        this.recordCallback = null
     }
-    main(){
-        this.init()
+    setRecordCallback(callback){
+        this.recordCallback = callback
     }
-    load(){
-
-    }
-    init() {
-        // window.onresize = this.resizeCanvas.bind(this)
-        this.resizeCanvas.bind(this)()
-        this.init_share_form()
-
-        this.video.addEventListener('play', e => {
-            console.log('play')
-            if(this.start_flag){
-                return
-            }else{
-                this.start_flag = true
-            }
-            this.play_video.pause()
-            
-            if(this.video.getAttribute('data-play-mode') === 'realtime'){
-                this.draw_intro(3)
-            }else if(this.video.getAttribute('data-play-mode') === 'upload'){
-                console.log('upload')
-                this.video.pause()
-                this.draw_intro(3)
-            }else{
-                console.log('error')
-            }
-            // this.draw_play()
-        }, false);
-
-        if(this.video.getAttribute('data-play-mode') === 'realtime'){
-            this.initCaptureVideo(this.video);
-        }else if(this.video.getAttribute('data-play-mode') === 'upload'){
-            // this.video.play()
-            // this.play_video.play()
-        }
-    }
-
-    init_share_form(){
-        const form = document.getElementById('shareForm')
-        form.addEventListener('sendButton', e=>{
-            
-        })
-
-    }
-
-    init_handler(){
-        this.msg_handler.setReceiveCallBack(data=>{
-            console.log(data)
-            switch (data.type) {
-                case 'message':
-                    break;
-                case 'update_score':
-                    this.updateScore(data.score, data.parts_score)
-                    break
-            }
-        })
-    }
-
-    initCaptureVideo(video) {
-        this.navigator.mediaDevices
-            .getUserMedia({audio: false, video: true})
-            .then(gotStream)
-            .catch(error => console.error(error));
-
-        function gotStream(stream) {
-            // video.src = window.URL.createObjectURL(stream);
-            video.srcObject = stream;
-            video.play();
-        }
-    }
-
     resizeCanvas() {
         console.log('resizing')
         let width = parseInt(window.innerWidth * 1.);
@@ -114,26 +17,16 @@ class PlayManager {
 
         this.canvas.width = width;
         this.canvas.height = height;
-
-        // this.playCanvas.width = width;
-        // this.playCanvas.height = height;
     }
-    draw_intro(count=3){
-        count += 1
+    
+    async draw_intro(count=3, user_video, play_video){
 
         this.context.strokeStyle= '#a65bf8'
         this.context.lineWidth = 6
         this.context.fillStyle = 'white'
 
-        // this.context.globalAlpha = 0.2;
-        // this.context.font = 'white'
-        // this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
-
-        function intro(count){
+        async function intro(count){
             this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
-
-            // this.context.globalAlpha = 0.2;
-            // this.context.fillRect(this.canvas.width/4+100, this.canvas.height/3-50, this.canvas.width/2-150, this.canvas.height/2-50)
 
             this.context.font = `${0.004*this.canvas.width}rem Brush Script MT`;
             this.context.strokeText(`Ready...`, (this.canvas.width * 0.818) /2, (this.canvas.height*0.798) / 2);
@@ -146,27 +39,27 @@ class PlayManager {
             else{
                 this.context.strokeText(`Start !`, (this.canvas.width * 0.819) /2, (this.canvas.height * 1.2519) /2);
                 this.context.fillText(`Start !`, (this.canvas.width * 0.819) /2, (this.canvas.height * 1.2519) /2);
-            }
-                            
-
+            }             
 
             if (count < 0) {
                 this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                this.play_video.play()
-                if(this.video.getAttribute('data-play-mode')  === 'upload'){
-                    this.video.play()
+                play_video.play()
+                if(user_video.getAttribute('data-play-mode')  === 'upload'){
+                    user_video.play()
                 }
-                this.init_handler()
-                this.loopID = window.requestAnimationFrame(this.draw_play.bind(this))
-                this.record()
+                this.loopID = window.requestAnimationFrame(timestamp => {
+                    this.draw_play.bind(this, timestamp, user_video, play_video, this.score)()
+                    this.recordCallback()
+                })
             }
             else{
                 setTimeout(intro.bind(this), 1000, count-1)
             }
         }
-        setTimeout(intro.bind(this), 1000, count-1)
+        
+        setTimeout(intro.bind(this), 1000, count)
     }
-    draw_play(timestamp) {        
+    draw_play(timestamp, user_video, play_video, total_score) {        
 
         this.context.save()
         
@@ -175,12 +68,12 @@ class PlayManager {
         this.context.translate(-this.canvas.width, 0)
 
         // user display
-        this.context.drawImage(this.video, 0,0, this.video.videoWidth*2, this.video.videoHeight, this.canvas.width/2, 0, this.canvas.width, this.canvas.height);
+        this.context.drawImage(user_video, 0,0, user_video.videoWidth*2, user_video.videoHeight, this.canvas.width/2, 0, this.canvas.width, this.canvas.height);
         
         this.context.restore()
 
         // model diaplay
-        this.context.drawImage(this.play_video, 0, 0, this.play_video.videoWidth*2, this.play_video.videoHeight, this.canvas.width/2, 0, this.canvas.width, this.canvas.height);
+        this.context.drawImage(play_video, 0, 0, play_video.videoWidth*2, play_video.videoHeight, this.canvas.width/2, 0, this.canvas.width, this.canvas.height);
 
         //text
         this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
@@ -198,23 +91,19 @@ class PlayManager {
         this.context.fillText('Score', this.canvas.width * 0.0155, this.canvas.height * 0.805 );
         
         this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
-        this.context.strokeText(this.total_score, this.canvas.width * 0.0155, this.canvas.height * 0.925);
-        this.context.fillText(this.total_score, this.canvas.width * 0.0155, this.canvas.height * 0.925);
+        this.context.strokeText(total_score, this.canvas.width * 0.0155, this.canvas.height * 0.925);
+        this.context.fillText(total_score, this.canvas.width * 0.0155, this.canvas.height * 0.925);
         
-        this.loopID = window.requestAnimationFrame(this.draw_play.bind(this))
+        this.loopID = window.requestAnimationFrame(timestamp=>{
+            this.draw_play.bind(this, timestamp , user_video, play_video, this.score)()
+        })
     }
-    updateScore(score, parts_score) {
-        this.total_score += score
-        this.parts_score['face_body'] += parts_score['face_body']
-        this.parts_score['left_arm'] += parts_score['left_arm']
-        this.parts_score['right_arm'] += parts_score['right_arm']
-        this.parts_score['left_leg'] += parts_score['left_leg']
-        this.parts_score['right_leg'] += parts_score['right_leg']
-
+    updateScore(score) {
+        this.score = score
         this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
         this.context.strokeStyle= '#ffbb54'
-        this.context.strokeText(this.total_score, this.canvas.width * 0.0515, this.canvas.height * 0.925);
-        this.context.fillText(this.total_score, this.canvas.width * 0.0515, this.canvas.height * 0.925);
+        this.context.strokeText(score, this.canvas.width * 0.0515, this.canvas.height * 0.925);
+        this.context.fillText(score, this.canvas.width * 0.0515, this.canvas.height * 0.925);
     
         this.color_frame.classList.remove('score-bad')
         this.color_frame.classList.remove('score-good')
@@ -228,10 +117,115 @@ class PlayManager {
             this.color_frame.classList.add('score-bad')
         }
     }
+    endGame(){
+        this.context.font = `${0.0045*this.canvas.width}rem Brush Script MT`;
+        this.context.strokeStyle= '#a65bf8'
+        this.context.strokeText('Play Done...', (this.canvas.width * 0.798) /2, (this.canvas.height * 0.798) /2);
+        this.context.fillText('Play Done...', (this.canvas.width * 0.798) /2, (this.canvas.height * 0.798) /2);
+    }
     
+}
+
+class PlayManager {
+    constructor(navigator, msg_handler, play_view, pid, URL) {
+        this.user_video = document.getElementById('userVideo'),
+        this.play_video = document.getElementById('playVideo')
+        if(this.user_video.getAttribute('data-play-mode') === 'realtime'){
+            this.navigator = navigator
+            this.navigator.getMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetuserMedia || navigator.mediaDevices.msGetUserMedia;
+        }
+        this.rec = null
+        this.fps = 30
+        this.loopID = null
+        this.chunkLoopID = null
+        this.total_score = 0
+        this.parts_score = {
+            'face_body' : 0,
+            'left_arm' : 0,
+            'right_arm' : 0,
+            'left_leg' : 0,
+            'right_leg' : 0,
+        }
+        this.msg_handler = msg_handler
+        this.play_view = play_view
+        this.config = {
+            pid: pid,
+            id: this.msg_handler.CLIENT_ID,
+            start_date: new Date(Date.now()).toString()
+        }
+        this.URL = URL
+        this.start_flag = false 
+    }
+    main(){
+        this.init()
+    }
+    init() {
+        // window.onresize = this.resizeCanvas.bind(this)
+        this.play_view.resizeCanvas.bind(this.play_view)()
+        this.play_view.setRecordCallback(this.record.bind(this))
+        this.init_handler()
+        this.user_video.addEventListener('play', e => {
+            console.log('play')
+            if(this.start_flag){
+                return
+            }else{
+                this.play_video.pause()
+                this.start_flag = true
+            }
+            
+            if(this.user_video.getAttribute('data-play-mode') === 'realtime'){
+            }else if(this.user_video.getAttribute('data-play-mode') === 'upload'){
+                console.log('upload')
+                this.user_video.pause()
+            }else{
+                console.log('error')
+            }
+
+            this.play_view.draw_intro(3, this.user_video, this.play_video)
+        }, false);
+
+        if(this.user_video.getAttribute('data-play-mode') === 'realtime'){
+            this.initCaptureVideo(this.user_video);
+        }else if(this.user_video.getAttribute('data-play-mode') === 'upload'){
+            // this.user_video.play()
+            // this.play_video.play()
+        }
+    }
+
+    init_handler(){
+        this.msg_handler.setReceiveCallBack(data=>{
+            console.log(data)
+            switch (data.type) {
+                case 'message':
+                    break;
+                case 'update_score':
+                    this.total_score += data.score
+                    this.parts_score['face_body'] += data.parts_score['face_body']
+                    this.parts_score['left_arm'] += data.parts_score['left_arm']
+                    this.parts_score['right_arm'] += data.parts_score['right_arm']
+                    this.parts_score['left_leg'] += data.parts_score['left_leg']
+                    this.parts_score['right_leg'] += data.parts_score['right_leg']            
+                    this.play_view.updateScore(this.total_score)
+                    break
+            }
+        })
+    }
+
+    initCaptureVideo(video) {
+        this.navigator.mediaDevices
+            .getUserMedia({audio: false, video: true})
+            .then(gotStream)
+            .catch(error => console.error(error));
+
+        function gotStream(stream) {
+            // video.src = window.URL.createObjectURL(stream);
+            video.srcObject = stream;
+        }
+    }
+
     record() {
         const chunks = [];
-        const stream = this.canvas.captureStream();
+        const stream = this.play_view.canvas.captureStream();
         this.rec = new MediaRecorder(stream);
 
         function send_chunk(){
@@ -261,7 +255,7 @@ class PlayManager {
             cancelAnimationFrame(this.loopID)
             clearInterval(this.msg_handler.CHUNK_LOOP_ID)
             this.msg_handler.close(this.config.pid)
-            let video_title = this.video.getAttribute('data-title') + `_playvideo.mp4`
+            let video_title = this.user_video.getAttribute('data-title') + `_playvideo.mp4`
             this.exportVid(new Blob(chunks, {type: 'video/mp4'}), video_title)
             
             const play_data = new FormData()
@@ -271,7 +265,7 @@ class PlayManager {
             play_data.append('total_score', this.total_score)
             play_data.append('parts_score', JSON.stringify(this.parts_score))
             play_data.append('datetime', new Date(Date.now()).toString())
-            this.msg_handler.sendResult('http://127.0.0.1:8000/play/?pid=' + this.config.pid, play_data)
+            this.msg_handler.sendResult(`http://${this.URL}/play/?pid=${this.config.pid}`, play_data)
         })
 
         this.play_video.addEventListener('ended', e => {
@@ -309,12 +303,8 @@ class PlayManager {
         return vid
     }
     endGame(){
-        
-        this.context.font = `${0.0045*this.canvas.width}rem Brush Script MT`;
-        this.context.strokeStyle= '#a65bf8'
-        this.context.strokeText('Play Done...', (this.canvas.width * 0.818) /2, (this.canvas.height * 0.798) /2);
-        this.context.fillText('Play Done...', (this.canvas.width * 0.818) /2, (this.canvas.height * 0.798) /2);
-        
+        this.play_view.endGame()
+    
         const scoreText = document.getElementById('scoreText')
         scoreText.innerText = 'Score : ' + this.total_score 
 
@@ -358,7 +348,6 @@ class MessageHandler {
     init() {
         this.socket.onopen = e => {
             this.sendMessage('check', 'connected with client : ' + this.CLIENT_ID)
-            // this.socket.send({'pid' : 'pyj1234', 'path' : 'module/sample_data/result_test.mp4'})
         }
         this.socket.onmessage = e => {
             const data = JSON.parse(e.data)
@@ -381,13 +370,6 @@ class MessageHandler {
     }
     sendData(type, stamp, data){
         console.log(data)
-        // let datas = new Uint8Array({
-        //     'type' : type,
-        //     'stamp' : stamp,
-        //     'data': data,
-        // })
-        // console.log(datas)
-        // this.socket.send(datas)
         this.socket.send(JSON.stringify({
             'type' : type,
             'stamp' : stamp,
@@ -449,12 +431,12 @@ class MessageHandler {
 }
 
 function main() {
+    const URL = '127.0.0.1:8000'
     const pid = document.querySelector('#userVideo').getAttribute('data-pid')
-    // let msg_handler = new MessageHandler('ws://192.168.0.12:5050')
-    // let msg_handler = new MessageHandler('ws://192.168.0.28:8000/ws/play/' + pid)
-    let msg_handler = new MessageHandler('ws://127.0.0.1:8000/ws/play/' + pid)
+    const play_view = new PlayView()
+    const msg_handler = new MessageHandler(`ws://${URL}/ws/play/${pid}`)
     console.log(navigator)
-    const manager = new PlayManager(navigator, msg_handler, pid)
+    const manager = new PlayManager(navigator, msg_handler, play_view, pid, URL)
     manager.main()
 
 }
