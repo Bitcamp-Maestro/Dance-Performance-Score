@@ -12,6 +12,7 @@ import time
 import asyncio
 from queue import Queue
 
+
 class PlayConsumer(WebsocketConsumer):
     
     def __init__(self, *args, **kwargs):
@@ -33,13 +34,13 @@ class PlayConsumer(WebsocketConsumer):
         
         self.chunk_path_queue = Queue()
 
-    def connect(self):
+    def connect(self):    # 클라이언트 연결
         self.accept()
         print(self.scope)
         self.pid = self.scope['url_route']['kwargs']['play_id']    
         self.model_socket = self.create_model_socket()
     
-    def create_model_socket(self):
+    def create_model_socket(self):     # Model 서버에 연결하기 위한 Client Socket 생성
         host = "127.0.0.1"  # 모델 엔진 서버 IP 주소
         port = 5050  # 모델 엔진 서버 통신 포트
         model_socket = socket.socket()
@@ -47,7 +48,7 @@ class PlayConsumer(WebsocketConsumer):
         print('model server connected')
         return model_socket
             
-    def model_task(self, model_socket):
+    def model_task(self, model_socket):  # 코루틴으로 분기하여 처리될 기능 
         
         json_data = {
             "pid" : self.pid,
@@ -105,8 +106,8 @@ class PlayConsumer(WebsocketConsumer):
         return buf
         
 
-    def receive(self, text_data=None, bytes_data=None, **kwargs):
-        if bytes_data != None:
+    def receive(self, text_data=None, bytes_data=None, **kwargs):   # WebSocket Client로 부터 데이터를 받을때 실행된다
+        if bytes_data != None:  # Chunk 데이터를 저장한다.
             self.stamp += 1
             data_path = os.path.join(self.app_path, f"..\\media\\chunks\\{self.pid}_{self.stamp}.mp4")
             with open(data_path, 'wb') as f:
@@ -118,7 +119,7 @@ class PlayConsumer(WebsocketConsumer):
                     print('model socket error', e)
                 return
 
-        if text_data != None:                
+        if text_data != None:   # Text 메시지를 처리한다.     
             json_data = json.loads(text_data)
             print(json_data['type'])
             if json_data['type'] =='close':
@@ -133,7 +134,7 @@ class PlayConsumer(WebsocketConsumer):
                     'result' : '200',
                 }))
         
-    def updateScore(self, score, parts_score):
+    def updateScore(self, score, parts_score):  # 업데이트 점수를 WebSocket Client로 전송
         self.send(text_data=json.dumps({
             'type' : 'update_score',
             'score' : score,

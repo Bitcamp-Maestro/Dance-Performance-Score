@@ -14,6 +14,9 @@ html {
 
 /* Play Container */
 #play-content{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     height:100%;
 }
 .top-content {
@@ -40,28 +43,61 @@ html {
     height: 95%;
     width: 100%;
     background: #ccc;
-    border: 10px solid #ddd;
+    /* border: 10px solid #ddd; */
     margin: 0 auto;
 
 }
-.score-bad{
-    border: 10px solid !important;
-    /* border-radius: 20px !important; */
-    border-image: linear-gradient(to right, #ff5454, #ffbb54, #dc6232) !important;
-    border-image-slice: 1 !important;
+
+.neon-border{
+    position: relative;
+    margin: auto 0;
+    background: linear-gradient(0deg, #000, #272727);
 }
-.score-good{
-    border: 10px solid !important;
-    /* border-radius: 20px !important; */
-    border-image: linear-gradient(to right, #ffbb54, #54ff70, #32bbdc) !important;
-    border-image-slice: 1 !important;
+.score-bad, .score-bad:before, .score-bad:after{
+    background: linear-gradient(45deg, #f73636, #f5c379, #dc6232, #f73636, #f5c379, #dc6232);
 }
-.score-perfect{
-    border: 10px solid !important;
-    /* border-radius: 20px !important; */
-    border-image: linear-gradient(to right, #f954ff, #32bbdc, #a65bf8) !important;
-    border-image-slice: 1 !important;
+.score-good, .score-good:before, .score-good:after{
+    background: linear-gradient(45deg, #e7ff61, #54ff70, #33d1f8, #e7ff61, #54ff70, #33d1f8);
 }
+.score-perfect, .score-perfect:before, .score-perfect:after{            
+    background: linear-gradient(45deg, #ef3cf5, #35d4fc, #a65bf8, #ef3cf5, #35d4fc, #a65bf8);
+}
+.neon-border:before{
+    content: '';
+    position: absolute;
+    left: -11px;
+    top: -9px;
+    background-size: 400%;
+    width: calc(101%);
+    height: calc(103%);
+    z-index: -1;
+    animation: steam 15s linear infinite;
+}
+.neon-border:after {
+    filter: blur(50px);
+    content: '';
+    position: absolute;
+    right: -14px;
+    bottom: -7%;
+    background-size: 400%;
+    width: calc(102%);
+    height: calc(113%);
+    z-index: -1;
+    animation: steam 15s linear infinite;
+}
+@keyframes steam {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 200% 0 ;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+
 
 .video-canvas {
     /* width: 100%;

@@ -1,11 +1,17 @@
+
+
 class PlayView{
     constructor(){
-        this.color_frame = document.getElementById('user-canvas-frame')
+        this.color_frame = document.getElementById('canvas-container')
         this.canvas = document.getElementById('userCanvas'),
         this.context = this.canvas.getContext('2d'),
         this.playCanvas = document.getElementById('playCanvas')
         this.score = 0
         this.recordCallback = null
+        this.canvas.width = window.screen.width * 0.95
+        this.canvas.height = window.screen.height*0.55
+        this.diff = 0
+        this.count = 5
     }
     setRecordCallback(callback){
         this.recordCallback = callback
@@ -99,22 +105,35 @@ class PlayView{
         })
     }
     updateScore(score) {
+        this.diff += score - this.score
+        this.count = this.count-1
         this.score = score
         this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
         this.context.strokeStyle= '#ffbb54'
         this.context.strokeText(score, this.canvas.width * 0.0515, this.canvas.height * 0.925);
         this.context.fillText(score, this.canvas.width * 0.0515, this.canvas.height * 0.925);
-    
-        this.color_frame.classList.remove('score-bad')
-        this.color_frame.classList.remove('score-good')
-        this.color_frame.classList.remove('score-perfect')
+        
+        // this.color_frame.classList.remove('score-bad')
+        // this.color_frame.classList.remove('score-good')
+        // this.color_frame.classList.remove('score-perfect')
 
-        if(score > 4){
-            this.color_frame.classList.add('score-perfect')
-        }else if(score > 2.5){
-            this.color_frame.classList.add('score-good')
-        }else{
-            this.color_frame.classList.add('score-bad')
+        if(this.count==0){
+            this.count=5
+            let diff = this.diff/this.count
+            if(diff > 4){
+                this.color_frame.classList.remove('score-bad')
+                this.color_frame.classList.remove('score-good')
+                this.color_frame.classList.add('score-perfect')
+            }else if(diff > 2.5){
+                this.color_frame.classList.remove('score-bad')
+                this.color_frame.classList.remove('score-perfect')
+                this.color_frame.classList.add('score-good')
+            }else{
+                this.color_frame.classList.remove('score-good')
+                this.color_frame.classList.remove('score-perfect')
+                this.color_frame.classList.add('score-bad')
+            }
+            this.diff=0     
         }
     }
     endGame(){
@@ -160,8 +179,10 @@ class PlayManager {
         this.init()
     }
     init() {
+        // resize 
         // window.onresize = this.resizeCanvas.bind(this)
-        this.play_view.resizeCanvas.bind(this.play_view)()
+        // this.play_view.resizeCanvas.bind(this.play_view)()
+
         this.play_view.setRecordCallback(this.record.bind(this))
         this.init_handler()
         this.user_video.addEventListener('play', e => {
@@ -194,7 +215,6 @@ class PlayManager {
 
     init_handler(){
         this.msg_handler.setReceiveCallBack(data=>{
-            console.log(data)
             switch (data.type) {
                 case 'message':
                     break;
@@ -234,8 +254,6 @@ class PlayManager {
             recorder.ondataavailable = e => chunks.push(e.data);
             recorder.onstop = e => {
                 // this.msg_handler.send(data)
-                console.log(e)
-                console.log(e.timeStamp)
                 let data =new File(chunks,`${this.config.pid}_${e.timeStamp}.mp4`, {type: 'video/mp4'})
                 this.msg_handler.send(data)
             }
@@ -308,6 +326,7 @@ class PlayManager {
         const scoreText = document.getElementById('scoreText')
         scoreText.innerText = 'Score : ' + this.total_score 
 
+        // polygon chart 
         let polygon_chart_el = document.getElementById("polygon-chart");
         console.log(this.parts_score)
         let parts_list = Object.values(this.parts_score)
