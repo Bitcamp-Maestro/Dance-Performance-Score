@@ -68,10 +68,24 @@
                     <li class="nav-item">
                         {% if request.session.user %}
                         <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
+<<<<<<< Updated upstream:page/index.html
                         <a class="btn-solid-reg sign-btn" href="/user/logout">logout</a>
                         {% else %}
                         <a class="btn-solid-reg sign-btn" href="/user/login">login</a>
                         {% endif %}
+=======
+                        <a class="btn-solid-reg sign-btn" href="/user">user</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn-solid-reg sign-btn" href="/user/logout">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="btn-solid-reg sign-btn" href="/user/register">Sign Up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn-solid-reg sign-btn" href="/user/login">Login</a>
+>>>>>>> Stashed changes:Dancer-Flow/page/index.html
                     </li>
                 </ul>
             </div> <!-- end of navbar-collapse -->
@@ -111,7 +125,11 @@
                     <div class="text-container">
                         <h2>Introduce</h2>
                         <p>Dancer Flow provides scoring service for dancers of all levels by measuring motion similarity
+<<<<<<< Updated upstream:page/index.html
                             in real time. Players can see how much their movements accurate to professional dancer.<br/></br/>
+=======
+                            in real time. Players can see how much their movements accurate to professional dancer.<br/>
+>>>>>>> Stashed changes:Dancer-Flow/page/index.html
                             Our open source vision model use for estimating poses of body parts such as head, shoulders,
                             elbows, and hands. Then, we compare the video to your pose using PoseNet to determine how
                             accurate their movements or pose was.</p>
