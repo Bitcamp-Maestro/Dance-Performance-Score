@@ -57,7 +57,9 @@
     transition: transform .3s ease-in-out, visibility .3s ease-in-out;
     transition: transform .3s ease-in-out, visibility .3s ease-in-out, -webkit-transform .3s ease-in-out;
 }
-
+.offcanvas-collapse:hover{
+    visibility: visible;
+}
 .offcanvas-collapse.open {
     visibility: visible;
     -webkit-transform: translateX(-100%);
@@ -340,6 +342,6 @@
     visibility: hidden;
 }
 .hide:hover{
-    visibility: visible;
-    background: rgba(30, 30, 30, 0.3);
+    visibility: visible !important;
+    background: rgba(30, 30, 30, 0.3) !important;
 }

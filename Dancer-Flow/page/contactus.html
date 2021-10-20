@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
 
   <!-- Webpage Title -->
-  <title>About Us</title>
+  <title>Contact Us</title>
 
   <!-- Styles -->
   <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
@@ -43,54 +43,58 @@
         <df-index-nav></df-index-nav>
     </div> -->
 
-  <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation">
-    <div class="container">
-      <!-- Image Logo -->
-      <a class="navbar-brand logo-image" href="/"><img src="/static/images/logo.png"
-          alt="alternative"><span>DancerFlow</span></a>
+ 
+    <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation">
+      <div class="container">
+        <!-- Image Logo -->
+        <a class="navbar-brand logo-image" href="/"><img src="/static/images/logo.png"
+            alt="alternative"><span></span></a>
+  
+        <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav ms-auto navbar-nav-scroll">
+            <li class="nav-item">
+              <a class="nav-link" href="/introduce">Introduce</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/aboutus">About us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/contactus">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/community">Community</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/ranking">Ranking</a>
+            </li>
+            {% if request.session.user %}
+            <li class="nav-item">
+              <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
+              <a class="btn-solid-reg sign-btn" href="/user">User</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn-solid-reg sign-btn" href="/user/logout">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="btn-solid-reg sign-btn" href="/user/register">Sign Up</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn-solid-reg sign-btn" href="/user/login">Login</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div> <!-- end of navbar-collapse -->
+      </div> <!-- end of container -->
+    </nav> <!-- end of navbar -->
+    <!-- End Navigation -->
+  
 
-      <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
 
-      <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav ms-auto navbar-nav-scroll">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#header">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#community">Community</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#aboutus">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#contact">Contact</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/ranking">Ranking</a>
-          </li>
-          {% if request.session.user %}
-          <li class="nav-item">
-            <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
-            <a class="btn-solid-reg sign-btn" href="/user">User</a>
-          </li>
-          <li class="nav-item">
-            <a class="btn-solid-reg sign-btn" href="/user/logout">Logout</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="btn-solid-reg sign-btn" href="/user/register">Sign Up</a>
-          </li>
-          <li class="nav-item">
-            <a class="btn-solid-reg sign-btn" href="/user/login">Login</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div> <!-- end of navbar-collapse -->
-    </div> <!-- end of container -->
-  </nav> <!-- end of navbar -->
-  <!-- End Navigation -->
 
   <!-- Contact -->
   <div id="contact" class="form-1">

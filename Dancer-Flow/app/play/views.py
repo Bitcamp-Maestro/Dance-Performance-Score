@@ -90,7 +90,7 @@ class PrePlayView(TemplateView):
     template_name = 'preplay.html'
 
     def get(self, req):
-        pass
+        return redirect('error')
 
 
 
@@ -163,11 +163,11 @@ class PlayView(TemplateView):
 class PreShareView(TemplateView):
     template_name = 'preshare.html'
 
-    # @csrf_exempt
-    # def get(self, req):
-    #     print(req.GET)
-
-    #     return redirect('/community/')
+    @csrf_exempt
+    def get(self, req):
+        print(req.GET)
+        
+        return redirect('error')
 
     @csrf_exempt
     def post(self, req):

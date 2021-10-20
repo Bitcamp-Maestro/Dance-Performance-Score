@@ -56,6 +56,9 @@ function switch_card(item){
 cards.forEach(item =>
     item.addEventListener('click', e => {
         switch_card(item);
+        if (Array.from(select_btn).includes(e.target)){
+            next_btn.click()
+        }
 }));
 cards.forEach(item => 
     item.addEventListener('dblclick', e => {
@@ -105,6 +108,9 @@ function switch_option (target_option) {
     target_option.classList.add('content-visible')
 }
 
+select_btn.forEach(btn=>btn.addEventListener('click', e=>{
+    // console.log('selected')
+}))
 prev_btn.addEventListener('click',e=>{
     switch(visible_target_option){
         case OPTION_SELECTOR.MODE:  
