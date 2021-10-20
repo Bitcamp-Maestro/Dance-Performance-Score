@@ -64,29 +64,19 @@
             <a class="nav-link" href="/ranking">Ranking</a>
           </li>
 
-          {% if request.session.user %}
           <li class="nav-item">
+            {% if request.session.user %}
             <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
-            <a class="btn-solid-reg sign-btn" href="/user">User</a>
+            <a class="btn-solid-reg sign-btn" href="/user/logout">logout</a>
+            {% else %}
+            <a class="btn-solid-reg sign-btn" href="/user/login">login</a>
+            {% endif %}
           </li>
-          <li class="nav-item">
-            <a class="btn-solid-reg sign-btn" href="/user/logout">Logout</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="btn-solid-reg sign-btn" href="/user/register">Sign Up</a>
-          </li>
-          <li class="nav-item">
-            <a class="btn-solid-reg sign-btn" href="/user/login">Login</a>
-          </li>
-          {% endif %}
-
         </ul>
       </div> <!-- end of navbar-collapse -->
     </div> <!-- end of container -->
   </nav> <!-- end of navbar -->
   <!-- End Navigation -->
-
 
   <strong>
     <h3 class='user-margin-top' align='center' style=' color: white;'>User Page</h3>
@@ -108,7 +98,9 @@
   </br>
   </br>
   <strong>
-    <h3 align='center' style=' color: white;'>User Name</h3>
+
+    <h3 align='center' style=' color: white;'>{{ user.username }}</h3>
+
   </strong>
   </br>
   <div style="display: flex;justify-content: space-around;">
@@ -128,19 +120,20 @@
   <div class="featured user-container no-gutter">
     <div class="row posts">
 
+      {% for play in play_list %}
       <div id="1" class="item new col-md-4">
-        <a href="/community/view">
+        <a href="/community/view/{{ play.pid }}">
           <div class="featured-item">
-            <h5 class="featured-score">SCORE : 65336</h5>
+            <h5 class="featured-score">SCORE : {{ play.total_score }} </h5>
             <img class="feautred-img" src="/static/images/smaple1.jpeg" alt="" height="200">
-            <h4>1. Loremipsum dolor sit amet, consectur</h4>
-            <h5 class="user-name">user name</h5>
+            <h4>{{ play.title }} </h4>
+            <h5 class="user-name">{{ user.username }}</h5>
             <div>
               <li style="list-style: none;">
                 <div class="left">
-                  <h6>date : 2021.08.26</h6>
-                  <h6>views : 3153</h6>
-                  <h6>coins : 404</h6>
+                  <h6>date : {{ play.date }}</h6>
+                  <h6>views : {{ play.views }}</h6>
+                  <h6>coins : {{ play.faves }}</h6>
                   <div style="display: flex;justify-content: flex-end;width: 380px; color:white">
                     <button
                       style="background-color: black;color: white;border-left-width: 0px;border-right-width: 0px;border-top-width: 0px;border-bottom-width: 0px;">
@@ -152,6 +145,7 @@
                     </button>
                   </div>
                 </div>
+
                 <div class="right">
                   <img class="good" src="/static/images/coin2.png" width="116" height="100" alt="">
                 </div>
@@ -161,169 +155,8 @@
         </a>
       </div>
 
-      <div id="1" class="item new col-md-4">
-        <a href="/community/view">
-          <div class="featured-item">
-            <h5 class="featured-score">SCORE : 65336</h5>
-            <img class="feautred-img" src="/static/images/smaple1.jpeg" alt="" height="200">
-            <h4>1. Loremipsum dolor sit amet, consectur</h4>
-            <h5 class="user-name">user name</h5>
-            <div>
-              <li style="list-style: none;">
-                <div class="left">
-                  <h6>date : 2021.08.26</h6>
-                  <h6>views : 3153</h6>
-                  <h6>coins : 404</h6>
-                  <div style="display: flex;justify-content: flex-end;width: 380px; color:white">
-                    <button
-                      style="background-color: black;color: white;border-left-width: 0px;border-right-width: 0px;border-top-width: 0px;border-bottom-width: 0px;">
-                      <svg class="bi bi-three-dots-vertical" width="1em" height="1em" viewbox="0 0 16 16"
-                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                          d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                <div class="right">
-                  <img class="good" src="/static/images/coin2.png" width="116" height="100" alt="">
-                </div>
-              </li>
-            </div>
-          </div>
-        </a>
+      {% endfor %}
       </div>
-      <div id="1" class="item new col-md-4">
-        <a href="/community/view">
-          <div class="featured-item">
-            <h5 class="featured-score">SCORE : 65336</h5>
-            <img class="feautred-img" src="/static/images/smaple1.jpeg" alt="" height="200">
-            <h4>1. Loremipsum dolor sit amet, consectur</h4>
-            <h5 class="user-name">user name</h5>
-            <div>
-              <li style="list-style: none;">
-                <div class="left">
-                  <h6>date : 2021.08.26</h6>
-                  <h6>views : 3153</h6>
-                  <h6>coins : 404</h6>
-                  <div style="display: flex;justify-content: flex-end;width: 380px; color:white">
-                    <button
-                      style="background-color: black;color: white;border-left-width: 0px;border-right-width: 0px;border-top-width: 0px;border-bottom-width: 0px;">
-                      <svg class="bi bi-three-dots-vertical" width="1em" height="1em" viewbox="0 0 16 16"
-                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                          d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                <div class="right">
-                  <img class="good" src="/static/images/coin2.png" width="116" height="100" alt="">
-                </div>
-              </li>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div id="1" class="item new col-md-4">
-        <a href="/community/view">
-          <div class="featured-item">
-            <h5 class="featured-score">SCORE : 65336</h5>
-            <img class="feautred-img" src="/static/images/smaple1.jpeg" alt="" height="200">
-            <h4>1. Loremipsum dolor sit amet, consectur</h4>
-            <h5 class="user-name">user name</h5>
-            <div>
-              <li style="list-style: none;">
-                <div class="left">
-                  <h6>date : 2021.08.26</h6>
-                  <h6>views : 3153</h6>
-                  <h6>coins : 404</h6>
-                  <div style="display: flex;justify-content: flex-end;width: 380px; color:white">
-                    <button
-                      style="background-color: black;color: white;border-left-width: 0px;border-right-width: 0px;border-top-width: 0px;border-bottom-width: 0px;">
-                      <svg class="bi bi-three-dots-vertical" width="1em" height="1em" viewbox="0 0 16 16"
-                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                          d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                <div class="right">
-                  <img class="good" src="/static/images/coin2.png" width="116" height="100" alt="">
-                </div>
-              </li>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div id="1" class="item new col-md-4">
-        <a href="/community/view">
-          <div class="featured-item">
-            <h5 class="featured-score">SCORE : 65336</h5>
-            <img class="feautred-img" src="/static/images/smaple1.jpeg" alt="" height="200">
-            <h4>1. Loremipsum dolor sit amet, consectur</h4>
-            <h5 class="user-name">user name</h5>
-            <div>
-              <li style="list-style: none;">
-                <div class="left">
-                  <h6>date : 2021.08.26</h6>
-                  <h6>views : 3153</h6>
-                  <h6>coins : 404</h6>
-                  <div style="display: flex;justify-content: flex-end;width: 380px; color:white">
-                    <button
-                      style="background-color: black;color: white;border-left-width: 0px;border-right-width: 0px;border-top-width: 0px;border-bottom-width: 0px;">
-                      <svg class="bi bi-three-dots-vertical" width="1em" height="1em" viewbox="0 0 16 16"
-                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                          d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                <div class="right">
-                  <img class="good" src="/static/images/coin2.png" width="116" height="100" alt="">
-                </div>
-              </li>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div id="1" class="item new col-md-4">
-        <a href="/community/view">
-          <div class="featured-item">
-            <h5 class="featured-score">SCORE : 65336</h5>
-            <img class="feautred-img" src="/static/images/smaple1.jpeg" alt="" height="200">
-            <h4>1. Loremipsum dolor sit amet, consectur</h4>
-            <h5 class="user-name">user name</h5>
-            <div>
-              <li style="list-style: none;">
-                <div class="left">
-                  <h6>date : 2021.08.26</h6>
-                  <h6>views : 3153</h6>
-                  <h6>coins : 404</h6>
-                  <div style="display: flex;justify-content: flex-end;width: 380px; color:white">
-                    <button
-                      style="background-color: black;color: white;border-left-width: 0px;border-right-width: 0px;border-top-width: 0px;border-bottom-width: 0px;">
-                      <svg class="bi bi-three-dots-vertical" width="1em" height="1em" viewbox="0 0 16 16"
-                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                          d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                <div class="right">
-                  <img class="good" src="/static/images/coin2.png" width="116" height="100" alt="">
-                </div>
-              </li>
-            </div>
-          </div>
-        </a>
-      </div>
-
-    </div>
   </div>
 
   <!-- View Template -->

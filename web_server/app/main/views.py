@@ -81,7 +81,7 @@ class CommunityView(TemplateView):
             play['date']  = '%04d-%02d-%02d %02d:%02d:%02d' % (date.year, date.month, date.day, date.hour+9, date.minute, date.second)
             data.append({'id' : doc.id, **play })
         
-        print(data)
+        # print(data)
         context = {
             'plays' : data,
         }
@@ -97,13 +97,20 @@ class CommunityVideoView(TemplateView):
     template_name = 'community_view.html'
 
     def get(self, req, play_id):
-        
+        print(req.META )
+        print(req.META['HTTP_REFERER'] )
         play_ref = DB.collection('Play').document(play_id)
         play_data = play_ref.get().to_dict()
 
+        play_data['views']
+        play_ref.update({
+            'views' : play_data['views'] + 1
+        })
+
         user_data = play_data['user'].get().to_dict()
 
-        return render(req, self.template_name, {**play_data, 'user_name' : user_data['email']})
+
+        return render(req, self.template_name, {**play_data, 'user_name' : user_data['email'], 'views' : play_data['views'] + 1})
 
     def post(self, req):
         pass

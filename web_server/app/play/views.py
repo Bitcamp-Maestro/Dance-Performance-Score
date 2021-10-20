@@ -150,7 +150,7 @@ class PlayView(TemplateView):
             'play_path' : os.path.join('/', PLAY_PATH),
             'parts_score' : json.loads(req.POST['parts_score']),
             'total_score' : req.POST['total_score'],
-            # 'status' : 'done',
+            'status' : 'done',
         })
 
 

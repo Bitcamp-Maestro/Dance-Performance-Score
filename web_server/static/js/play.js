@@ -159,11 +159,11 @@ class PlayManager {
         this.chunkLoopID = null
         this.total_score = 0
         this.parts_score = {
-            'face_body' : 0,
-            'left_arm' : 0,
-            'right_arm' : 0,
-            'left_leg' : 0,
-            'right_leg' : 0,
+            '1_face_body' : 0,
+            '2_right_arm' : 0,
+            '3_right_leg' : 0,
+            '4_left_leg' : 0,
+            '5_left_arm' : 0,
         }
         this.msg_handler = msg_handler
         this.play_view = play_view
@@ -220,11 +220,11 @@ class PlayManager {
                     break;
                 case 'update_score':
                     this.total_score += data.score
-                    this.parts_score['face_body'] += data.parts_score['face_body']
-                    this.parts_score['left_arm'] += data.parts_score['left_arm']
-                    this.parts_score['right_arm'] += data.parts_score['right_arm']
-                    this.parts_score['left_leg'] += data.parts_score['left_leg']
-                    this.parts_score['right_leg'] += data.parts_score['right_leg']            
+                    this.parts_score['1_face_body'] += data.parts_score['face_body']
+                    this.parts_score['2_right_arm'] += data.parts_score['right_arm']
+                    this.parts_score['3_right_leg'] += data.parts_score['right_leg']            
+                    this.parts_score['4_left_leg'] += data.parts_score['left_leg']
+                    this.parts_score['5_left_arm'] += data.parts_score['left_arm']
                     this.play_view.updateScore(this.total_score)
                     break
             }
@@ -330,9 +330,22 @@ class PlayManager {
         let polygon_chart_el = document.getElementById("polygon-chart");
         console.log(this.parts_score)
         let parts_list = Object.values(this.parts_score)
-        parts_list = parts_list.map(item=>{
-            return parseFloat('0.' + item)
+        let max_num_length = 0
+        let max_num = 0
+        parts_list.forEach(score=>{
+            let len = (score).toString().length
+            if (len > max_num_length){
+                max_num_length = len
+                max_num = score
+            }else if(len === max_num_length && score > max_num){
+                max_num = score
+            }
         })
+        parts_list = parts_list.map(score=>{
+            let len = max_num_length - (score).toString().length
+            return parseFloat('0.' + '0'.repeat(len) + score)
+        })
+        console.log(parts_list)
         parts_list.push(parts_list.shift())
         console.log(parts_list)
         // play_result.js function

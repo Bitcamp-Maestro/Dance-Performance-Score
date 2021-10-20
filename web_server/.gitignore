@@ -1,20 +1,17 @@
 
 template
 *.zip
-/model/model_server/mmdet/*
-/model/model_server/mmpose/*
-/model/model_server/module/configs/*
-/model/model_server/keypoints/*
-/model/model_server/module/sample_dadta/*
-/model/model_server/module/keypoints/*
 /data
 config.*
-/static/target_videos/*
-/static/target_audio/*
-/media/chunks/*
-/media/play_videos/*
-/media/target_videos/*
-/media/user_videos/*
+/static/target_videos/*.mp4
+/static/target_audio/*.mp4
+/media/chunks/*.mp4
+/media/play_videos/*.mp4
+/media/target_videos/*.mp4
+/media/user_videos/*.mp4
+/media/user_images/*.jpg
+/media/user_images/*.png
+/media/user_images/*.jpeg
 firebase_account.json
 test.*
 
