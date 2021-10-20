@@ -340,7 +340,7 @@ a:hover {
 .header {
 	padding-top: 8rem;
 	padding-bottom: 8rem;
-	background: url('https://source.unsplash.com/user/erondu/weekly') center center no-repeat;
+	background: url('/static/images/index_img.png') center center no-repeat;
 	background-size: cover;
 	text-align: center;
 	height:30rem;
@@ -368,6 +368,10 @@ a:hover {
 	color: #444444;
 }
 
+.header .button-container {
+	display: flex;
+	justify-content: center;
+}
 
 /************************/
 /*     Introduction     */
@@ -1167,7 +1171,7 @@ a:hover {
 	}
 	
 	.header{
-		height:42rem;
+		height:98%;
 	}
 	/* General Styles */
 	.h2-heading {
@@ -1198,8 +1202,7 @@ a:hover {
 	}
 
 	.header .button-container {
-		margin-top: 3rem;
-		margin-left: 5rem;
+		margin-top: 7rem;
 	}
 	/* end of header */
 
@@ -1366,8 +1369,7 @@ a:hover {
 	}
 
 	.header .button-container {
-		margin-top: 3rem;
-		margin-left: 5rem;
+		margin-top: 8rem;
 	}
 
 	.header .btn-solid-lg,

@@ -18,9 +18,6 @@ def to_client(conn, addr, params):
     
     while True:
         try:
-            # bot = Server(srv_port=port, listen_num=listen, Ip=Ip)
-            # bot.create_sock()
-            # co_conn, co_addr = bot.ready_for_client()
             print('async task loop start')
             read = conn.recv(2048)  # 수신 데이터가 있을 때 까지 블로킹
             print('===========================')
@@ -34,7 +31,6 @@ def to_client(conn, addr, params):
             # json 데이터로 변환
             try:
                 recv_json_data = json.loads(read.decode())
-                # recv_json_data = json.loads(read.encode())
                 print("데이터 수신 : ", recv_json_data)
                 chunk_path = recv_json_data['chunk_path']
                 pid = recv_json_data['pid']

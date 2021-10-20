@@ -1,3 +1,5 @@
+
+
 from sklearn.metrics.pairwise import cosine_similarity
 
 def single_score_similarity(user_pose_result, target_pose_result, user_frame=0,  target_frame=0):
@@ -83,15 +85,15 @@ def single_score_similarity(user_pose_result, target_pose_result, user_frame=0, 
 
     #target_pose_result
     #얼굴+몸
-    nose_key2 = kupd["nose"]
-    left_eye_key2 = kupd["left_eye"]
-    right_eye_key2 = kupd["right_eye"]
-    left_ear_key2 = kupd["left_ear"]
-    right_ear_key2 = kupd["right_ear"]
-    left_shoulder_key2 = kupd["left_shoulder"]
-    right_shoulder_key2 = kupd["right_shoulder"]
-    left_hip_key2 = kupd["left_hip"]
-    right_hip_key2 = kupd["right_hip"]
+    nose_key2 = ktpd["nose"]
+    left_eye_key2 = ktpd["left_eye"]
+    right_eye_key2 = ktpd["right_eye"]
+    left_ear_key2 = ktpd["left_ear"]
+    right_ear_key2 = ktpd["right_ear"]
+    left_shoulder_key2 = ktpd["left_shoulder"]
+    right_shoulder_key2 = ktpd["right_shoulder"]
+    left_hip_key2 = ktpd["left_hip"]
+    right_hip_key2 = ktpd["right_hip"]
 
     face_body_key_x2 = ((((nose_key2[0]+left_eye_key2[0]+right_eye_key2[0]+left_ear_key2[0]+right_ear_key2[0])/5)
                         + ((left_shoulder_key2[0]+ right_shoulder_key2[0]+ left_hip_key2[0]+ right_hip_key2[0])/4))/2)
