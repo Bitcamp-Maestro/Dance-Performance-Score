@@ -30,11 +30,11 @@ router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
     # path('', include(router.urls)),
-    path('', include('main.urls')),
     path('main/', include('main.urls')),
     path('play/', include('play.urls')),
     path('user/', include('user.urls')),
     path('admin/', admin.site.urls),
+    path('', include('main.urls')),
     # path('product', include('product.urls')),
     # path('api/product/', ProductListAPI.as_view()),
     # path('api-auth', include('rest_framework.urls', namespace='rest_framework'))
