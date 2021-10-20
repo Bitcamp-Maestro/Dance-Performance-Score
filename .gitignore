@@ -1,9 +1,7 @@
 
 template
 *.zip
-/model*
 /data
-/media
 config.*
 /static/target_videos
 
@@ -23,7 +21,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -141,7 +138,6 @@ module/sample_data/target.mp4
 module/test.ipynb
 *.mp4
 *.pth
-model_server/module/123.json
 *.wav
 *.json
 *.wav
