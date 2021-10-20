@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     'main',
     'user',
     'play',
-    'product',
     'rest_framework',
     'channels'
 ]
