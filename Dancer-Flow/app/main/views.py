@@ -55,6 +55,18 @@ class IndexView(TemplateView):
         context = {'req_id':1}
         return HttpResponse(template.render(context, req))
 
+class StaticView(TemplateView):
+    
+    def get(self, req, static_name):
+        if static_name == 'aboutus':
+            return render(req, 'aboutus.html')
+        elif static_name == 'introduce':
+            return render(req, 'introduce.html')
+        elif static_name == 'contactus':
+            return render(req, 'contactus.html')
+        else:
+            return redirect('error')
+
 
 class CommunityView(TemplateView):
     
