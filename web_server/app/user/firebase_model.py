@@ -20,6 +20,14 @@ class User(object):
         self.image_path = image
 
     @classmethod
+    def isExistsID(cls, user_id):
+        doc_ref = DB.collection(cls.CLT_NAME).document(user_id)
+        if doc_ref.get().exists:
+            return doc_ref.get()
+        else:
+            return False
+
+    @classmethod
     def isExistsUserName(cls, username):
         doc = DB.collection(cls.CLT_NAME).where(cls.NAME_FIELD, u'==', username).get()
         if len(doc) == 1:
