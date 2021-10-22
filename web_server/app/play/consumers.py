@@ -13,11 +13,13 @@ from queue import Queue
 
 
 class PlayConsumer(WebsocketConsumer):
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.module_dir = os.path.dirname(__file__)
-        self.app_path = os.getcwd()
+        
+        self.CHUNK_FILE_PATH = 'media/chunks'
+        self.MODULE_DIR = os.path.dirname(__file__)
+        self.APP_PATH = os.getcwd()
         self.stamp = 0
         self.pid = None
         self.model_thread : threading.Thread = None
@@ -30,6 +32,8 @@ class PlayConsumer(WebsocketConsumer):
             'left_leg' : 0,
             'right_leg' : 0,
         }
+        self.high_chunk_score = 0
+        self.high_score_chunk_path = ''
         
         self.chunk_path_queue = Queue()
 
@@ -47,15 +51,19 @@ class PlayConsumer(WebsocketConsumer):
         print('model server connected')
         return model_socket
             
-    def model_task(self, model_socket):  # 코루틴으로 분기하여 처리될 기능 
+    def model_task(self, model_socket, chunk_path):  # 코루틴으로 분기하여 처리될 기능 
         
-        json_data = {
+        # Model Server Config Message Send 
+        user_data = {
             "pid" : self.pid,
             "chunk_path" : self.chunk_path_queue.get(),
         }
-        message = json.dumps(json_data)
+        message = json.dumps(user_data)
         self.model_socket.send(message.encode()) 
 
+        chunk_score_sum = 0
+        
+        # Scoring
         while True:
             try:
                 data = self.model_socket.recv(2048)
@@ -72,10 +80,12 @@ class PlayConsumer(WebsocketConsumer):
 
             print("답변 : ")
             print(ret_data['total_score'])
-        
-            self.total_score += int(ret_data['total_score'])
+            
+            chunk_score = int(ret_data['total_score'])
+            chunk_score_sum += chunk_score
+            self.total_score += chunk_score
             print(self.total_score)
-            self.updateScore(int(ret_data['total_score']), ret_data['parts_score'])
+            self.updateScore(chunk_score, ret_data['parts_score'])
 
             # length = self.recvall(self.model_socket, 64)
             # length1 = length.decode('utf-8')
@@ -95,6 +105,13 @@ class PlayConsumer(WebsocketConsumer):
         #     cv2.destroyAllWindows()
         # cv2.destroyAllWindows()
 
+        # Update Play Preview Data
+        if(chunk_score_sum > self.high_chunk_score):
+            self.high_chunk_score = chunk_score_sum
+            self.high_score_chunk_path = chunk_path
+            self.updatePreviewPath(self.high_score_chunk_path)
+
+
     def recvall(self, sock, count):
         buf = b''
         while count:
@@ -108,12 +125,18 @@ class PlayConsumer(WebsocketConsumer):
     def receive(self, text_data=None, bytes_data=None, **kwargs):   # WebSocket Client로 부터 데이터를 받을때 실행된다
         if bytes_data != None:  # Chunk 데이터를 저장한다.
             self.stamp += 1
-            data_path = os.path.join(self.app_path, f"..\\media\\chunks\\{self.pid}_{self.stamp}.mp4")
+            chunk_path = os.path.join(self.CHUNK_FILE_PATH, f"{self.pid}_{self.stamp}.mp4".replace('/', '', 1)).replace('\\', '/')
+            print(self.CHUNK_FILE_PATH)
+            print(chunk_path)
+            data_path = os.path.join(self.APP_PATH, f"../{chunk_path}").replace('\\', '/')
+            print(self.APP_PATH)
+            print(data_path)
+
             with open(data_path, 'wb') as f:
                 f.write(bytes_data)
                 self.chunk_path_queue.put(data_path)
                 try:
-                    asyncio.create_task(self.model_task(self.model_socket))
+                    asyncio.create_task(self.model_task(self.model_socket, chunk_path))
                 except Exception as e:
                     print('model socket error', e)
                 return
@@ -126,13 +149,16 @@ class PlayConsumer(WebsocketConsumer):
             elif json_data['type'] == 'check':
                 message = json_data['message']
                 print(message)
+                self.sendMessage(message=message)
+                
 
-                self.send(text_data=json.dumps({
-                    'type' : 'check',
-                    'message' : message,
-                    'result' : '200',
-                }))
-        
+    def sendMessage(self, message):
+        self.send(text_data=json.dumps({
+            'type' : 'check',
+            'message' : message,
+            'result' : '200',
+        }))
+
     def updateScore(self, score, parts_score):  # 업데이트 점수를 WebSocket Client로 전송
         self.send(text_data=json.dumps({
             'type' : 'update_score',
@@ -141,6 +167,12 @@ class PlayConsumer(WebsocketConsumer):
             'result' : 200, 
         }))
 
+    def updatePreviewPath(self, chunk_path):
+        self.send(text_data=json.dumps({
+            'type' : 'update_preview_path',
+            'chunk_path' : chunk_path,
+            'result' : 200, 
+        }))         
 
     def disconnect(self, code):
         self.stamp = 0

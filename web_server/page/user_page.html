@@ -125,8 +125,11 @@
         <a href="/community/view/{{ play.pid }}">
           <div class="featured-item">
             <h5 class="featured-score">SCORE : {{ play.total_score }} </h5>
-            <img class="feautred-img" src="/static/images/smaple1.jpeg" alt="" height="200">
-            <h4>{{ play.title }} </h4>
+            {% if play.play_preview_path %}
+              <video class='play-preview' src={{play.play_preview_path}}  onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;" crossOrigin="anonymous"></video>
+            {% else %}
+              <img class="feautred-img" src="/static/images/smaple1.jpeg" alt="" height="200">
+            {% endif %}            <h4>{{ play.title }} </h4>
             <h5 class="user-name">{{ user.username }}</h5>
             <div>
               <li style="list-style: none;">
