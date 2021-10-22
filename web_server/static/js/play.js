@@ -174,6 +174,7 @@ class PlayManager {
         }
         this.URL = URL
         this.start_flag = false 
+        this.preview_path = ''
     }
     main(){
         this.init()
@@ -227,6 +228,8 @@ class PlayManager {
                     this.parts_score['5_left_arm'] += data.parts_score['left_arm']
                     this.play_view.updateScore(this.total_score)
                     break
+                case 'update_preview_path':
+                    this.preview_path = data.chunk_path
             }
         })
     }
@@ -283,6 +286,7 @@ class PlayManager {
             play_data.append('total_score', this.total_score)
             play_data.append('parts_score', JSON.stringify(this.parts_score))
             play_data.append('datetime', new Date(Date.now()).toString())
+            play_data.append('preview_path', this.preview_path)
             this.msg_handler.sendResult(`http://${this.URL}/play/?pid=${this.config.pid}`, play_data)
         })
 
@@ -345,9 +349,8 @@ class PlayManager {
             let len = max_num_length - (score).toString().length
             return parseFloat('0.' + '0'.repeat(len) + score)
         })
-        console.log(parts_list)
         parts_list.push(parts_list.shift())
-        console.log(parts_list)
+        // console.log(parts_list)
         // play_result.js function
         create_polygon_chart(polygon_chart_el, [parts_list]).init()
 

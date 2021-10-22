@@ -13,6 +13,8 @@ from django.core.files.storage import default_storage
 
 UPLOAD_DIR = 'media/user_videos/'
 PLAY_DIR = 'media/play_videos/'
+PLAY_PREVIEW_DIR = 'media/play_previews/'
+CHUNK_DIR = 'media/chunks/'
 
 class OptionView(TemplateView, RedirectView):
     template_name = 'option.html'
@@ -131,23 +133,39 @@ class PlayView(TemplateView):
             return redirect('error')
 
     def post(self, req):
-        print(req)
-        print('video reci`ved')
+        print('video recived')
         print(req.POST)
         print(req.FILES)
 
         # if req.POST['type'] == 'play':
-        PLAY_PATH = os.path.join(PLAY_DIR, f"play_{req.POST['pid']}.mp4")
-
         CHUNK_SIZE = 1024
-
+        # Play Video Save
+        PLAY_PATH = os.path.join(PLAY_DIR, f"play_{req.POST['pid']}.mp4")
         with default_storage.open(os.path.join(PROJECT_DIR,PLAY_PATH),'wb+') as destination:
             for chunk in req.FILES['play_video'].chunks(CHUNK_SIZE):
                 destination.write(chunk)            
 
+        # Play Preview Save
+        PREVIEW_PATH = os.path.join(PLAY_PREVIEW_DIR, f"play_preview_{req.POST['pid']}.mp4").replace('\\', '/')
+        os.replace(os.path.join(PROJECT_DIR, f"{req.POST['preview_path']}"), os.path.join(PROJECT_DIR, f"{PREVIEW_PATH}"))
+        print('preview_path ', PREVIEW_PATH)
+
+        # Remove Chunk Data
+        chunk_path = os.path.join(PROJECT_DIR, CHUNK_DIR)
+        chunk_list =  os.listdir(chunk_path)
+        for file in chunk_list:
+            if file.startswith(f"{req.POST['pid']}_"):
+                try:
+                    os.remove(os.path.join(chunk_path, file))
+                except Exception as e:
+                    print('chunk file remove error')
+                    print(e)
+
+
         play_ref = DB.collection('Play').document(req.POST['pid'])
         play_ref.update({
             'play_path' : os.path.join('/', PLAY_PATH),
+            'play_preview_path' : os.path.join('/', PREVIEW_PATH),
             'parts_score' : json.loads(req.POST['parts_score']),
             'total_score' : req.POST['total_score'],
             'status' : 'done',

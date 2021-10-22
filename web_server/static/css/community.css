@@ -20,7 +20,10 @@ a {
 	text-decoration: none!important;
 }
 
-
+/* Preview Video */
+.play-preview{
+	width: 100%
+}
 
 /* Featured Page Style */
 .featured-page {
