@@ -52,7 +52,7 @@ class PlayConsumer(WebsocketConsumer):
         print('model server connected')
         return model_socket
             
-    def model_task(self, model_socket, chunk_path):  # 코루틴으로 분기하여 처리될 기능 
+    def model_task(self, model_socket, chunk_path, stamp):  # 코루틴으로 분기하여 처리될 기능 
         
         # Model Server Config Message Send 
         user_data = {
@@ -85,14 +85,18 @@ class PlayConsumer(WebsocketConsumer):
             chunk_score = int(ret_data['total_score'])
             chunk_score_sum += chunk_score
             self.total_score += chunk_score
-            print(self.total_score)
-            self.updateScore(chunk_score, ret_data['parts_score'])
+            # print(self.total_score)
 
-            # length = self.recvall(self.model_socket, 64)
-            # length1 = length.decode('utf-8')
-            # stringData = self.recvall(self.model_socket, int(length1))
-            # data = numpy.frombuffer(base64.b64decode(stringData), numpy.uint8)
+            length = self.recvall(self.model_socket, 64)
+            length1 = length.decode('utf-8')
+            stringData = self.recvall(self.model_socket, int(length1))
+            data = numpy.frombuffer(base64.b64decode(stringData), numpy.uint8)
             # decimg = cv2.imdecode(data,1)
+
+            # print(base64.b64encode(data).decode('ascii'))
+            # print(data)
+            self.updateScore(chunk_score, ret_data['parts_score'], base64.b64encode(data).decode('ascii'))
+            # self.sendSkeletonImage(base64.b64encode(data).decode('ascii'), data)
             
             # text = "Score : {}".format(str(ret_data['total_score']))
             # org=(50,100)
@@ -107,7 +111,8 @@ class PlayConsumer(WebsocketConsumer):
         # cv2.destroyAllWindows()
 
         # Update Play Preview Data
-        if(chunk_score_sum > self.high_chunk_score):
+        print('sum : ', chunk_score_sum)
+        if(stamp > 2 and chunk_score_sum > self.high_chunk_score):
             self.high_chunk_score = chunk_score_sum
             self.high_score_chunk_path = chunk_path
             self.updatePreviewPath(self.high_score_chunk_path)
@@ -127,17 +132,13 @@ class PlayConsumer(WebsocketConsumer):
         if bytes_data != None:  # Chunk 데이터를 저장한다.
             self.stamp += 1
             chunk_path = os.path.join(self.CHUNK_FILE_PATH, f"{self.pid}_{self.stamp}.mp4".replace('/', '', 1)).replace('\\', '/')
-            print(self.CHUNK_FILE_PATH)
-            print(chunk_path)
             data_path = os.path.join(self.APP_PATH, f"../{chunk_path}").replace('\\', '/')
-            print(self.APP_PATH)
-            print(data_path)
 
             with open(data_path, 'wb') as f:
                 f.write(bytes_data)
                 self.chunk_path_queue.put(data_path)
                 try:
-                    asyncio.create_task(self.model_task(self.model_socket, chunk_path))
+                    asyncio.create_task(self.model_task(self.model_socket, chunk_path, self.stamp))
                 except Exception as e:
                     print('model socket error', e)
                 return
@@ -151,7 +152,12 @@ class PlayConsumer(WebsocketConsumer):
                 message = json_data['message']
                 print(message)
                 self.sendMessage(message=message)
-                
+    
+    def sendSkeletonImage(self, str_data, byte_data):
+        self.send(text_data=json.dumps({
+            'type' : 'skeleton',
+            'image' : str_data,
+        }), bytes_data=byte_data)
 
     def sendMessage(self, message):
         self.send(text_data=json.dumps({
@@ -160,10 +166,11 @@ class PlayConsumer(WebsocketConsumer):
             'result' : '200',
         }))
 
-    def updateScore(self, score, parts_score):  # 업데이트 점수를 WebSocket Client로 전송
+    def updateScore(self, score, parts_score, image):  # 업데이트 점수를 WebSocket Client로 전송
         self.send(text_data=json.dumps({
             'type' : 'update_score',
             'score' : score,
+            'image' : image,
             'parts_score' : parts_score, 
             'result' : 200, 
         }))

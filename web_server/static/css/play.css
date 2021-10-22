@@ -15,12 +15,21 @@ html {
 /* Play Container */
 #play-content{
     display:flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height:100%;
 }
 .top-content {
     margin-top: 3.5rem;
+}
+.skeleton-wrapper{
+    position: absolute;
+    bottom: 170px;
+    z-index: 1;
+}
+.skeleton-canvas{
+    
 }
 .canvas-container {
     display: flex;

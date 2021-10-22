@@ -6,12 +6,18 @@ class PlayView{
         this.canvas = document.getElementById('userCanvas'),
         this.context = this.canvas.getContext('2d'),
         this.playCanvas = document.getElementById('playCanvas')
+        this.skeletonCanvas = document.getElementById('skeletonCanvas')
+        this.skeletonContext = this.skeletonCanvas.getContext('2d')
         this.score = 0
         this.recordCallback = null
         this.canvas.width = window.screen.width * 0.95
         this.canvas.height = window.screen.height*0.55
+        this.skeletonCanvas.width = window.screen.width * 0.25
+        this.skeletonCanvas.height = window.screen.height * 0.25
         this.diff = 0
         this.count = 5
+        this.skeleton_image = ''
+        this.loopID = null
     }
     setRecordCallback(callback){
         this.recordCallback = callback
@@ -81,6 +87,13 @@ class PlayView{
         // model diaplay
         this.context.drawImage(play_video, 0, 0, play_video.videoWidth*2, play_video.videoHeight, this.canvas.width/2, 0, this.canvas.width, this.canvas.height);
 
+        // skeleton
+        if(this.skeleton_image !== ''){
+            let image = new Image()
+            image.onload = ()=> this.skeletonContext.drawImage(image,0,0)
+            image.src = "data:image/png;base64," + this.skeleton_image
+        }
+
         //text
         this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
         this.context.strokeStyle= '#1994af'
@@ -99,6 +112,8 @@ class PlayView{
         this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
         this.context.strokeText(total_score, this.canvas.width * 0.0155, this.canvas.height * 0.925);
         this.context.fillText(total_score, this.canvas.width * 0.0155, this.canvas.height * 0.925);
+
+        
         
         this.loopID = window.requestAnimationFrame(timestamp=>{
             this.draw_play.bind(this, timestamp , user_video, play_video, this.score)()
@@ -112,10 +127,6 @@ class PlayView{
         this.context.strokeStyle= '#ffbb54'
         this.context.strokeText(score, this.canvas.width * 0.0515, this.canvas.height * 0.925);
         this.context.fillText(score, this.canvas.width * 0.0515, this.canvas.height * 0.925);
-        
-        // this.color_frame.classList.remove('score-bad')
-        // this.color_frame.classList.remove('score-good')
-        // this.color_frame.classList.remove('score-perfect')
 
         if(this.count==0){
             this.count=5
@@ -155,7 +166,6 @@ class PlayManager {
         }
         this.rec = null
         this.fps = 30
-        this.loopID = null
         this.chunkLoopID = null
         this.total_score = 0
         this.parts_score = {
@@ -186,6 +196,7 @@ class PlayManager {
 
         this.play_view.setRecordCallback(this.record.bind(this))
         this.init_handler()
+
         this.user_video.addEventListener('play', e => {
             console.log('play')
             if(this.start_flag){
@@ -226,10 +237,14 @@ class PlayManager {
                     this.parts_score['3_right_leg'] += data.parts_score['right_leg']            
                     this.parts_score['4_left_leg'] += data.parts_score['left_leg']
                     this.parts_score['5_left_arm'] += data.parts_score['left_arm']
+                    this.play_view.skeleton_image = data.image
                     this.play_view.updateScore(this.total_score)
                     break
                 case 'update_preview_path':
                     this.preview_path = data.chunk_path
+                    break
+                case 'skeleton':
+                    break
             }
         })
     }
@@ -273,7 +288,7 @@ class PlayManager {
 
         this.rec.addEventListener('stop', e=>{
             console.log('stopped')
-            cancelAnimationFrame(this.loopID)
+            cancelAnimationFrame(this.play_view.loopID)
             clearInterval(this.msg_handler.CHUNK_LOOP_ID)
             this.msg_handler.close(this.config.pid)
             let video_title = this.user_video.getAttribute('data-title') + `_playvideo.mp4`
@@ -385,6 +400,7 @@ class MessageHandler {
             this.sendMessage('check', 'connected with client : ' + this.CLIENT_ID)
         }
         this.socket.onmessage = e => {
+            // console.log(e)
             const data = JSON.parse(e.data)
             try{
                 this.receivedCallBack(data)
