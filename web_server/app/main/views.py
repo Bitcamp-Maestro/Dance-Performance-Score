@@ -1,8 +1,9 @@
+from django.http.response import JsonResponse
 from django.views.generic import TemplateView
 from django.template import context, loader
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-
+from user.firebase_model import User
 from server.settings import DB, BASE_DIR, PROJECT_DIR
 
 import json
@@ -74,6 +75,13 @@ class CommunityView(TemplateView):
     def get(self, req):
         
         play_docs = DB.collection('Play').stream()
+        
+        user_data = DB.collection(u'User').document(req.session.get('user'))
+        user_dict = user_data.get().to_dict()
+        faves_id_list = []
+        for play in user_dict[User.FAVES_FIELD]:
+            faves_id_list.append(play.id) 
+
         data = []
         for doc in play_docs:
             play = doc.to_dict()
@@ -84,13 +92,51 @@ class CommunityView(TemplateView):
         # print(data)
         context = {
             'plays' : data,
+            'user' : {**user_dict, 'faves_list' : faves_id_list},
         }
         
         return render(req, self.template_name, context)
 
 
     def post(self, req):
-        pass
+        PID = req.POST['pid']
+        play_data = DB.collection('Play').document(PID)
+
+        user_data = DB.collection(u'User').document(req.session.get('user'))
+        user_dict = user_data.get().to_dict()
+
+        print(user_dict[User.FAVES_FIELD])
+        
+        if user_dict[User.FAVES_FIELD]:
+            flag = False
+            faves_list : list = user_dict[User.FAVES_FIELD]
+
+            for idx, play in enumerate(user_dict[User.FAVES_FIELD]) :
+                if play_data == play:
+                    print('일치항목 존재 : ', play_data.id, ' ', play.id)
+                    print('fave list 에서 삭제')
+                    del faves_list[idx]
+                    flag = True
+                    break
+                
+            if not flag:
+                print('faves list 에 추가')
+                faves_list.append(play_data)
+
+            user_data.update({
+                User.FAVES_FIELD : faves_list
+            })
+        else:
+            print('faves list 생성')
+            user_data.update({
+                User.FAVES_FIELD : [play_data]
+            })
+        
+        return JsonResponse({
+            'result': 200,
+            'type' : req.POST['type'],
+        }, json_dumps_params={'ensure_ascii': True})
+
 
 class CommunityVideoView(TemplateView):
     

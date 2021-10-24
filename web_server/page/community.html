@@ -111,8 +111,8 @@
 
     <div class="row posts">
       {% for play in plays %}
-      <div id="1" class="item new col-md-4">
-        <a href="/community/view/{{ play.id }}">
+      <div class="view-card item new col-md-4" data-pid="{{ play.id }}" >
+        <a href='#a' data-pid="{{ play.id }}">
           <div class="featured-item">
             <h5 class="featured-score">SCORE {{ play.total_score }}</h5>
             {% if play.play_preview_path %}
@@ -130,7 +130,11 @@
                   <h6>coins {{ play.faves }}</h6>
                 </div>
                 <div class="right">
-                  <img class="good" src="/static/images/coin2.png" width="116" height="100" alt="">
+                  {% if play.id in user.faves_list %}
+                    <img class="coins good" src="/static/images/coin-on.png" width="116" height="100" alt="" data-type='on'>
+                  {% else %}
+                    <img class="coins good" src="/static/images/coin-off.png" width="116" height="100" alt="" data-type='off'>
+                  {% endif %}
                 </div>
               </li>
             </div>
@@ -169,6 +173,8 @@
     }
 
   </script>
+
+  <script src='/static/js/community.js'></script>
 </body>
 
 </html>

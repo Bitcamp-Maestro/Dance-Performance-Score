@@ -39,7 +39,7 @@ default_app = firebase_admin.initialize_app(cred)
 DB = firestore.client()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
