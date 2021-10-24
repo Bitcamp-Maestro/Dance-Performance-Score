@@ -39,7 +39,7 @@ default_app = firebase_admin.initialize_app(cred)
 DB = firestore.client()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -166,8 +166,13 @@ STATIC_URL = '/static/'
 STATIC_DIR = os.path.join(PROJECT_DIR, 'static')
 STATICFILES_DIRS = [
     STATIC_DIR,
+  os.path.join(PROJECT_DIR, '/static/'),
 ]
 
+# SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+# STATICFILES_DIRS = (
+#   os.path.join(SITE_ROOT, '/static/'),
+# )
 
 # Media files
 

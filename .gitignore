@@ -1,4 +1,6 @@
 
+/mmdet
+/mmpose
 template
 *.zip
 /data
