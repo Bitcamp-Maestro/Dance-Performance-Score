@@ -188,6 +188,24 @@ class PlayManager {
     }
     main(){
         this.init()
+        setTimeout(this.load, 5000)
+    }
+    load(){
+        let play_container = document.getElementById('play-content') 
+        let play_loader = document.getElementById('play-loader')
+        let center_text = document.getElementById('center-text-neon')
+        center_text.innerText = 'Done !'
+        setTimeout(()=>{
+            play_container.classList.remove('content-hide')
+            play_container.classList.add('content-visible')
+            play_loader.classList.remove('content-visible')
+            play_loader.classList.add('content-hide')
+        }, 1000)
+        
+        this.init()
+    }
+    loaded(){
+
     }
     init() {
         // resize 
@@ -197,29 +215,31 @@ class PlayManager {
         this.play_view.setRecordCallback(this.record.bind(this))
         this.init_handler()
 
-        this.user_video.addEventListener('play', e => {
-            console.log('play')
-            if(this.start_flag){
-                return
-            }else{
-                this.play_video.pause()
-                this.start_flag = true
-            }
+        // this.user_video.addEventListener('play', e => {
+        //     console.log('play')
+        //     if(this.start_flag){
+        //         return
+        //     }else{
+        //         this.play_video.pause()
+        //         this.start_flag = true
+        //     }
             
-            if(this.user_video.getAttribute('data-play-mode') === 'realtime'){
-            }else if(this.user_video.getAttribute('data-play-mode') === 'upload'){
-                console.log('upload')
-                this.user_video.pause()
-            }else{
-                console.log('error')
-            }
+        //     if(this.user_video.getAttribute('data-play-mode') === 'realtime'){
+        //     }else if(this.user_video.getAttribute('data-play-mode') === 'upload'){
+        //         console.log('upload')
+        //         this.user_video.pause()
+        //     }else{
+        //         console.log('error')
+        //     }
 
-            this.play_view.draw_intro(3, this.user_video, this.play_video)
-        }, false);
+        //     this.play_view.draw_intro(3, this.user_video, this.play_video)
+        // }, false);
 
+        this.play_video.pause()
         if(this.user_video.getAttribute('data-play-mode') === 'realtime'){
             this.initCaptureVideo(this.user_video);
         }else if(this.user_video.getAttribute('data-play-mode') === 'upload'){
+            this.user_video.pause()
             // this.user_video.play()
             // this.play_video.play()
         }
