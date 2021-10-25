@@ -33,12 +33,11 @@
 
 <body>
 
- 
+
   <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation">
     <div class="container">
       <!-- Image Logo -->
-      <a class="navbar-brand logo-image" href="/"><img src="/static/images/logo.png"
-          alt="alternative"><span></span></a>
+      <a class="navbar-brand logo-image" href="/"><img src="/static/images/logo.png" alt="alternative"><span></span></a>
 
       <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -117,9 +116,12 @@
           <div class="featured-item">
             <h5 class="featured-score">SCORE {{ play.total_score }}</h5>
             {% if play.play_preview_path %}
-              <video class='play-preview' src={{play.play_preview_path}}  onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;" crossOrigin="anonymous"></video>
+
+            <video class='play-preview' src={{play.play_preview_path}} onmouseover="this.play()"
+              onmouseout="this.pause();this.currentTime=0;" crossOrigin="anonymous"></video>
+
             {% else %}
-              <img class="feautred-img" src="/static/images/smaple1.jpeg" alt="" height="200">
+            <img class="feautred-img" src="/static/images/smaple1.jpeg" alt="" height="200">
             {% endif %}
             <h4>{{ play.title }}</h4>
             <h5 class="user-name"> {{ play.user.name }} </h5>
