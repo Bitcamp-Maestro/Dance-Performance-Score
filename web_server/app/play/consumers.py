@@ -9,6 +9,7 @@ import json
 import time
 import asyncio
 from queue import Queue
+import numpy
 
 
 class PlayConsumer(WebsocketConsumer):
