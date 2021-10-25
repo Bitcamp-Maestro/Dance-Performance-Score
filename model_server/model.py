@@ -28,21 +28,39 @@ def to_client(conn, addr, params):
                 exit(0)
             print(read)
             # json 데이터로 변환
+            recv_json_data = None
             try:
                 recv_json_data = json.loads(read.decode())
                 print("데이터 수신 : ", recv_json_data)
-                chunk_path = recv_json_data['chunk_path']
-                pid = recv_json_data['pid']
+                
+                
+
             except Exception as e:
                 print('receive error', e)
-            print("시작전")
-            print("path : ", chunk_path)
-            
-            # video__init__(user_video=path, target_video=target, output="result")
-            
-            asyncio.create_task(play.det_Pose_Video(user_video=chunk_path, play_id=pid, conn = conn))
+                
+            if(recv_json_data['type'] == 'chunk'):
+                chunk_path = recv_json_data['path']
+                pid = recv_json_data['pid']
+                
+                print("시작전")
+                print("path : ", chunk_path)
+                asyncio.create_task(play.det_Pose_Video(user_video=chunk_path, play_id=pid, conn = conn))
+
+            elif(recv_json_data['type'] == 'sync'):
+                start, end = video__init__(recv_json_data['user_path'], recv_json_data['play_path'], recv_json_data['pid'])
+                json_data = {
+                    'type' : 'sync',
+                    'target' : 'play',
+                    'start' : start,
+                    'end' : end,
+                }
+                
+                print(json_data)
+                message = json.dumps(json_data)
+                conn.send(message.encode())                
 
         except Exception as ex:
+            print('client connect error')
             print(ex)
             break
 

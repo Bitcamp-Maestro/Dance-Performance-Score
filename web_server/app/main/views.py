@@ -21,32 +21,13 @@ class TestView(TemplateView):
 
     def get(self, req):
       
-        pid = 'PSMHCkITg6zRxOJhnlwH'
-        # play_doc = DB.collection(u'Play').document(u'{}'.format(pid)).get()
-        # play_doc1 = DB.collection(u'Play').document(pid).get()
-        # play_doc2 = DB.collection(u'Play').document(u'PSMHCkITg6zRxOJhnlwH').get()
-        # print(play_doc.to_dict())
-        # print(play_doc1.to_dict())
-        # print(play_doc2.to_dict())
-        plays = DB.collection('Play').stream()
-        user_list = []
-        for play in plays:
-            play_data = play.to_dict()
-            user_data = play_data['user'].get().to_dict()
-            user_list.append(user_data)
+        res = render(req, self.template_name)
+        res.status_code = 206
+        res['Accept-Ranges'] = 'bytes'
+        # res['Content-Range'] ='bytes 0-1'
+        # res['Content-Length'] ='6'
 
-        for user in user_list:
-            print(user)
-            # data = play.to_dict()
-            # user_ref = play['user']
-            # print(user_ref.id)
-            
-            # play_data = play_ref.get().to_dict()
-
-            # user_data = play_data['user'].get().to_dict()
-
-        # render(req,self.template_name, {"day":day,"id":id,"projectname":projectname })
-        return render(req, self.template_name)
+        return res
 
 
 class IndexView(TemplateView):
@@ -108,8 +89,6 @@ class CommunityView(TemplateView):
         user_data = DB.collection(u'User').document(req.session.get('user'))
         user_dict = user_data.get().to_dict()
 
-        print(user_dict[User.FAVES_FIELD])
-        
         if user_dict[User.FAVES_FIELD]:
             flag = False
             faves_list : list = user_dict[User.FAVES_FIELD]
@@ -119,7 +98,7 @@ class CommunityView(TemplateView):
                     print('일치항목 존재 : ', play_data.id, ' ', play.id)
                     print('fave list 에서 삭제')
                     play_data.update({
-                        'faves' : faves - 1 if faves -1 > -1 else 0
+                        'faves' : faves - 1 if faves -1 <= 0 else 0
                     })
                     del faves_list[idx]
                     flag = True
@@ -152,8 +131,8 @@ class CommunityVideoView(TemplateView):
     template_name = 'community_view.html'
 
     def get(self, req, play_id):
-        print(req.META )
-        print(req.META['HTTP_REFERER'] )
+        # print(req.META )
+        # print(req.META['HTTP_REFERER'] )
         play_ref = DB.collection('Play').document(play_id)
         play_data = play_ref.get().to_dict()
 
