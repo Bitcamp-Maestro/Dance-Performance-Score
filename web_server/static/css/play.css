@@ -65,11 +65,11 @@ html {
 
 .center-text-neon {
     position:fixed;
-    font-size: 6rem;
+    font-size: 5rem;
     font-weight: 200;
     font-style: italic;
     color: #fff;
-    padding: 4rem 6rem 5.5rem;
+    padding:3.5rem 5rem 4rem;
     border: 0.4rem solid #fff;
     border-radius: 2rem;
     text-transform: uppercase;
@@ -136,7 +136,8 @@ html {
 }
 .skeleton-wrapper{
     position: absolute;
-    bottom: 170px;
+    bottom: 0px;
+    right : 50px;
     z-index: 2;
 }
 .skeleton-canvas{
