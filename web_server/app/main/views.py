@@ -107,8 +107,8 @@ class CommunityView(TemplateView):
             if not flag:
                 print('faves list 에 추가')
                 play_data.update({
-                        'faves' : faves + 1
-                    })
+                    'faves' : faves + 1
+                })
                 faves_list.append(play_data)
 
             user_data.update({

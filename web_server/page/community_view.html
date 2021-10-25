@@ -119,15 +119,17 @@
                 <h3 style="margin-left: 10px; margin-top: 5px;">
                     <a href="/user" style="color: white;">{{ user_name }}</a>
                 </h3>
+                
                 <div id="contentElement" style="color: white; font-size: 20px; margin-left: 10px; margin-bottom: 10px;">
                     {% for tag in tags %}
                     #{{tag}}
                     {% endfor %}
                 </div>
+                <div class="content">
+                  <p>{{ content }}</p>
+                </div>
             </div>
-            <div style="width: 5%; float: right; margin-left: 50px;">
-                <img src="/static/images/share.png" width="100%" alt="">
-            </div>
+            
             <div style="width: 15%; float: right; text-align: right; ">
                 <h4 style="color: white;">coins {{ faves }}</h4>
             </div>
