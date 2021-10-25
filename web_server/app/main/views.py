@@ -98,7 +98,7 @@ class CommunityView(TemplateView):
                     print('일치항목 존재 : ', play_data.id, ' ', play.id)
                     print('fave list 에서 삭제')
                     play_data.update({
-                        'faves' : faves - 1 if faves -1 <= 0 else 0
+                        'faves' : faves - 1 if faves -1 >= 0 else 0
                     })
                     del faves_list[idx]
                     flag = True
