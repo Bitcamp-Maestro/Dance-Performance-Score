@@ -36,8 +36,6 @@ Vue.component('df-option-mode',{
                                     <strong><h6>Upload A Video</h6></strong>
                                 </div>
                                 </br>
-                                <strong>Lorem ipsum dolor dddsit amet,</strong></br>
-                                <strong>consectetur</strong>
                                 </ul>
                             </div>
                             <div class="card-buttons mt-30 select-btn-line">
@@ -66,8 +64,6 @@ Vue.component('df-option-mode',{
                                         <strong>　</strong>
                                     </div>
                                 </br>
-                                <strong>Lorem ipsum dolor sit amet,</strong></br>
-                                <strong>consectetur</strong>
                                 </ul>
                             </div>
                             <div class="card-buttons mt-30 select-btn-line">
@@ -120,8 +116,7 @@ Vue.component('df-option-upload', {
                             
                             </div>
                             </br>
-                            <strong>Lorem ipsum dolor sit amet,</strong></br>
-                                <strong>consectetur</strong>
+
                             
                             </ul>
                         </div>
@@ -145,8 +140,7 @@ Vue.component('df-option-upload', {
                                     <strong><h6>Drag & Drop</h6></strong></br></br>
                                     <li><button style = "background-color: #211A4D ">Choose a File</button></li>
                                     </br>
-                                    <strong>Lorem ipsum dolor sit amet,</strong></br>
-                                    <strong>consectetur</strong>
+
                                 </div>
                             </ul>
                         </div>
@@ -203,8 +197,7 @@ Vue.component('df-option-display', {
                                 <button style="background-color: white; width: 161px;height: 103px; color: black;">2</button>
                                  </div>
                             </br>
-                            <strong>Lorem ipsum dolor sit amet,</strong></br>
-                            <strong>consectetur</strong>
+
                             <li>　</li>
                             </ul>
                         </div>
@@ -228,8 +221,7 @@ Vue.component('df-option-display', {
                                 <button style="background-color: white;height: 52px; color: black;">2</button>
                             </div>
                             </br>
-                            <strong>Lorem ipsum dolor sit amet,</strong></br>
-                            <strong>consectetur</strong>
+
                             <li>　</li>
                             </ul>
                         </div>
@@ -252,8 +244,7 @@ Vue.component('df-option-display', {
                                 <button style="background-color: #211A4D;height: 106px;">1</button>
                             </div>
                             </br>
-                            <strong>Lorem ipsum dolor sit amet,</strong></br>
-                            <strong>consectetur</strong>
+
                             <li>　</li>
                             </ul>
                         </div>

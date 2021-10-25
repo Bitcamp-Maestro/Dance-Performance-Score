@@ -3,7 +3,6 @@ import os
 import threading
 import json
 from urllib.parse import urlparse
-import numpy
 import base64
 import socket
 import json

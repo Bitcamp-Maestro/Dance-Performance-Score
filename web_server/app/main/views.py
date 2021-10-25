@@ -2,6 +2,7 @@ from django.views.generic import TemplateView
 from django.template import context, loader
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from numpy import average
 
 from server.settings import DB, BASE_DIR, PROJECT_DIR
 
@@ -131,15 +132,24 @@ class RankingView(TemplateView):
     
     template_name = 'ranking.html'
     def get(self, req):
-        user_data_list = []
+        user_doc = DB.collection('User').stream()
+        play_doc = DB.collection('Play').stream()
+        song_doc = DB.collection('Song').stream()
+        
         play_user_data_list = []
-        ranking = {}
+        play_song_data_list = []
+        user_data_list = []
+        song_data_list = []
+        
+        play_ranking = {}
+        song_ranking = {}
+        
+        song_count = 0
         upload_time = 0
         favorite = 0
         score = 0
-        idx = 0
-        user_doc = DB.collection('User').stream()
-        play_doc = DB.collection('Play').stream()
+ 
+
         for pdoc in play_doc:
             play_data = pdoc.to_dict()
             play_user_data = play_data['user'].get().to_dict()
@@ -148,41 +158,57 @@ class RankingView(TemplateView):
                 "faves" : play_data["faves"],
                 "score" : float(play_data["total_score"])
                 })
-        # print(play_user_data_list)
-        for udoc in  user_doc:
-            idx += 1
+
+            play_song_datas = play_data['songs']
+            for play_song_data in play_song_datas:
+                play_song_data = play_song_data.get().to_dict()
+                play_song_data_list.append({
+                    'genre' : play_song_data['genre'],
+                    'title' : play_song_data['title'],
+                    'artist' : play_song_data['artist']
+                })
+
+        for udoc in user_doc:
+            
             user_data = udoc.to_dict()
             
-            # print(play_user_data["username"])
             for i in play_user_data_list:
-                # print(i)
                 if user_data["username"] == i["username"]:
                     upload_time += 1
                     favorite += i["faves"]
                     score += int(i["score"])
-            # play_user_data_list.append(play_user_data)
-            ranking[idx] = {
-                # "image" : user_data['image_path'],
-                "username" : user_data['username'],
-                "uploadtime" : upload_time,
-                "favorite" : favorite,
-                "score" : score
-            }
 
-            user_data_list.append({
+            play_ranking[score] = {
                 "image" : user_data['image_path'],
                 "username" : user_data['username'],
                 "uploadtime" : upload_time,
                 "favorite" : favorite,
                 "score" : score
-            })
+            }
             upload_time = 0
             favorite = 0
             score = 0
+        for sdoc in song_doc:
+            song_data = sdoc.to_dict()
+            for a in play_song_data_list:
+                if song_data["title"] == a["title"]:
+                    song_count += 1
+            song_ranking[song_count] = {**song_data}
 
-        # user_data_list_sorted = sorted(user_data_list.items(), reverse=True)
-        context = {'rank_list': user_data_list}
-
+        pranking = dict(sorted(play_ranking.items(), reverse=True))
+        sranking = dict(sorted(song_ranking.items(), reverse=True))
+        pnum = 0
+        for asd in pranking.values():
+            pnum += 1
+            asd["num"] = pnum
+            user_data_list.append(asd)
+        
+        for asdf in sranking.values():
+            song_data_list.append(asdf)
+        context = {
+            'rank_list': user_data_list,
+            'song_list': song_data_list
+        }
         return render(req, 'ranking.html', context)
 
     def post(self, req):

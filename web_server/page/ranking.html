@@ -8,10 +8,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Ranking</title>
-
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="favicon.ico">
-
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
 
@@ -29,7 +25,7 @@
   <link rel="stylesheet" href="../static/assets/css/add.css">
   <!-- ======================================== -->
   <script src="../static/assets/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js"></script>
-
+  <link rel="icon" href="/static/images/icon.png">
 </head>
 
 <body class="   footer-offset">
@@ -84,49 +80,61 @@
   <!-- End Navigation -->
 
 
-<<<<<<< Updated upstream:Dancer-Flow/page/ranking.html
-  
-=======
->>>>>>> Stashed changes:web_server/page/ranking.html
   <main id="content" role="main" class="main">
     <!-- Content -->
     <div class="content container-fluid" style="width: 944px;">
       <div class="top3" style="margin-top: 10em;">
         <div class="two item">
+          {% for ranking in rank_list %}
+          {% if ranking.num == 2 %}
           <div class="pos">
             🥈
           </div>
-          <div class="pic" style="background-image: url(../static/assets/img/160x160/img3.jpg)"></div>
+          <div class="pic" style="background-image: url({{ranking.image}})"></div>
           <div class="name">
-            David Harrison
+            {{ ranking.username }}
           </div>
           <div class="score">
-            6453
+            {{ ranking.score }}
           </div>
+          {% else %}
+          {% endif %}
+          {% endfor %}
         </div>
         <div class="one item">
+          {% for ranking in rank_list %}
+          {% if ranking.num == 1 %}
           <div class="pos">
             🥇
           </div>
-          <div class="pic" style="background-image: url(../static/assets/img/160x160/img10.jpg)"></div>
+          <div class="pic" style="background-image: url({{ranking.image}})"></div>
           <div class="name">
-            Amanda Harvey
+            {{ ranking.username }}
           </div>
           <div class="score">
-            6794
-          </div>
+            {{ ranking.score }}
+          </div>        
+          {% else %}
+          {% endif %}
+          {% endfor %}
+          
         </div>
         <div class="three item">
+          {% for ranking in rank_list %}
+          {% if ranking.num == 3 %}
           <div class="pos">
             🥉
           </div>
-          <div class="pic" style="background-image: url(../static/assets/img/160x160/images.jfif)"></div>
+          <div class="pic" style="background-image: url({{ranking.image}})"></div>
           <div class="name">
-            Hunter
+            {{ ranking.username }}
           </div>
           <div class="score">
-            6034
+            {{ ranking.score }}
           </div>
+          {% else %}
+          {% endif %}
+          {% endfor %}
         </div>
       </div>
 
@@ -186,9 +194,17 @@
                   {% if rank_list %}
                   {% for ranking in rank_list %}
                   <tr>
-                    <td><span class="text-warning" style="font-size: 1.5rem;">{{ ranking.id }}</span></td>
+                    {% if ranking.num == 1 %}
+                    <td><span class="text-warning" style="font-size: 1.5rem;">🥇</span></td>
+                    {% elif ranking.num == 2 %}
+                    <td><span class="text-warning" style="font-size: 1.5rem;">🥈</span></td>
+                    {% elif ranking.num == 3 %}
+                    <td><span class="text-warning" style="font-size: 1.5rem;">🥉</span></td>
+                    {% else %}
+                    <td><span class="text-warning" style="font-size: 1.5rem;">{{ ranking.num }}</span></td>
+                    {% endif %}
                     <td class="text-left">
-                      <a class="d-flex align-items-center" href="">
+                      <a class="d-flex align-items-center" href="/user/{{ranking.username}}">
                         <div class="avatar avatar-circle">
                           <img class="avatar-img" src="{{ ranking.image }}" alt="Image Description">
                         </div>
@@ -214,7 +230,7 @@
 
 
 
-          <div class="tab-pane fade show active" id="Pop" role="tabpanel" aria-labelledby="Pop-tab">
+          <div class="tab-pane fade show" id="Pop" role="tabpanel" aria-labelledby="Pop-tab">
             <!-- Table -->
             <div class="card">
               <!-- Title -->
@@ -223,6 +239,8 @@
 
               </div>
 
+              {% for song in song_list %}
+              {% if song.genre == "pop" %}
               <!--Rancking -->
               <div class="box">
                 <!-- #01 -->
@@ -232,150 +250,21 @@
                 <div class="cover"><img src="https://m.media-amazon.com/images/I/91-kmdlsEsL._SS500_.jpg" alt="01">
                 </div>
                 <!-- Name -->
-                <div class="nate"><span>Mi gente</span> J Balin & Willy William</div>
+                <div class="nate"><span>{{ song.title }}</span> | {{ song.artist }}</div>
                 <!-- Button -->
                 <div class="link"><a href="">Ranking</a></div>
               </div>
 
               <!-- Separator -->
               <div class="separator"></div>
-
-              <div class="box">
-                <!-- #02 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">02</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
-                <!-- Name -->
-                <div class="nate"><span>Feels</span> Calvin Harris</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #03 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">03</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
-                <!-- Name -->
-                <div class="nate"><span>Attention</span> Charlie Puth</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #03 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">04</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
-                <!-- Name -->
-                <div class="nate"><span>Attention</span> Charlie Puth</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #03 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">05</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
-                <!-- Name -->
-                <div class="nate"><span>Attention</span> Charlie Puth</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #03 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">06</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
-                <!-- Name -->
-                <div class="nate"><span>Attention</span> Charlie Puth</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #02 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">07</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
-                <!-- Name -->
-                <div class="nate"><span>Feels</span> Calvin Harris</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #02 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">08</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
-                <!-- Name -->
-                <div class="nate"><span>Feels</span> Calvin Harris</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #02 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">09</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
-                <!-- Name -->
-                <div class="nate"><span>Feels</span> Calvin Harris</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #02 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">10</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
-                <!-- Name -->
-                <div class="nate"><span>Feels</span> Calvin Harris</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
-              </div>
+              {% else %}
+              {% endif %}
+              {% endfor %}
 
             </div>
 
           </div>
-          <div class="tab-pane fade show active" id="K-pop" role="tabpanel" aria-labelledby="K-pop-tab">
+          <div class="tab-pane fade show" id="K-pop" role="tabpanel" aria-labelledby="K-pop-tab">
             <!-- Table -->
             <!-- Table -->
             <div class="card">
@@ -385,6 +274,8 @@
 
               </div>
 
+              {% for song in song_list %}
+              {% if song.genre == "kpop" %}
               <!--Rancking -->
               <div class="box">
                 <!-- #01 -->
@@ -394,145 +285,17 @@
                 <div class="cover"><img src="https://m.media-amazon.com/images/I/91-kmdlsEsL._SS500_.jpg" alt="01">
                 </div>
                 <!-- Name -->
-                <div class="nate"><span>Savage Love</span> 방탄소년단</div>
+                <div class="nate"><span>{{ song.title }}</span> | {{ song.artist }}</div>
                 <!-- Button -->
                 <div class="link"><a href="">Ranking</a></div>
               </div>
 
               <!-- Separator -->
               <div class="separator"></div>
+              {% else %}
+              {% endif %}
+              {% endfor %}
 
-              <div class="box">
-                <!-- #02 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">02</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
-                <!-- Name -->
-                <div class="nate"><span>Next level</span> aespa</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #03 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">03</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
-                <!-- Name -->
-                <div class="nate"><span>신호등</span> 이무진</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #03 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">04</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
-                <!-- Name -->
-                <div class="nate"><span>Attention</span> Charlie Puth</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #03 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">05</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
-                <!-- Name -->
-                <div class="nate"><span>Attention</span> Charlie Puth</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #03 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">06</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlRum1" alt="03"></div>
-                <!-- Name -->
-                <div class="nate"><span>Attention</span> Charlie Puth</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=nfs8NYg7yQM">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #02 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">07</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
-                <!-- Name -->
-                <div class="nate"><span>Feels</span> Calvin Harris</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #02 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">08</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
-                <!-- Name -->
-                <div class="nate"><span>Feels</span> Calvin Harris</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #02 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">09</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
-                <!-- Name -->
-                <div class="nate"><span>Feels</span> Calvin Harris</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
-              </div>
-
-              <!-- Separator -->
-              <div class="separator"></div>
-
-              <div class="box">
-                <!-- #02 -->
-                <!-- Number-->
-                <div class="number" style="width: 60px;">10</div>
-                <!-- Cover -->
-                <div class="cover"><img src="http://bit.ly/2vlCeWf" alt="02"></div>
-                <!-- Name -->
-                <div class="nate"><span>Feels</span> Calvin Harris</div>
-                <!-- Button -->
-                <div class="link"><a href="https://www.youtube.com/watch?v=ozv4q2ov3Mk">Ranking</a></div>
-              </div>
             </div>
 
             <!-- End Table -->
@@ -549,7 +312,7 @@
     <div class="footer">
       <div class="row justify-content-between align-items-center">
         <div class="col">
-          <p class="font-size-sm mb-0">&copy; Front. <span class="d-none d-sm-inline-block">2020 Htmlstream.</span></p>
+          <p class="font-size-sm mb-0">&copy; Maestro. <span class="d-none d-sm-inline-block">2021 Dancer Flow.</span></p>
         </div>
         <div class="col-auto">
           <div class="d-flex justify-content-end">
