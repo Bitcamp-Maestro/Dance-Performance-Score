@@ -200,7 +200,8 @@ start_btn.addEventListener('click', async e=>{
     data.append('display', option_list[2].getAttribute('data-value'))
     data.append('songs', JSON.stringify(options.songs))
     console.log(data)
-    let res = await sendServer('http://127.0.0.1:8000/play/option/', data)
+    // let res = await sendServer('http://127.0.0.1:8000/play/option/', data)
+    let res = await sendServer('http://220.123.224.95:9000/play/option/', data)
     console.log(res)
     if(res.redirected){
         window.location.assign(res.url)
