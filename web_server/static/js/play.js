@@ -12,8 +12,8 @@ class PlayView{
         this.recordCallback = null
         this.canvas.width = window.screen.width * 0.95
         this.canvas.height = window.screen.height*0.55
-        this.skeletonCanvas.width = window.screen.width * 0.25
-        this.skeletonCanvas.height = window.screen.height * 0.25
+        this.skeletonCanvas.width = window.screen.width * 0.22
+        this.skeletonCanvas.height = window.screen.height * 0.19
         this.diff = 0
         this.count = 5
         this.skeleton_image = ''
@@ -31,7 +31,7 @@ class PlayView{
         this.canvas.height = height;
     }
     
-    async draw_intro(count=3, user_video, play_video){
+    async draw_intro(count=3, mode, user_video, play_video){
 
         this.context.strokeStyle= '#a65bf8'
         this.context.lineWidth = 6
@@ -56,11 +56,11 @@ class PlayView{
             if (count < 0) {
                 this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 play_video.play()
-                if(user_video.getAttribute('data-play-mode')  === 'upload'){
+                if(mode  === 'upload'){
                     user_video.play()
                 }
                 this.loopID = window.requestAnimationFrame(timestamp => {
-                    this.draw_play.bind(this, timestamp, user_video, play_video, this.score)()
+                    this.draw_play.bind(this, mode, timestamp, user_video, play_video, this.score)()
                     this.recordCallback()
                 })
             }
@@ -71,26 +71,32 @@ class PlayView{
         
         setTimeout(intro.bind(this), 1000, count)
     }
-    draw_play(timestamp, user_video, play_video, total_score) {        
+    draw_play(timestamp, mode, user_video, play_video, total_score) {        
 
-        this.context.save()
         
         // mirror mode 
-        this.context.scale(-1, 1)
-        this.context.translate(-this.canvas.width, 0)
+        if(mode === 'realtime'){
+            this.context.save()
+            this.context.scale(-1, 1)
+            this.context.translate(-this.canvas.width, 0)
+            // user display
+            this.context.drawImage(user_video, 0,0, user_video.videoWidth*2, user_video.videoHeight, this.canvas.width/2, 0, this.canvas.width, this.canvas.height);
+            this.context.restore()
 
-        // user display
-        this.context.drawImage(user_video, 0,0, user_video.videoWidth*2, user_video.videoHeight, this.canvas.width/2, 0, this.canvas.width, this.canvas.height);
-        
-        this.context.restore()
+        }else{
+            // user display
+            this.context.drawImage(user_video, 0,0, user_video.videoWidth*2, user_video.videoHeight, 0, 0, this.canvas.width, this.canvas.height);
+        }
 
         // model diaplay
         this.context.drawImage(play_video, 0, 0, play_video.videoWidth*2, play_video.videoHeight, this.canvas.width/2, 0, this.canvas.width, this.canvas.height);
 
-        // skeleton
+        // skeleton display
         if(this.skeleton_image !== ''){
             let image = new Image()
-            image.onload = ()=> this.skeletonContext.drawImage(image,0,0)
+            image.width = this.skeletonCanvas.width
+            image.height = this.skeletonCanvas.height
+            image.onload = e => this.skeletonContext.drawImage(image,50,25, image.width-50, image.height-25, 0,0, this.skeletonCanvas.width, this.skeletonCanvas.height)
             image.src = "data:image/png;base64," + this.skeleton_image
         }
 
@@ -116,7 +122,7 @@ class PlayView{
         
         
         this.loopID = window.requestAnimationFrame(timestamp=>{
-            this.draw_play.bind(this, timestamp , user_video, play_video, this.score)()
+            this.draw_play.bind(this, mode, timestamp , user_video, play_video, this.score)()
         })
     }
     updateScore(score) {
@@ -153,8 +159,8 @@ class PlayView{
         stage_loader.classList.add('content-hide')
         this.context.font = `${0.0045*this.canvas.width}rem Brush Script MT`;
         this.context.strokeStyle= '#a65bf8'
-        this.context.strokeText('Play Done...', (this.canvas.width * 0.798) /2, (this.canvas.height * 0.798) /2);
-        this.context.fillText('Play Done...', (this.canvas.width * 0.798) /2, (this.canvas.height * 0.798) /2);
+        this.context.strokeText('Play Done...', (this.canvas.width * 0.698) /2, (this.canvas.height * 0.798) /2);
+        this.context.fillText('Play Done...', (this.canvas.width * 0.698) /2, (this.canvas.height * 0.798) /2);
     }
     
 }
@@ -163,10 +169,7 @@ class PlayManager {
     constructor(navigator, msg_handler, play_view, pid, URL) {
         this.user_video = document.getElementById('userVideo'),
         this.play_video = document.getElementById('playVideo')
-        if(this.user_video.getAttribute('data-play-mode') === 'realtime'){
-            this.navigator = navigator
-            this.navigator.getMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetuserMedia || navigator.mediaDevices.msGetUserMedia;
-        }
+        this.mode = this.user_video.getAttribute('data-play-mode')
         this.rec = null
         this.fps = 30
         this.chunkLoopID = null
@@ -186,12 +189,18 @@ class PlayManager {
             start_date: new Date(Date.now()).toString()
         }
         this.URL = URL
+        
         this.start_flag = false 
         this.preview_path = ''
+        this.start_point = 0
+        this.end_point = 0
+        if(this.mode === 'realtime'){
+            this.navigator = navigator
+            this.navigator.getMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetuserMedia || navigator.mediaDevices.msGetUserMedia;
+        }
     }
     main(){
         this.init()
-        setTimeout(this.load.bind(this), 5000)
     }
     load(){
         let play_container = document.getElementById('play-content') 
@@ -203,16 +212,11 @@ class PlayManager {
             play_container.classList.add('content-visible')
             play_loader.classList.remove('content-visible')
             play_loader.classList.add('content-hide')
-            this.user_video.play()
-            this.play_video.play()
+            this.play_view.draw_intro(3, this.mode, this.user_video, this.play_video)
         }).bind(this), 1000)
         
-        
-        
     }
-    loaded(){
 
-    }
     init() {
         // resize 
         // window.onresize = this.resizeCanvas.bind(this)
@@ -221,32 +225,46 @@ class PlayManager {
         this.play_view.setRecordCallback(this.record.bind(this))
         this.init_handler()
 
+        this.play_video.pause()
+        // Start Play
+        if(this.mode === 'realtime'){
+            this.initCaptureVideo(this.user_video);
+            setTimeout(this.load.bind(this), 2000)
+
+        }
+        // Start PreProcessing
+        else if(this.mode === 'upload'){  
+            this.user_video.pause() 
+            let reg = /media\/(\S)+/;
+            let user_src = reg.exec(this.user_video.src)[0]
+            let play_src = reg.exec(this.play_video.src)[0]
+            this.msg_handler.setOpenCallBack((()=>{
+                this.msg_handler.sendObj('sync', {
+                    'pid' : this.config.pid,
+                    'user_video_src' : user_src,
+                    'play_video_src' : play_src
+                })
+            }).bind(this))
+        }
+
         this.user_video.addEventListener('play', e => {
             console.log('play')
             if(this.start_flag){
                 return
             }else{
-                this.play_video.pause()
+                // this.play_video.pause()
                 this.start_flag = true
             }
             
-            if(this.user_video.getAttribute('data-play-mode') === 'realtime'){
-            }else if(this.user_video.getAttribute('data-play-mode') === 'upload'){
+            if(this.mode === 'realtime'){
+                console.log('realtime')
+            }else if(this.mode === 'upload'){
                 console.log('upload')
-                this.user_video.pause()
             }else{
                 console.log('error')
             }
 
-            this.play_view.draw_intro(3, this.user_video, this.play_video)
         }, false);
-
-        this.play_video.pause()
-        if(this.user_video.getAttribute('data-play-mode') === 'realtime'){
-            this.initCaptureVideo(this.user_video);
-        }else if(this.user_video.getAttribute('data-play-mode') === 'upload'){
-            this.user_video.pause()
-        }
     }
 
     init_handler(){
@@ -254,6 +272,14 @@ class PlayManager {
             switch (data.type) {
                 case 'message':
                     break;
+                case 'sync':
+                    console.log('sync')
+                    console.log(data)
+                    this.start_point = parseFloat(data.start) 
+                    this.end_point = parseFloat(data.end)
+                    this.play_video.currentTime = parseFloat(data.start)
+                    this.load()
+                    break
                 case 'update_score':
                     this.total_score += data.score
                     this.parts_score['1_face_body'] += data.parts_score['face_body']
@@ -293,15 +319,33 @@ class PlayManager {
         function send_chunk(){
             let recorder = new MediaRecorder(stream);
             let chunks = [];
-            recorder.ondataavailable = e => chunks.push(e.data);
+            recorder.ondataavailable = e => {
+                chunks.push(e.data)
+            }
             recorder.onstop = e => {
                 // this.msg_handler.send(data)
-                let data =new File(chunks,`${this.config.pid}_${e.timeStamp}.mp4`, {type: 'video/mp4'})
-                this.msg_handler.send(data)
+                
+                if(this.play_video.currentTime < this.end_point){
+                    let data =new File(chunks,`${this.config.pid}_${e.timeStamp}.mp4`, {type: 'video/mp4'})
+                    this.msg_handler.send(data)
+                }
+                // console.log(this.play_video.currentTime)
+                if(this.play_video.currentTime >= this.end_point){
+                    try{
+                        this.rec.stop()
+                    }catch(error){
+                        console.log(error)
+                    }finally{
+                        this.play_video.pause()
+                        this.user_video.pause()
+                        clearInterval(this.msg_handler.CHUNK_LOOP_ID)
+                    }
+                }
             }
             setTimeout(()=> recorder.stop(), 1500); 
             recorder.start();
          }
+                    
 
          const CHUNK_LOOP_ID = setInterval(send_chunk.bind(this), 1500) // have a 1.5s media file
          this.msg_handler.setChunkLoopID(CHUNK_LOOP_ID) 
@@ -327,10 +371,7 @@ class PlayManager {
             play_data.append('datetime', new Date(Date.now()).toString())
             play_data.append('preview_path', this.preview_path)
             this.msg_handler.sendResult(`http://${this.URL}/play/?pid=${this.config.pid}`, play_data)
-        })
-
-        this.play_video.addEventListener('ended', e => {
-            this.rec.stop()
+            
             this.endGame() 
         })
 
@@ -370,6 +411,7 @@ class PlayManager {
         scoreText.innerText = 'Score : ' + this.total_score 
 
         // polygon chart 
+        // make integer score to under 0.
         let polygon_chart_el = document.getElementById("polygon-chart");
         console.log(this.parts_score)
         let parts_list = Object.values(this.parts_score)
@@ -415,13 +457,18 @@ class MessageHandler {
         this.CLIENT_ID = "client 1"
         this.URL = URL
         this.socket = new WebSocket(this.URL)
-        this.receivedCallBack = null
+        this.receivedCallBack = ()=>{}
+        this.openCallBack = ()=>{}
         this.CHUNK_LOOP_ID = null
+        this.isOpen = false
         this.init()
+
     }
     init() {
         this.socket.onopen = e => {
             this.sendMessage('check', 'connected with client : ' + this.CLIENT_ID)
+            this.isOpen = true
+            this.openCallBack()
         }
         this.socket.onmessage = e => {
             // console.log(e)
@@ -440,11 +487,13 @@ class MessageHandler {
     send(data){
         this.socket.send(data)
     }
-    sendJSON(obj){
-        this.socket.send(JSON.stringify(obj))
+    sendObj(type, obj){
+        this.socket.send(JSON.stringify({
+            'type' : type,
+            ...obj,
+        }))
     }
     sendData(type, stamp, data){
-        console.log(data)
         this.socket.send(JSON.stringify({
             'type' : type,
             'stamp' : stamp,
@@ -456,6 +505,9 @@ class MessageHandler {
             'type' : type,
             'message': msg,
         }))
+    }
+    setOpenCallBack(callback){
+        this.openCallBack = callback
     }
     setReceiveCallBack(callback){
         this.receivedCallBack = callback
@@ -510,7 +562,6 @@ function main() {
     const pid = document.querySelector('#userVideo').getAttribute('data-pid')
     const play_view = new PlayView()
     const msg_handler = new MessageHandler(`ws://${URL}/ws/play/${pid}`)
-    console.log(navigator)
     const manager = new PlayManager(navigator, msg_handler, play_view, pid, URL)
     manager.main()
 

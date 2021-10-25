@@ -10,7 +10,7 @@ import time
 import asyncio
 from queue import Queue
 import numpy
-
+from server.settings import PROJECT_DIR
 
 class PlayConsumer(WebsocketConsumer):
 
@@ -21,7 +21,7 @@ class PlayConsumer(WebsocketConsumer):
         self.MODULE_DIR = os.path.dirname(__file__)
         self.APP_PATH = os.getcwd()
         self.stamp = 0
-        self.pid = None
+        self.PID = None
         self.model_thread : threading.Thread = None
         self.model_socket = None
         self.total_score = 0
@@ -40,7 +40,7 @@ class PlayConsumer(WebsocketConsumer):
     def connect(self):    # 클라이언트 연결
         self.accept()
         print(self.scope)
-        self.pid = self.scope['url_route']['kwargs']['play_id']    
+        self.PID = self.scope['url_route']['kwargs']['play_id']    
         self.model_socket = self.create_model_socket()
     
     def create_model_socket(self):     # Model 서버에 연결하기 위한 Client Socket 생성
@@ -54,13 +54,10 @@ class PlayConsumer(WebsocketConsumer):
     def model_task(self, model_socket, chunk_path, stamp):  # 코루틴으로 분기하여 처리될 기능 
         
         # Model Server Config Message Send 
-        user_data = {
-            "pid" : self.pid,
-            "chunk_path" : self.chunk_path_queue.get(),
-        }
-        message = json.dumps(user_data)
-        self.model_socket.send(message.encode()) 
-
+        self.sendToModel('chunk', {
+            "pid" : self.PID,
+            "path" : self.chunk_path_queue.get(),
+        })
         chunk_score_sum = 0
         
         # Scoring
@@ -130,7 +127,7 @@ class PlayConsumer(WebsocketConsumer):
     def receive(self, text_data=None, bytes_data=None, **kwargs):   # WebSocket Client로 부터 데이터를 받을때 실행된다
         if bytes_data != None:  # Chunk 데이터를 저장한다.
             self.stamp += 1
-            chunk_path = os.path.join(self.CHUNK_FILE_PATH, f"{self.pid}_{self.stamp}.mp4".replace('/', '', 1)).replace('\\', '/')
+            chunk_path = os.path.join(self.CHUNK_FILE_PATH, f"{self.PID}_{self.stamp}.mp4".replace('/', '', 1)).replace('\\', '/')
             data_path = os.path.join(self.APP_PATH, f"../{chunk_path}").replace('\\', '/')
 
             with open(data_path, 'wb') as f:
@@ -143,15 +140,54 @@ class PlayConsumer(WebsocketConsumer):
                 return
 
         if text_data != None:   # Text 메시지를 처리한다.     
-            json_data = json.loads(text_data)
-            print(json_data['type'])
-            if json_data['type'] =='close':
-                self.disconnect(json_data['pid'])
-            elif json_data['type'] == 'check':
-                message = json_data['message']
+            self.handle_text_data(json.loads(text_data))
+            
+        
+    def handle_text_data(self, data):
+            if data['type'] =='close':
+                self.disconnect(data['pid'])
+            elif data['type'] == 'check':
+                message = data['message']
                 print(message)
                 self.sendMessage(message=message)
-    
+            elif data['type'] == 'sync':
+                user_src : str = data['user_video_src']
+                play_src : str = data['play_video_src']
+                user_src = os.path.join(PROJECT_DIR, user_src)
+                play_src = os.path.join(PROJECT_DIR, play_src)
+                print(user_src)
+                print(play_src)
+                self.sendToModel('sync', {
+                    'pid' : self.PID,
+                    'user_path' : user_src,
+                    'play_path' : play_src,
+                })
+                try:
+                    res = self.model_socket.recv(2048)
+                    ret_data = json.loads(res.decode())
+
+                    self.sendSync(ret_data)
+                except Exception as e:
+                    print('model_task() : socket error', e)
+                    self.model_socket.close()
+                    self.model_socket = self.create_model_socket()
+
+                    
+
+    def sendToModel(self, type, data):
+        user_data = {
+            'type' : type,
+            **data,
+        }
+        message = json.dumps(user_data)
+        self.model_socket.send(message.encode())
+
+    def sendSync(self, data):
+        self.send(text_data=json.dumps({
+            'type' : 'sync',
+            **data,
+        }))
+
     def sendSkeletonImage(self, str_data, byte_data):
         self.send(text_data=json.dumps({
             'type' : 'skeleton',

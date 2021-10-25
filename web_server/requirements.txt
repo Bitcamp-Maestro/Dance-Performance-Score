@@ -78,6 +78,7 @@ decorator @ file:///tmp/build/80754af9/decorator_1621259047763/work
 defusedxml @ file:///tmp/build/80754af9/defusedxml_1615228127516/work
 diff-match-patch @ file:///Users/ktietz/demo/mc3/conda-bld/diff-match-patch_1630511840874/work
 distributed @ file:///C:/ci/distributed_1617384289923/work
+dj-static==0.0.6
 Django==3.2.3
 django-appconf==1.0.5
 django-imagekit==4.0.2
@@ -329,6 +330,8 @@ spyder @ file:///C:/ci/spyder_1616776239898/work
 spyder-kernels @ file:///C:/ci/spyder-kernels_1614030842607/work
 SQLAlchemy @ file:///C:/ci/sqlalchemy_1626948551817/work
 sqlparse==0.4.1
+static-ranges==0.2.0
+static3==0.7.0
 statsmodels==0.12.2
 sympy @ file:///C:/ci/sympy_1618255511605/work
 tables==3.6.1

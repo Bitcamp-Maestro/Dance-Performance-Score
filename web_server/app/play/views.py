@@ -128,6 +128,7 @@ class PlayView(TemplateView):
                 'user_video_url' :  os.path.join('/', play_data['upload_path']),
                 'user' : user_data,
             }
+
             return render(req, self.template_name, context)
         else :
             return redirect('error')
