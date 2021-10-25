@@ -52,11 +52,6 @@ class Play():
 
 
     def det_Pose_Video(self, user_video,  play_id, conn, option=True):
-        # DB_host = "127.0.0.1"
-        # DB_port = 27017
-        # a = MongoClient(host=DB_host, port=DB_port)
-        # db = a["DancerFlow"]
-        # col = db["Playss"]
 
         FILE_NAME = "./keypoints/keypoints_{}.json".format(play_id)
         # 누적 전송 scope
@@ -152,34 +147,23 @@ class Play():
                     pass
 
 
-                # post = {
-                #     "id" : play_id,
-                #     "total_score" : TOTAL_SCORE,
-                #     "parts_score" : {
-                #         "FACE_BODY_SCORE" : FACE_BODY_SCORE,
-                #         "LEFT_ARM_SCORE" : LEFT_ARM_SCORE,
-                #         "RIGHT_ARM_SCORE" : RIGHT_ARM_SCORE,
-                #         "LEFT_LEG_SCORE" : LEFT_LEG_SCORE,
-                #         "RIGHT_LEG_SCORE" : RIGHT_LEG_SCORE,
-                #         "key_point_file_path" : FILE_NAME
-                #     }
-                # }
-                # col.insert_one(post)
-
-                ############################################################################
+                ###########################################################################
 
                 # show the results
-                # vis_img = vis_pose_result( self.pose_model, img, pose_results, kpt_score_thr=0.5, 
-                #     radius=4,               # 원 크기
-                #     thickness=2,            # 관절 두께
-                #     show=False)
+                vis_img = vis_pose_result( self.pose_model, img, pose_results, kpt_score_thr=0.5, 
+                    radius=4,               # 원 크기
+                    thickness=2,            # 관절 두께
+                    show=False)
                 
                 # if SHOW == True:
                 #     cv2.imshow('Image', vis_img)
                 # videoWriter.write(vis_img)
 
                 
+
+                # IMAGE_SHAPE = img.shape
                 ############################ client로 데이터 전송 #################################
+                
                 json_data = {
                     "ING" : "ing",
                     "total_score" : TOTAL_SCORE,
@@ -191,19 +175,26 @@ class Play():
                         "right_leg" : RIGHT_LEG_SCORE,
                     },
                     "keypoints_file_path" : FILE_NAME,
+                    # 'image_length' : length,
+                    # 'skeleton_image' : stringData.decode('utf-8'),
+                    # 'shape' : img.shape
                 }
+                
+                print(json_data)
                 message = json.dumps(json_data)
                 conn.send(message.encode())
+                
+                
 
-                # resize_frame = cv2.resize(vis_img, dsize=(480,315), interpolation=cv2.INTER_AREA)
-                # encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
-                # result, imgencode = cv2.imencode('.jpg', resize_frame,encode_param)
-                # data = numpy.array(imgencode)
-                # stringData = base64.b64encode(data)
-                # length = str(len(stringData))
-                # conn.sendall(length.encode('utf-8').ljust(64))
-                # conn.send(stringData)
-                # print("이미지 전송")
+                resize_frame = cv2.resize(vis_img, dsize=(480,270), interpolation=cv2.INTER_AREA)
+                encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
+                result, imgencode = cv2.imencode('.jpg', resize_frame,encode_param)
+                data = numpy.array(imgencode)
+                stringData = base64.b64encode(data)
+                length = str(len(stringData))
+                conn.sendall(length.encode('utf-8').ljust(64))
+                conn.send(stringData)
+                print("이미지 전송")
                 # time.sleep(0.095)
 
 

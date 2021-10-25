@@ -23,11 +23,11 @@
 
     <!-- Styles -->
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/view/nav.css" rel="stylesheet">
-    <link href='/static/css/play.css' rel='stylesheet'>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet"  type='text/css'>
+    <link href="/static/css/view/nav.css" rel="stylesheet"  type='text/css'>
+    <link href='/static/css/play.css' rel='stylesheet'  type='text/css'>
 
-    <link rel="stylesheet" href="/static/css/share.css">
+    <link rel="stylesheet" href="/static/css/share.css"  type='text/css'>
 
     <!-- Favicon  -->
     <link rel="icon" href="/static/images/icon.png">
@@ -35,10 +35,9 @@
 
 <body style='background-color: black;'>
 
-
+<!-- 
     <nav id="navbar" class="hide navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation">
         <div class="container">
-            <!-- Image Logo -->
             <a class="navbar-brand logo-image" href="/"><img src="/static/images/logo.png"
                     alt="alternative"><span></span></a>
             <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse"
@@ -48,20 +47,34 @@
             <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ms-auto navbar-nav-scroll">
                     <li class="nav-item">
-                        <!-- <a class="btn-solid-reg sign-btn" href="/sign" >Sign in</a> -->
                     </li>
                 </ul>
-            </div> <!-- end of navbar-collapse -->
-        </div> <!-- end of container -->
-    </nav> <!-- end of navbar -->
-    <!-- end of navigation -->
+            </div>
+        </div> 
+    </nav>  -->
 
-    <div id='play-mask' class='play-mask'>
-
+    
+    <!-- Loader -->
+    <div id='play-loader' class='play-loader content-visible'>
+        <div id='center-text-wrapper' class='center-text-wrapper'>
+            <h1 id='center-text-neon' class='center-text-neon' spellcheck="false">Please Wait...</h1>
+        </div>
     </div>
-    <div id='play-content' class='content-visible'>
-        <div id='canvas-container' class='canvas-container top-content neon-border'>
-                <canvas id="userCanvas" class="video-canvas user-canvas"></canvas>
+    <div id='play-stage-loader' class='play-stage-loader content-visible'>
+        <div id='play-loader' class="floor loader "></div>
+        <!-- thank you: https://woot.co.uk/ for the GIF -->
+        <!-- <img id='play-loader-img' class="woot-dance" src="https://i.imgur.com/pXALzSc.gif"  width="328" height="272" alt="8-bit dancing Karateka guy"> -->
+        <img id='play-loader-img' class="woot-dance" src="/static/images/dancer-long.gif"  width="328" height="272" alt="8-bit dancing Karateka guy">
+    </div>
+
+
+    <div id='play-content' class='play-content content-hide'>
+
+        <div class='skeleton-wrapper'>
+            <canvas id="skeletonCanvas" class="image-canvas skeleton-canvas" ></canvas>
+        </div>
+        <div id='canvas-container' class='canvas-container top-content neon-border score-perfect'>
+            <canvas id="userCanvas" class="video-canvas user-canvas"></canvas>
             <!-- <div class='play-wrapper wrapper'>
                 <canvas id="playCanvas" class="video-canvas play-canvas" ></canvas>
             </div> -->
@@ -71,7 +84,7 @@
             <div class='user-wrapper wrapper'>
                 <video id="userVideo" class='user-video video' src="{{user_video_url}}" crossOrigin="anonymous"
                     data-pid="{{pid}}" data-title="{{title}}" data-aratist="{{artist}}" data-play-mode="{{play_mode}}"
-                    autoplay playsinline></video>
+                    playsinline></video>
             </div>
             <div class='play-wrapper wrapper'>
                 <video id="playVideo" class='play-video video' src="{{video_url}}" crossOrigin="anonymous" autoplay

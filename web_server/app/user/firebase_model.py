@@ -9,6 +9,7 @@ class User(object):
     CLT_NAME = 'User'
     NAME_FIELD = 'username'
     EMAIL_FIELD = 'email'
+    FAVES_FIELD = 'faves_list'
 
     def __init__(self, username, password, email='', join_date='', faves_list=[], views_list=[], image='../static/images/user.png' ):
         self.username = username
