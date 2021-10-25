@@ -1,10 +1,12 @@
 const view_cards = document.querySelectorAll('.view-card')
 const coins = document.querySelectorAll('.coins')
 
+
 view_cards.forEach(item=>{ 
     item.addEventListener('click', async e=>{
         const PID = e.currentTarget.getAttribute('data-pid')             
         let type = e.target.getAttribute('data-type')
+        let faves = e.currentTarget.getElementsByClassName('faves-text')[0]
         if(Array.from(coins).includes(e.target)){
             const data = new FormData()
             data.append('pid', PID)
@@ -15,9 +17,12 @@ view_cards.forEach(item=>{
                 if (type === 'on'){
                     e.target.setAttribute('src', '/static/images/coin-off.png')
                     e.target.setAttribute('data-type', 'off')
+                    console.log(e.currentTarget)
+                    faves.innerText = parseInt(faves.textContent) - 1
                 }else{
                     e.target.setAttribute('src', '/static/images/coin-on.png')
                     e.target.setAttribute('data-type', 'on')
+                    faves.innerText = parseInt(faves.textContent) + 1
                 }
                 if(data.result == 200){
                     console.log('asdf')
@@ -26,15 +31,6 @@ view_cards.forEach(item=>{
         }else{
             window.location.assign(`/community/view/${PID}`)
         }
-        // const SONG_ID = e.currentTarget.getElementsByClassName('song_item')[0].getAttribute('data-id')   
-        // if(e.currentTarget.getElementsByClassName('checkbox')[0].checked){
-        //     e.currentTarget.classList.add(ITEM_FOCUSED_CLASSNAME)
-        //     options.songs.push(SONG_ID)
-        // }else{
-        //     e.currentTarget.classList.remove(ITEM_FOCUSED_CLASSNAME)
-        //     options.songs = options.songs.filter(song=>song !== SONG_ID)
-        // }
-        // console.log(options.songs)   
         
     })
 })

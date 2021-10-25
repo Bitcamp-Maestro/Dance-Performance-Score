@@ -101,6 +101,7 @@ class CommunityView(TemplateView):
     def post(self, req):
         PID = req.POST['pid']
         play_data = DB.collection('Play').document(PID)
+        play_dict = play_data.get().to_dict()
 
         user_data = DB.collection(u'User').document(req.session.get('user'))
         user_dict = user_data.get().to_dict()
@@ -110,17 +111,23 @@ class CommunityView(TemplateView):
         if user_dict[User.FAVES_FIELD]:
             flag = False
             faves_list : list = user_dict[User.FAVES_FIELD]
-
+            faves = play_dict['faves']
             for idx, play in enumerate(user_dict[User.FAVES_FIELD]) :
                 if play_data == play:
                     print('일치항목 존재 : ', play_data.id, ' ', play.id)
                     print('fave list 에서 삭제')
+                    play_data.update({
+                        'faves' : faves - 1 if faves -1 > -1 else 0
+                    })
                     del faves_list[idx]
                     flag = True
                     break
                 
             if not flag:
                 print('faves list 에 추가')
+                play_data.update({
+                        'faves' : faves + 1
+                    })
                 faves_list.append(play_data)
 
             user_data.update({

@@ -125,9 +125,9 @@
             <div>
               <li style="list-style: none;">
                 <div class="left">
-                  <h6>date {{ play.date }}</h6>
-                  <h6>views {{ play.views }}</h6>
-                  <h6>coins {{ play.faves }}</h6>
+                  <h6>date : <span class='date-text'>{{ play.date }}</span></h6>
+                  <h6>views : <span class='views-text'>{{ play.views }}</span></h6>
+                  <h6>coins : <span class='faves-text'>{{ play.faves }}</span></h6>
                 </div>
                 <div class="right">
                   {% if play.id in user.faves_list %}
