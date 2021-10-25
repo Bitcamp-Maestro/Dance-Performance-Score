@@ -3,7 +3,7 @@ from re import I
 import threading
 import json
 import asyncio
-
+import os
 from utils.Server import Server
 from module.det_pose_video import Play
 from module.data_preprocessing import video__init__
@@ -37,7 +37,7 @@ def to_client(conn, addr, params):
 
             except Exception as e:
                 print('receive error', e)
-                
+
             if(recv_json_data['type'] == 'chunk'):
                 chunk_path = recv_json_data['path']
                 pid = recv_json_data['pid']
@@ -47,14 +47,15 @@ def to_client(conn, addr, params):
                 asyncio.create_task(play.det_Pose_Video(user_video=chunk_path, play_id=pid, conn = conn))
 
             elif(recv_json_data['type'] == 'sync'):
-                start, end = video__init__(recv_json_data['user_path'], recv_json_data['play_path'], recv_json_data['pid'])
+                start, end, audio1, audio2 = video__init__(recv_json_data['user_path'], recv_json_data['play_path'], recv_json_data['pid'])
                 json_data = {
                     'type' : 'sync',
                     'target' : 'play',
                     'start' : start,
                     'end' : end,
                 }
-                
+                os.remove(audio1)
+                os.remove(audio2)
                 print(json_data)
                 message = json.dumps(json_data)
                 conn.send(message.encode())                

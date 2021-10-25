@@ -21,7 +21,7 @@ def video__init__(user_video, target_video, output_name):
     print("start time : ", time["start"])
     print("end time : ", time["end"])
 
-    return time['start'], time['end']
+    return time['start'], time['end'], user_audio_name, play_audio_name
     mix_video(user_video=user_video, target_video=target_video, time=time, output=output)
 
 if __name__ == '__main__':
