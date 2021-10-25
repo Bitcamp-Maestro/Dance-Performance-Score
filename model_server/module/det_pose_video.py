@@ -61,7 +61,7 @@ class Play():
         # RIGHT_ARM_SCORE = 0
         # LEFT_LEG_SCORE = 0
         # RIGHT_LEG_SCORE = 0
-        SHOW = False                                 # 보여줄건지 선택 변수
+        SHOW = True                                 # 보여줄건지 선택 변수
         DET_CAT_ID = 1      # Category id for bounding box detection model
         RESULT_BOX = {}
         RESULT_BOX_2 = {}
@@ -82,7 +82,7 @@ class Play():
             flag, img = cap.read()
             if not flag:
                 break
-            if cap.get(cv2.CAP_PROP_POS_FRAMES) % 5 == 1:
+            if cap.get(cv2.CAP_PROP_POS_FRAMES) % 5 == 0:
                 # test a single image, the resulting box is (x1, y1, x2, y2)
                 mmdet_results = inference_detector(self.det_model, img)
 
@@ -150,7 +150,11 @@ class Play():
                 ###########################################################################
 
                 # show the results
-                vis_img = vis_pose_result( self.pose_model, img, pose_results, kpt_score_thr=0.5, 
+                vis_img = vis_pose_result( 
+                    self.pose_model, 
+                    img, 
+                    pose_results, 
+                    kpt_score_thr=0.5, 
                     radius=4,               # 원 크기
                     thickness=2,            # 관절 두께
                     show=False)
@@ -205,7 +209,7 @@ class Play():
                 # cv2.imshow('Image', img)
                 pass
         # cap.release()
-        # # videoWriter.release()
+        # videoWriter.release()
         # cv2.destroyAllWindows()
 
         

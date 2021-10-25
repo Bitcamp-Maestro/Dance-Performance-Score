@@ -11,7 +11,8 @@ view_cards.forEach(item=>{
             const data = new FormData()
             data.append('pid', PID)
             data.append('type', type)
-            let res = await sendServer('http://127.0.0.1:8000/community/', data)
+            // let res = await sendServer('http://127.0.0.1:8000/community/', data)
+            let res = await sendServer('http://220.123.224.95:9000/community/', data)
             let res_data = await res.json()
             if (res_data.result === 200){
                 if (type === 'on'){
