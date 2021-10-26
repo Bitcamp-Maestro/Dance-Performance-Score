@@ -116,6 +116,13 @@ class PlayView{
             this.draw_play.bind(this, mode, timestamp , user_video, play_video, this.score)()
         })
     }
+    draw_skeleton(){
+        let image = new Image()
+        image.width = this.skeletonCanvas.width
+        image.height = this.skeletonCanvas.height
+        image.onload = e => this.skeletonContext.drawImage(image,this.skeletonCanvas.width*0.124, this.skeletonCanvas.height*0.2173, image.width*0.9844, image.height*1.0944, 0,0, this.skeletonCanvas.width, this.skeletonCanvas.height)
+        image.src = "data:image/png;base64," + this.skeleton_image
+    }
     updateScore(score) {
         this.diff += score - this.score
         this.count = this.count-1
@@ -143,11 +150,6 @@ class PlayView{
             }
             this.diff=0     
         }
-        let image = new Image()
-        image.width = this.skeletonCanvas.width
-        image.height = this.skeletonCanvas.height
-        image.onload = e => this.skeletonContext.drawImage(image,this.skeletonCanvas.width*0.124, this.skeletonCanvas.height*0.2173, image.width*0.9844, image.height*1.0944, 0,0, this.skeletonCanvas.width, this.skeletonCanvas.height)
-        image.src = "data:image/png;base64," + this.skeleton_image
     }
     endGame(){
         const stage_loader = document.getElementById('play-stage-loader')
@@ -285,6 +287,7 @@ class PlayManager {
                     this.parts_score['5_left_arm'] += data.parts_score['left_arm']
                     this.play_view.skeleton_image = data.image
                     this.play_view.updateScore(this.total_score)
+                    this.play_view.draw_skeleton()
                     break
                 case 'update_preview_path':
                     this.preview_path = data.chunk_path
