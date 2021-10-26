@@ -22,7 +22,7 @@ def video__init__(user_video, target_video, output_name):
     print("end time : ", time["end"])
 
     return time['start'], time['end'], user_audio_name, play_audio_name
-    mix_video(user_video=user_video, target_video=target_video, time=time, output=output)
+    mix_video(user_video=user_video, target_video=target_video, time=time, output='sync_result')
 
 if __name__ == '__main__':
     video__init__(

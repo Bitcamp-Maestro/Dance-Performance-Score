@@ -12,8 +12,8 @@ class PlayView{
         this.recordCallback = null
         this.canvas.width = window.screen.width * 0.95
         this.canvas.height = window.screen.height*0.55
-        this.skeletonCanvas.width = window.screen.width * 0.22
-        this.skeletonCanvas.height = window.screen.height * 0.19
+        this.skeletonCanvas.width = window.screen.width * 0.21
+        this.skeletonCanvas.height = window.screen.height * 0.18
         this.diff = 0
         this.count = 5
         this.skeleton_image = ''
@@ -96,7 +96,7 @@ class PlayView{
             let image = new Image()
             image.width = this.skeletonCanvas.width
             image.height = this.skeletonCanvas.height
-            image.onload = e => this.skeletonContext.drawImage(image,50,75, image.width-50, image.height-5, 0,0, this.skeletonCanvas.width, this.skeletonCanvas.height)
+            image.onload = e => this.skeletonContext.drawImage(image,this.skeletonCanvas.width*0.124, this.skeletonCanvas.height*0.2173, image.width*0.9844, image.height*1.0944, 0,0, this.skeletonCanvas.width, this.skeletonCanvas.height)
             image.src = "data:image/png;base64," + this.skeleton_image
         }
 
@@ -212,7 +212,7 @@ class PlayManager {
             play_container.classList.add('content-visible')
             play_loader.classList.remove('content-visible')
             play_loader.classList.add('content-hide')
-            this.play_view.draw_intro(3, this.mode, this.user_video, this.play_video)
+            this.play_view.draw_intro(2, this.mode, this.user_video, this.play_video)
         }).bind(this), 1000)
         
     }
