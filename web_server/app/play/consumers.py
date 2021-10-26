@@ -112,6 +112,7 @@ class PlayConsumer(WebsocketConsumer):
             self.high_chunk_score = chunk_score_sum
             self.high_score_chunk_path = chunk_path
             self.updatePreviewPath(self.high_score_chunk_path)
+            print('preview path : ', self.high_score_chunk_path)
 
 
     def recvall(self, sock, count):

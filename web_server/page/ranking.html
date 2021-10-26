@@ -63,7 +63,7 @@
           {% if request.session.user %}
           <li class="nav-item">
             <!-- 유저 로고 만들고 유저페이지 이동 및 로그아웃 만들기 -->
-            <a class="btn-solid-reg sign-btn" href="/user">User</a>
+            <a class="btn-solid-reg sign-btn" href="/user">My Page</a>
           </li>
           <li class="nav-item">
             <a class="btn-solid-reg sign-btn" href="/user/logout">Logout</a>
@@ -282,7 +282,7 @@
               <div class="box">
                 <!-- #01 -->
                 <!-- Number-->
-                <div class="number" style="width: 60px;">01</div>
+                <div class="number" style="width: 60px;">{{ song.num }}</div>
                 <!-- Cover -->
                 <div class="cover"><img src="https://m.media-amazon.com/images/I/91-kmdlsEsL._SS500_.jpg" alt="01">
                 </div>

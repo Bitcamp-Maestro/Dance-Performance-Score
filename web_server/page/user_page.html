@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Page</title>
+  <title>My Page</title>
 
   <!-- font link -->
   <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
@@ -81,7 +81,7 @@
   <!-- End Navigation -->
 
   <strong>
-    <h3 class='user-margin-top' align='center' style=' color: white;'>User Page</h3>
+    <h3 class='user-margin-top' align='center' style=' color: white;'>My Page</h3>
   </strong>
 
   </br>
@@ -89,7 +89,7 @@
   <div class="user-container">
     <div class="outer">
       <!-- <img class="avatar-img" src="/media/user_images/img3.jpg" alt=""> -->
-      <img class="avatar-img" src="../static/images/33.png" alt="">
+      <img class="avatar-img" src="{{ user.image_path }}" alt="">
       <div class="inner">
         
         <input class="inputfile" type="file" name="pic" accept="image/*" src="../static/images/Gear.png">

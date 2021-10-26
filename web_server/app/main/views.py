@@ -144,7 +144,10 @@ class CommunityVideoView(TemplateView):
         user_data = play_data['user'].get().to_dict()
 
 
-        return render(req, self.template_name, {**play_data, 'user_name' : user_data['email'], 'views' : play_data['views'] + 1})
+        return render(req, self.template_name, {**play_data, 
+                                                'user_name' : user_data['email'], 
+                                                'views' : play_data['views'] + 1,
+                                                'image_path' : user_data['image_path']})
 
     def post(self, req):
         pass
@@ -235,8 +238,10 @@ class RankingView(TemplateView):
             pnum += 1
             asd["num"] = pnum
             user_data_list.append(asd)
-        
+        snum = 0
         for asdf in sranking.values():
+            snum += 1
+            asdf["num"] = snum
             song_data_list.append(asdf)
         context = {
             'rank_list': user_data_list,

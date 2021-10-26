@@ -593,7 +593,7 @@ input[type=checkbox].toggle:checked +label:before{
   position: absolute;
   top:-1px;  
   left: -1px;  
-  border: 20px solid;
+  border: 24px solid;
   border-color: #32BBDC transparent transparent #32BBDC;
 }
 

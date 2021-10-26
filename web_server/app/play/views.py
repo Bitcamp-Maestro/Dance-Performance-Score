@@ -147,8 +147,9 @@ class PlayView(TemplateView):
                 destination.write(chunk)            
 
         # Play Preview Save
+        print(req.POST['preview_path'])
         PREVIEW_PATH = os.path.join(PLAY_PREVIEW_DIR, f"play_preview_{req.POST['pid']}.mp4").replace('\\', '/')
-        os.replace(os.path.join(PROJECT_DIR, f"{req.POST['preview_path']}"), os.path.join(PROJECT_DIR, f"{PREVIEW_PATH}"))
+        os.replace(os.path.join(PROJECT_DIR, f"./{req.POST['preview_path']}"), os.path.join(PROJECT_DIR, f"{PREVIEW_PATH}"))
         print('preview_path ', PREVIEW_PATH)
 
         # Remove Chunk Data

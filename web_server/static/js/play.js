@@ -96,7 +96,7 @@ class PlayView{
             let image = new Image()
             image.width = this.skeletonCanvas.width
             image.height = this.skeletonCanvas.height
-            image.onload = e => this.skeletonContext.drawImage(image,50,25, image.width-50, image.height-25, 0,0, this.skeletonCanvas.width, this.skeletonCanvas.height)
+            image.onload = e => this.skeletonContext.drawImage(image,50,75, image.width-50, image.height-5, 0,0, this.skeletonCanvas.width, this.skeletonCanvas.height)
             image.src = "data:image/png;base64," + this.skeleton_image
         }
 
@@ -558,8 +558,8 @@ class MessageHandler {
 }
 
 function main() {
-    // const URL = '127.0.0.1:8000'
-    const URL = '220.123.224.95:9000'
+    const URL = '127.0.0.1:8000'
+    
     const pid = document.querySelector('#userVideo').getAttribute('data-pid')
     const play_view = new PlayView()
     const msg_handler = new MessageHandler(`ws://${URL}/ws/play/${pid}`)
