@@ -91,15 +91,6 @@ class PlayView{
         // model diaplay
         this.context.drawImage(play_video, 0, 0, play_video.videoWidth*2, play_video.videoHeight, this.canvas.width/2, 0, this.canvas.width, this.canvas.height);
 
-        // skeleton display
-        if(this.skeleton_image !== ''){
-            let image = new Image()
-            image.width = this.skeletonCanvas.width
-            image.height = this.skeletonCanvas.height
-            image.onload = e => this.skeletonContext.drawImage(image,this.skeletonCanvas.width*0.124, this.skeletonCanvas.height*0.2173, image.width*0.9844, image.height*1.0944, 0,0, this.skeletonCanvas.width, this.skeletonCanvas.height)
-            image.src = "data:image/png;base64," + this.skeleton_image
-        }
-
         //text
         this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
         this.context.strokeStyle= '#1994af'
@@ -152,6 +143,11 @@ class PlayView{
             }
             this.diff=0     
         }
+        let image = new Image()
+        image.width = this.skeletonCanvas.width
+        image.height = this.skeletonCanvas.height
+        image.onload = e => this.skeletonContext.drawImage(image,this.skeletonCanvas.width*0.124, this.skeletonCanvas.height*0.2173, image.width*0.9844, image.height*1.0944, 0,0, this.skeletonCanvas.width, this.skeletonCanvas.height)
+        image.src = "data:image/png;base64," + this.skeleton_image
     }
     endGame(){
         const stage_loader = document.getElementById('play-stage-loader')
