@@ -147,7 +147,8 @@ class CommunityVideoView(TemplateView):
         return render(req, self.template_name, {**play_data, 
                                                 'user_name' : user_data['email'], 
                                                 'views' : play_data['views'] + 1,
-                                                'image_path' : user_data['image_path']})
+                                                'image_path' : user_data['image_path'],
+                                                'user_id' : user_data.id})
 
     def post(self, req):
         pass
@@ -175,7 +176,8 @@ class RankingView(TemplateView):
         play_user_data_list = []
         play_song_data_list = []
         user_data_list = []
-        song_data_list = []
+        song_kpop_data_list = []
+        song_pop_data_list = []
         
         play_ranking = {}
         song_ranking = {}
@@ -238,14 +240,21 @@ class RankingView(TemplateView):
             pnum += 1
             asd["num"] = pnum
             user_data_list.append(asd)
-        snum = 0
+        skpopnum = 0
+        spopnum = 0
         for asdf in sranking.values():
-            snum += 1
-            asdf["num"] = snum
-            song_data_list.append(asdf)
+            if asdf['genre'] == 'kpop':
+                skpopnum += 1
+                asdf["num"] = skpopnum
+                song_kpop_data_list.append(asdf)
+            elif asdf['genre'] == 'pop':
+                spopnum += 1
+                asdf["num"] = skpopnum
+                song_pop_data_list.append(asdf)
         context = {
             'rank_list': user_data_list,
-            'song_list': song_data_list
+            'song_kpop_list': song_kpop_data_list,
+            'song_pop_list': song_pop_data_list
         }
         return render(req, 'ranking.html', context)
 
