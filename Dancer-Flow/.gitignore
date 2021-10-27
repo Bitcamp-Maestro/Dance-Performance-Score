@@ -1,22 +1,11 @@
 
+/mmdet
+/mmpose
 template
 *.zip
-/model/model_server/mmdet/*
-/model/model_server/mmpose/*
-/model/model_server/module/configs/*
-/model/model_server/keypoints/*
-/model/model_server/module/sample_dadta/*
-/model/model_server/module/keypoints/*
 /data
 config.*
-/static/target_videos/*
-/static/target_audio/*
-/media/chunks/*
-/media/play_videos/*
-/media/target_videos/*
-/media/user_videos/*
-firebase_account.json
-test.*
+/static/target_videos
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -34,7 +23,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -147,3 +135,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+module/result/DancerFlow_target.mp4
+module/sample_data/target.mp4
+module/test.ipynb
+*.mp4
+*.pth
+*.wav
+*.json
+*.wav
+*.wav
