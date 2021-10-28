@@ -310,12 +310,12 @@ input[type=checkbox].toggle:checked +label:before{
   
 }
 .song-selected > div > div{
-  opacity: 0.7 !important;
-  background-color: #d7b4ff !important;
+  opacity: 0.55 !important;
+  background-color: #bb9fdb !important;
   
 }
 .song-selected .tickmark{
-  border-color: #d58eff transparent transparent #a63de2 !important;
+  border-color: #b94df7 transparent transparent #b005ff !important;
 }
 .song-selected .tickmark:before{
   content: "";
@@ -325,6 +325,6 @@ input[type=checkbox].toggle:checked +label:before{
   width: 60px !important;
   height: 32px !important;
   border: 9px solid !important;
-  border-color: transparent transparent #b739ff #b739ff !important;
+  border-color: transparent transparent #cd05ff #cd05ff !important;
   transform: rotate(-45deg) !important;
 }
