@@ -19,6 +19,7 @@ const select_btn = document.querySelectorAll('.select-btn')
     Setting Values
 */
 const ITEM_FOCUSED_CLASSNAME = 'item-focused';
+const SONG_SELECTED_CLASSNAME = 'song-selected';
 
 const OPTION_SELECTOR = {
     'MODE': '.mode-option-card',
@@ -90,10 +91,10 @@ upload_card.addEventListener('drop', e=>{
 song_cards.forEach(item=>item.addEventListener('click', e=>{
     const SONG_ID = e.currentTarget.getElementsByClassName('song_item')[0].getAttribute('data-id')   
     if(e.currentTarget.getElementsByClassName('checkbox')[0].checked){
-        e.currentTarget.classList.add(ITEM_FOCUSED_CLASSNAME)
+        e.currentTarget.classList.add(SONG_SELECTED_CLASSNAME)
         options.songs.push(SONG_ID)
     }else{
-        e.currentTarget.classList.remove(ITEM_FOCUSED_CLASSNAME)
+        e.currentTarget.classList.remove(SONG_SELECTED_CLASSNAME)
         options.songs = options.songs.filter(song=>song !== SONG_ID)
     }
     console.log(options.songs)
@@ -181,7 +182,9 @@ next_btn.addEventListener('click',e=>{
 // Submit
 start_btn.addEventListener('click', async e=>{
     const option_list = document.getElementsByClassName(ITEM_FOCUSED_CLASSNAME)
-    if(option_list.length < 4){
+    let count = option_list.length + options.songs.length;
+
+    if(count < 4){
         window.alert('옵션을 모두 설정해주세요.');
         return
     }

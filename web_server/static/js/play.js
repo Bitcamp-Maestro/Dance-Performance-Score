@@ -58,7 +58,7 @@ class PlayView{
                 play_video.play()
                 user_video.play()
                 this.loopID = window.requestAnimationFrame(timestamp => {
-                    this.draw_play.bind(this, mode, timestamp, user_video, play_video, this.score)()
+                    this.draw_play.bind(this, timestamp, mode, user_video, play_video, this.score)()
                     this.recordCallback()
                 })
             }
@@ -111,7 +111,7 @@ class PlayView{
         
         
         this.loopID = window.requestAnimationFrame(timestamp=>{
-            this.draw_play.bind(this, mode, timestamp , user_video, play_video, this.score)()
+            this.draw_play.bind(this, timestamp, mode, user_video, play_video, this.score)()
         })
     }
     draw_skeleton(){
