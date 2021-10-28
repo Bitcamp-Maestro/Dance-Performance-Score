@@ -20,7 +20,6 @@ class TestView(TemplateView):
     template_name = 'test.html'
 
     def get(self, req):
-      
         res = render(req, self.template_name)
         res.status_code = 206
         res['Accept-Ranges'] = 'bytes'
@@ -66,12 +65,22 @@ class CommunityView(TemplateView):
             faves_id_list.append(play.id) 
 
         data = []
+        dict_data = {}
         for doc in play_docs:
             play = doc.to_dict()
+            play_user_data = play['user'].get().to_dict()
+            # print(play_user_data['username'])
             date = play['date']
             play['date']  = '%04d-%02d-%02d %02d:%02d:%02d' % (date.year, date.month, date.day, date.hour+9, date.minute, date.second)
-            data.append({'id' : doc.id, **play })
-        
+            dict_data[date] = {
+                'id' : doc.id, 
+                'username' : play_user_data['username'],
+                **play
+            }
+        com_data = dict(sorted(dict_data.items(), reverse=True))
+
+        for asd in com_data.values():
+            data.append(asd)
         # print(data)
         context = {
             'plays' : data,
@@ -125,7 +134,6 @@ class CommunityView(TemplateView):
             'type' : req.POST['type'],
         }, json_dumps_params={'ensure_ascii': True})
 
-
 class CommunityVideoView(TemplateView):
     
     template_name = 'community_view.html'
@@ -142,12 +150,13 @@ class CommunityVideoView(TemplateView):
         })
 
         user_data = play_data['user'].get().to_dict()
-
+        print(play_data['user'].id)
 
         return render(req, self.template_name, {**play_data, 
                                                 'user_name' : user_data['email'], 
                                                 'views' : play_data['views'] + 1,
-                                                'image_path' : user_data['image_path']})
+                                                'image_path' : user_data['image_path'],
+                                                'user_id' : play_data['user'].id})
 
     def post(self, req):
         pass
@@ -175,7 +184,8 @@ class RankingView(TemplateView):
         play_user_data_list = []
         play_song_data_list = []
         user_data_list = []
-        song_data_list = []
+        song_kpop_data_list = []
+        song_pop_data_list = []
         
         play_ranking = {}
         song_ranking = {}
@@ -238,14 +248,21 @@ class RankingView(TemplateView):
             pnum += 1
             asd["num"] = pnum
             user_data_list.append(asd)
-        snum = 0
+        skpopnum = 0
+        spopnum = 0
         for asdf in sranking.values():
-            snum += 1
-            asdf["num"] = snum
-            song_data_list.append(asdf)
+            if asdf['genre'] == 'kpop':
+                skpopnum += 1
+                asdf["num"] = skpopnum
+                song_kpop_data_list.append(asdf)
+            elif asdf['genre'] == 'pop':
+                spopnum += 1
+                asdf["num"] = spopnum
+                song_pop_data_list.append(asdf)
         context = {
             'rank_list': user_data_list,
-            'song_list': song_data_list
+            'song_kpop_list': song_kpop_data_list,
+            'song_pop_list': song_pop_data_list
         }
         return render(req, 'ranking.html', context)
 

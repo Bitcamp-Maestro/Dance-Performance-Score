@@ -81,6 +81,8 @@ font-family: 'Spoqa Han Sans Neo', 'sans-serif';
   opacity:1 !important;
   margin-bottom: 3rem;
 }
+
+
 /*
   Selected Option Card Styles
 */
@@ -124,7 +126,4 @@ font-family: 'Spoqa Han Sans Neo', 'sans-serif';
 /* File Drop Styles */
 .file-drop-zone{
   background-color: #C1A0D9;
-}
-.upload-option-card{
-
 }

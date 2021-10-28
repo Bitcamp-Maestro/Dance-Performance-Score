@@ -565,7 +565,6 @@ class MessageHandler {
 
 function main() {
     const URL = '127.0.0.1:8000'
-    
     const pid = document.querySelector('#userVideo').getAttribute('data-pid')
     const play_view = new PlayView()
     const msg_handler = new MessageHandler(`ws://${URL}/ws/play/${pid}`)
