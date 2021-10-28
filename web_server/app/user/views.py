@@ -35,8 +35,13 @@ class UserView(TemplateView):
             play_doc = DB.collection('Play').stream()
             for play in play_doc:
                 data = play.to_dict()
+                date = data['date']
                 if data['user'].id == user_id:
-                    play_list.append({**data, 'pid' : play.id })
+                    play_list.append({
+                        **data, 
+                        'pid' : play.id,
+                        'date' : '%04d-%02d-%02d %02d:%02d:%02d' % (date.year, date.month, date.day, date.hour+9, date.minute, date.second),
+                    })
             # print(play_list)
             context = {
                 'user': user,

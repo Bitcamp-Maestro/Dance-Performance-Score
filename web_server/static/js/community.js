@@ -12,22 +12,24 @@ view_cards.forEach(item=>{
             data.append('pid', PID)
             data.append('type', type)
             let res = await sendServer('http://127.0.0.1:8000/community/', data)
-            let res_data = await res.json()
-            if (res_data.result === 200){
-                if (type === 'on'){
-                    e.target.setAttribute('src', '/static/images/coin-off.png')
-                    e.target.setAttribute('data-type', 'off')
-                    console.log(e.currentTarget)
-                    faves.innerText = parseInt(faves.textContent) - 1
-                }else{
-                    e.target.setAttribute('src', '/static/images/coin-on.png')
-                    e.target.setAttribute('data-type', 'on')
-                    faves.innerText = parseInt(faves.textContent) + 1
+            // let res_data = await res.json()
+            res.json().then(data=>{
+                if (data.result === 200){
+                    if (type === 'on'){
+                        e.target.setAttribute('src', '/static/images/coin-off.png')
+                        e.target.setAttribute('data-type', 'off')
+                        console.log(e.currentTarget)
+                        faves.innerText = parseInt(faves.textContent) - 1 >= 0 ? parseInt(faves.textContent) - 1 : 0
+                    }else{
+                        e.target.setAttribute('src', '/static/images/coin-on.png')
+                        e.target.setAttribute('data-type', 'on')
+                        faves.innerText = parseInt(faves.textContent) + 1
+                    }
+                    if(data.result == 200){
+                        console.log('asdf')
+                    }
                 }
-                if(data.result == 200){
-                    console.log('asdf')
-                }
-            }
+            })
         }else{
             window.location.assign(`/community/view/${PID}`)
         }
