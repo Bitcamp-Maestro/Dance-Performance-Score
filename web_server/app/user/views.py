@@ -19,25 +19,25 @@ from server.settings import DB
 
 class UserView(TemplateView):
 
-
     def get(self, req, user_id=''):
         
         print(req.session.get('user'))
-        if req.session.get('user'):
+        if user_id == '':
+        # if req.session.get('user'):
             user_id = req.session.get('user')
         print(user_id)
 
         result = User.isExistsID(user_id)
         if result:
             user = result.to_dict()
-            print(user)
+            # print(user)
             play_list = []
             play_doc = DB.collection('Play').stream()
             for play in play_doc:
                 data = play.to_dict()
                 if data['user'].id == user_id:
                     play_list.append({**data, 'pid' : play.id })
-            print(play_list)
+            # print(play_list)
             context = {
                 'user': user,
                 'play_list' : play_list

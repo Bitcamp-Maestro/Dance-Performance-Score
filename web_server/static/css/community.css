@@ -87,12 +87,12 @@ a {
 	transition: all 0.5s;
 }
 .featured-item .left{
-	width: 50%;
+	width: 70%;
 	float: left;
 	box-sizing: border-box;
 }
 .featured-item .right{
-	width: 50%;
+	width: 30%;
 	float: right;
 	box-sizing: border-box;
 }
