@@ -25,7 +25,7 @@ class PlayView{
     resizeCanvas() {
         console.log('resizing')
         let width = parseInt(window.innerWidth * 1.);
-        let height = parseInt(window.innerHeight * 0.6);
+        let height = parseInt(window.innerHeight * 0.45);
 
         this.canvas.width = width;
         this.canvas.height = height;
@@ -40,7 +40,7 @@ class PlayView{
         async function intro(count){
             this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
 
-            this.context.font = `${0.004*this.canvas.width}rem Brush Script MT`;
+            this.context.font = `${0.004*this.canvas.width}rem  Roboto Slab, serif`;
             this.context.strokeText(`Ready...`, (this.canvas.width * 0.818) /2, (this.canvas.height*0.798) / 2);
             this.context.fillText(`Ready...`, (this.canvas.width * 0.818) /2, (this.canvas.height * 0.798) /2);
     
@@ -56,9 +56,7 @@ class PlayView{
             if (count < 0) {
                 this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 play_video.play()
-                if(mode  === 'upload'){
-                    user_video.play()
-                }
+                user_video.play()
                 this.loopID = window.requestAnimationFrame(timestamp => {
                     this.draw_play.bind(this, mode, timestamp, user_video, play_video, this.score)()
                     this.recordCallback()
@@ -92,21 +90,21 @@ class PlayView{
         this.context.drawImage(play_video, 0, 0, play_video.videoWidth*2, play_video.videoHeight, this.canvas.width/2, 0, this.canvas.width, this.canvas.height);
 
         //text
-        this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
+        this.context.font = `${0.00255*this.canvas.width}rem Roboto Slab, serif`;
         this.context.strokeStyle= '#1994af'
         this.context.strokeText('PLAY  DISPLAY', (this.canvas.width * 1.0155) /2, this.canvas.height * 0.105);
         this.context.fillText('PLAY  DISPLAY', (this.canvas.width * 1.0155) /2, this.canvas.height * 0.105);
         
-        this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
+        this.context.font = `${0.00255*this.canvas.width}rem Roboto Slab, serif`;
         this.context.strokeStyle= '#ffbb54'
         this.context.strokeText('USER  DISPLAY', this.canvas.width * 0.0155, this.canvas.height * 0.105);
         this.context.fillText('USER  DISPLAY', this.canvas.width * 0.0155, this.canvas.height * 0.105);
         
-        this.context.font = `${0.00205*this.canvas.width}rem Brush Script MT`;
+        this.context.font = `${0.00205*this.canvas.width}rem Roboto Slab, serif`;
         this.context.strokeText('Score', this.canvas.width * 0.0155, this.canvas.height * 0.805 );
         this.context.fillText('Score', this.canvas.width * 0.0155, this.canvas.height * 0.805 );
         
-        this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
+        this.context.font = `${0.00255*this.canvas.width}rem Roboto Slab, serif`;
         this.context.strokeText(total_score, this.canvas.width * 0.0155, this.canvas.height * 0.925);
         this.context.fillText(total_score, this.canvas.width * 0.0155, this.canvas.height * 0.925);
 
@@ -127,7 +125,7 @@ class PlayView{
         this.diff += score - this.score
         this.count = this.count-1
         this.score = score
-        this.context.font = `${0.00255*this.canvas.width}rem Brush Script MT`;
+        this.context.font = `${0.00255*this.canvas.width}rem Roboto Slab, serif`;
         this.context.strokeStyle= '#ffbb54'
         this.context.strokeText(score, this.canvas.width * 0.0515, this.canvas.height * 0.925);
         this.context.fillText(score, this.canvas.width * 0.0515, this.canvas.height * 0.925);
@@ -155,7 +153,7 @@ class PlayView{
         const stage_loader = document.getElementById('play-stage-loader')
         stage_loader.classList.remove('content-visible')
         stage_loader.classList.add('content-hide')
-        this.context.font = `${0.0045*this.canvas.width}rem Brush Script MT`;
+        this.context.font = `${0.0045*this.canvas.width}rem Roboto Slab, serif`;
         this.context.strokeStyle= '#a65bf8'
         this.context.strokeText('Play Done...', (this.canvas.width * 0.698) /2, (this.canvas.height * 0.798) /2);
         this.context.fillText('Play Done...', (this.canvas.width * 0.698) /2, (this.canvas.height * 0.798) /2);
@@ -224,33 +222,13 @@ class PlayManager {
         this.init_handler()
 
         this.play_video.pause()
-        // Start Play
-        if(this.mode === 'realtime'){
-            this.initCaptureVideo(this.user_video);
-            setTimeout(this.load.bind(this), 2000)
-
-        }
-        // Start PreProcessing
-        else if(this.mode === 'upload'){  
-            this.user_video.pause() 
-            let reg = /media\/(\S)+/;
-            let user_src = reg.exec(this.user_video.src)[0]
-            let play_src = reg.exec(this.play_video.src)[0]
-            this.msg_handler.setOpenCallBack((()=>{
-                this.msg_handler.sendObj('sync', {
-                    'pid' : this.config.pid,
-                    'user_video_src' : user_src,
-                    'play_video_src' : play_src
-                })
-            }).bind(this))
-        }
-
+        
         this.user_video.addEventListener('play', e => {
             console.log('play')
             if(this.start_flag){
                 return
             }else{
-                // this.play_video.pause()
+                // this.user_video.pause()
                 this.start_flag = true
             }
             
@@ -263,6 +241,25 @@ class PlayManager {
             }
 
         }, false);
+
+        // Start Play
+        if(this.mode === 'realtime'){
+            this.initCaptureVideo(this.user_video);
+        }
+        // Start PreProcessing
+        if(this.mode === 'upload'){  
+            this.user_video.pause() 
+            let reg = /media\/(\S)+/;
+            let user_src = reg.exec(this.user_video.src)[0]
+            let play_src = reg.exec(this.play_video.src)[0]
+            this.msg_handler.setOpenCallBack((()=>{
+                this.msg_handler.sendObj('sync', {
+                    'pid' : this.config.pid,
+                    'user_video_src' : user_src,
+                    'play_video_src' : play_src
+                })
+            }).bind(this))
+        }
     }
 
     init_handler(){
@@ -301,12 +298,15 @@ class PlayManager {
     initCaptureVideo(video) {
         this.navigator.mediaDevices
             .getUserMedia({audio: false, video: true})
-            .then(gotStream)
+            .then(gotStream.bind(this))
             .catch(error => console.error(error));
 
         function gotStream(stream) {
             // video.src = window.URL.createObjectURL(stream);
-            video.srcObject = stream;
+            console.log(stream)
+            this.user_video.srcObject = stream;
+            this.user_video.play()
+            setTimeout(this.load.bind(this), 2000)
         }
     }
 
@@ -324,12 +324,12 @@ class PlayManager {
             recorder.onstop = e => {
                 // this.msg_handler.send(data)
                 
-                if(this.play_video.currentTime < this.end_point){
+                if(this.play_video.currentTime < this.end_point || this.mode==='realtime'){
                     let data =new File(chunks,`${this.config.pid}_${e.timeStamp}.mp4`, {type: 'video/mp4'})
                     this.msg_handler.send(data)
                 }
                 // console.log(this.play_video.currentTime)
-                if(this.play_video.currentTime >= this.end_point){
+                if(this.play_video.currentTime >= this.end_point && this.mode==='upload'){
                     try{
                         this.rec.stop()
                     }catch(error){
@@ -341,12 +341,12 @@ class PlayManager {
                     }
                 }
             }
-            setTimeout(()=> recorder.stop(), 1500); 
+            setTimeout(()=> recorder.stop(), 1000); 
             recorder.start();
          }
                     
 
-         const CHUNK_LOOP_ID = setInterval(send_chunk.bind(this), 1500) // have a 1.5s media file
+         const CHUNK_LOOP_ID = setInterval(send_chunk.bind(this), 1000) // have a 1s media file
          this.msg_handler.setChunkLoopID(CHUNK_LOOP_ID) 
           
         this.rec.addEventListener('dataavailable', e=>{
@@ -373,6 +373,13 @@ class PlayManager {
             
             this.endGame() 
         })
+
+        if(this.mode ==='realtime'){
+            this.play_video.addEventListener('ended', e => {
+                this.rec.stop()
+                this.endGame() 
+            })
+        }
 
         this.rec.start(2000);
 
@@ -430,7 +437,7 @@ class PlayManager {
             return parseFloat('0.' + '0'.repeat(len) + score)
         })
         parts_list.push(parts_list.shift())
-        // console.log(parts_list)
+
         // play_result.js function
         create_polygon_chart(polygon_chart_el, [parts_list]).init()
 
@@ -562,7 +569,7 @@ function main() {
     const pid = document.querySelector('#userVideo').getAttribute('data-pid')
     const play_view = new PlayView()
     const msg_handler = new MessageHandler(`ws://${URL}/ws/play/${pid}`)
-    const manager = new PlayManager(navigator, msg_handler, play_view, pid, URL)
+    const manager = new PlayManager(window.navigator, msg_handler, play_view, pid, URL)
     manager.main()
 
 }
