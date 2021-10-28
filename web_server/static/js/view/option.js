@@ -31,9 +31,8 @@ Vue.component('df-option-mode',{
                             <div class="card-bottom" >
                                 <ul>
                                     <div style="background-color: #C1A0D9;height: 143px;padding-top: 5px;">
-                                    <strong><h6>Real Time</h6></strong></br>
-                                    <strong></h6>or</h6></strong></br></br>
-                                    <strong><h6>Upload A Video</h6></strong>
+                                    <br/><br/>
+                                    <strong><h6>Real Time Mode or Upload Your Video</h6></string>
                                 </div>
                                 </br>
                                 </ul>
@@ -112,15 +111,12 @@ Vue.component('df-option-upload', {
                         <div class="card-bottom">
                             <ul>
                                 <div style="background-color: #C1A0D9;height: 150px;">
-                                </br>
-                            
-                            </div>
-                            </br>
-
-                            
+                                    <br/><br/>
+                                    <strong><h6>Setting Your WebCam</h6></strong></br></br>
+                                </div>
                             </ul>
                         </div>
-                        <div class="card-buttons mt-30 select-btn-line" style="padding-bottom: 25px;">
+                        <div class="card-buttons mt-30 select-btn-line">
                             <a  class="btn card-btn1 select-btn">Select</a>
                         </div>
                     </div>
@@ -136,15 +132,12 @@ Vue.component('df-option-upload', {
                             <ul>
                                 <li id='droped-file-zone'>　</li>
                                 <div class="file-drop-zone" style="height: 150px;">
-                                    </br>
-                                    <strong><h6>Drag & Drop</h6></strong></br></br>
-                                    <li><button style = "background-color: #211A4D ">Choose a File</button></li>
-                                    </br>
-
+                                    <br/><br/>
+                                    <strong><h6>Drag & Drop Your Video</h6></strong></br></br>
+                                    <!-- <li><button style = "background-color: #211A4D ">Choose a File</button></li> -->
                                 </div>
                             </ul>
                         </div>
-                    </br></br></br>
                         <div class="card-buttons mt-30 select-btn-line" >
                             <a  class="btn card-btn1 select-btn">Select</a>
                         </div>

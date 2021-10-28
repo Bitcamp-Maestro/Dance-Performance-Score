@@ -58,7 +58,7 @@ class PlayView{
                 play_video.play()
                 user_video.play()
                 this.loopID = window.requestAnimationFrame(timestamp => {
-                    this.draw_play.bind(this, mode, timestamp, user_video, play_video, this.score)()
+                    this.draw_play.bind(this, timestamp, mode, user_video, play_video, this.score)()
                     this.recordCallback()
                 })
             }
@@ -111,14 +111,14 @@ class PlayView{
         
         
         this.loopID = window.requestAnimationFrame(timestamp=>{
-            this.draw_play.bind(this, mode, timestamp , user_video, play_video, this.score)()
+            this.draw_play.bind(this, timestamp, mode, user_video, play_video, this.score)()
         })
     }
     draw_skeleton(){
         let image = new Image()
         image.width = this.skeletonCanvas.width
         image.height = this.skeletonCanvas.height
-        image.onload = e => this.skeletonContext.drawImage(image,this.skeletonCanvas.width*0.124, this.skeletonCanvas.height*0.2173, image.width*0.9844, image.height*1.0944, 0,0, this.skeletonCanvas.width, this.skeletonCanvas.height)
+        image.onload = e => this.skeletonContext.drawImage(image, image.width*0.154, image.height*0.2173, image.width*0.9, image.height*1.0944, 0,0, this.skeletonCanvas.width, this.skeletonCanvas.height)
         image.src = "data:image/png;base64," + this.skeleton_image
     }
     updateScore(score) {

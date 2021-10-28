@@ -7,12 +7,4 @@
 .row{
     justify-content: center
 }
-/* 버튼 색깔 */
-.btn{
-    background-color: purple;
-}
-/* 버튼에 마우스를 올리면 변하는 색깔 */
-.btn::before{
-    background: linear-gradient(to right, black, purple);
-}
 

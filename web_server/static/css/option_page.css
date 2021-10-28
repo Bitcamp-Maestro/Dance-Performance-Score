@@ -23,8 +23,20 @@ font-family: 'Spoqa Han Sans Neo', 'sans-serif';
   padding-top:5rem;
 }
 
-/* item */
-/* 버튼 색깔 */
+/* Option Card Styles */
+.single-card{
+  cursor:pointer;
+  
+  border-top: 1.7rem solid !important;
+  border-bottom: 1.7rem solid !important;
+  /* border-radius: 20px !important; */
+  border : #211A4D;
+}
+.pricing-card-area .single-card:hover{
+    padding-bottom: 0px;
+}
+
+/* Button Styles */
 .w-btn-gra1 {
   background: linear-gradient(-45deg, #1994af 0%, #a65bf8, #ffbb54 100%);
   color: white;
@@ -51,12 +63,16 @@ font-family: 'Spoqa Han Sans Neo', 'sans-serif';
   transition: 0.3s;
 }
 .btn{
-    background-color: purple;
+  background-color: purple;
+}
+.btn:hover{
+  color:#ffffff;
 }
 /* 버튼에 마우스를 올리면 변하는 색깔 */
 .btn::before{
-    background: linear-gradient(to right, black, purple);
+  background: linear-gradient(to right, black, purple);
 }
+
 .prev-next-btn-line{
     margin-bottom : 10rem;
 }
@@ -65,13 +81,11 @@ font-family: 'Spoqa Han Sans Neo', 'sans-serif';
   opacity:1 !important;
   margin-bottom: 3rem;
 }
-.select-btn{
-}
-
 /*
-  Option Card Styles
+  Selected Option Card Styles
 */
 .item-focused{
+    background-color: rgb(193, 160, 217) !important;
     border-top: 1.7rem solid !important;
     border-bottom: 1.7rem solid !important;
     /* border-radius: 20px !important; */
