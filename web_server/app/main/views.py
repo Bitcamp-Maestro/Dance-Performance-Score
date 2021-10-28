@@ -20,7 +20,6 @@ class TestView(TemplateView):
     template_name = 'test.html'
 
     def get(self, req):
-      
         res = render(req, self.template_name)
         res.status_code = 206
         res['Accept-Ranges'] = 'bytes'
@@ -258,7 +257,7 @@ class RankingView(TemplateView):
                 song_kpop_data_list.append(asdf)
             elif asdf['genre'] == 'pop':
                 spopnum += 1
-                asdf["num"] = skpopnum
+                asdf["num"] = spopnum
                 song_pop_data_list.append(asdf)
         context = {
             'rank_list': user_data_list,

@@ -630,6 +630,53 @@ a:hover {
 }
 
 
+/* ******************** */
+/* 버튼 색깔 */
+.w-btn-gra1 {
+    background: linear-gradient(45deg,#32BBDC, #A65BF8);
+    color: white;
+    margin-top: 1rem;
+
+  }
+  .w-btn:active {
+    transform: scale(1.2);
+  }
+  .w-btn:hover {
+    letter-spacing: 1rem;
+    transform: scale(1.1);
+    cursor: pointer;
+    text-decoration-line: none;
+  }
+  .w-btn {
+    position: relative;
+    border: none;
+    display: inline-block;
+    padding: 1rem 3.5rem;
+    border-radius: 4px;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+  }
+  .btn{
+      background-color: purple;
+  }
+  /* 버튼에 마우스를 올리면 변하는 색깔 */
+  .btn::before{
+      background: linear-gradient(to right, black, purple);
+  }
+  .prev-next-btn-line{
+      margin-bottom : 10rem;
+  }
+  .select-btn-line{
+    visibility:visible !important; 
+    opacity:1 !important;
+    margin-bottom: 3rem;
+  }
+
+
+
+
 /*****************/
 /*     About us     */
 /*****************/
