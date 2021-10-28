@@ -28,39 +28,7 @@
     <link href='/static/css/option_page.css' rel='stylesheet'>
     <link rel="icon" href="/static/images/icon.png">
     <style>
-        .option_item .option_inner .tickmark:before{
-            content: "";
-            position: absolute;
-            top: -12px;
-            left: -15px;
-            width: 15px;
-            height: 0px;
-            border: 0px solid;
-            border-color: transparent transparent #fff #fff;
-            transform: rotate(-45deg);
-        }
-        .item-focused{
-            border:none !important;
-            /* border-top: none !important;
-            border-bottom: none !important;
-            /* border-radius: 20px !important; */
-            /* border-image: linear-gradient(to right, #ffbb54, #a65bf8, #32bbdc) !important; */
-            /* border-image-slice: 1 !important; */ 
-        }
-        .item-focused .tickmark{
-            border-color: #d58eff transparent transparent #a63de2 !important;
-        }
-        .item-focused .tickmark:before{
-            content: "";
-            position: absolute !important;
-            top: -12px !important;
-            left: -15px !important;
-            width: 15px !important;
-            height: 6px !important;
-            border: 3px solid !important;
-            border-color: transparent transparent #fff #fff !important;
-            transform: rotate(-45deg) !important;
-        }
+        
 
     </style>
     
@@ -102,7 +70,7 @@
             </div>
             <!-- K-POP items -->
             <div class="k-pop_items">
-                <div class="container_1">
+                <div class="container_1 song_container">
                     {% for song in songs %}
                         
                         <label class="option_item">

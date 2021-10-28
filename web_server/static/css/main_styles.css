@@ -562,7 +562,7 @@ a:hover {
 .basic-5 .step {
 	display: block;
 	margin-bottom: 1.5rem;
-	padding: 1.75rem 3.25rem;
+	padding: 1.75rem 4.25rem 1.75rem 1.25rem;
 	border: 1px solid #ffffff;
 	border-radius: 4px;
 	color: #ffffff;
