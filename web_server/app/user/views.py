@@ -107,7 +107,7 @@ def login(request):
 
         response_data = {}
         if not (login_email and login_password):
-            response_data['error']="이메일과 비밀번호를 모두 입력해주세요."
+            response_data['error']="Enter your email and password."
         else : 
             result = User.isExistsEmail(login_email)    
 
@@ -117,9 +117,9 @@ def login(request):
                     request.session['user'] = result.id
                     return redirect('/')
                 else:
-                    response_data['error'] = "비밀번호를 틀렸습니다."
+                    response_data['error'] = "Please check your password and try again."
             else:
-                response_data['error'] = '존재하지 않는 이름입니다.'
+                response_data['error'] = 'This email address is not available.'
 
         return render(request, 'login.html',response_data)
 
