@@ -62,10 +62,10 @@ class CommunityView(TemplateView):
             'faves_list' : [],
             'views_list' : [],
         }
+        faves_id_list = []
         if req.session.get('user'):
             user_data = DB.collection(u'User').document(req.session.get('user'))
             user_dict = user_data.get().to_dict()
-            faves_id_list = []
             for play in user_dict[User.FAVES_FIELD]:
                 faves_id_list.append(play.id) 
 
@@ -74,6 +74,7 @@ class CommunityView(TemplateView):
         for doc in play_docs:
             play = doc.to_dict()
             play_user_data = play['user']
+            play_user_data = {}
             try:
                 play_user_data = play['user'].get().to_dict()
 

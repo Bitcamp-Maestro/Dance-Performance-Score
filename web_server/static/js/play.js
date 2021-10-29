@@ -13,7 +13,7 @@ class PlayView{
         this.canvas.width = window.screen.width * 0.95
         this.canvas.height = window.screen.height*0.55
         this.skeletonCanvas.width = window.screen.width * 0.21
-        this.skeletonCanvas.height = window.screen.height * 0.235
+        this.skeletonCanvas.height = window.screen.height * 0.18
         this.diff = 0
         this.count = 5
         this.skeleton_image = ''
