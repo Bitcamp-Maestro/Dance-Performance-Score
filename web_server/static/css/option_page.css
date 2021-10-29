@@ -36,6 +36,16 @@ font-family: 'Spoqa Han Sans Neo', 'sans-serif';
     padding-bottom: 0px;
 }
 
+.disable-option{
+  background-color: rgb(160, 160, 160) !important;
+  cursor : default !important;
+
+}
+.disable-option:before{
+  background-color: rgb(160, 160, 160) !important;
+  background: rgb(160, 160, 160) !important;
+}
+
 /* Button Styles */
 .w-btn-gra1 {
   background: linear-gradient(-45deg, #1994af 0%, #a65bf8, #ffbb54 100%);
