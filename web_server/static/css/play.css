@@ -136,9 +136,13 @@ html {
 }
 .skeleton-wrapper{
     position: absolute;
-    bottom: 0px;
-    right : 50px;
+    bottom: 2px;
+    right : 40px;
     z-index: 2;
+    border: 6px solid #2800b8;
+    border-radius: 0.5rem;
+
+    
 }
 .skeleton-canvas{
     
