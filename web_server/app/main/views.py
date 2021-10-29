@@ -68,7 +68,17 @@ class CommunityView(TemplateView):
         dict_data = {}
         for doc in play_docs:
             play = doc.to_dict()
-            play_user_data = play['user'].get().to_dict()
+            play_user_data = play['user']
+            try:
+                play_user_data = play['user'].get().to_dict()
+                print(play_user_data['username'])
+            except Exception as e:
+                play_user_data = {
+                    'username' : 'Unknown',
+                }
+                print(play_user_data['username'])
+                print(e)
+
             # print(play_user_data['username'])
             date = play['date']
             play['date']  = '%04d-%02d-%02d %02d:%02d:%02d' % (date.year, date.month, date.day, date.hour+9, date.minute, date.second)
@@ -133,6 +143,7 @@ class CommunityView(TemplateView):
             'result': 200,
             'type' : req.POST['type'],
         }, json_dumps_params={'ensure_ascii': True})
+        
 
 class CommunityVideoView(TemplateView):
     

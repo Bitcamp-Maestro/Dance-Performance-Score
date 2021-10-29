@@ -56,6 +56,10 @@ function switch_card(item){
 
 cards.forEach(item =>
     item.addEventListener('click', e => {
+        if (e.currentTarget.classList.contains('disable-option')){
+            return;
+        } 
+        
         switch_card(item);
         if (Array.from(select_btn).includes(e.target)){
             next_btn.click()
@@ -63,6 +67,9 @@ cards.forEach(item =>
 }));
 cards.forEach(item => 
     item.addEventListener('dblclick', e => {
+        if (e.currentTarget.classList.contains('disable-option')){
+            return;
+        } 
         switch_card(item);
         next_btn.click();
 }));
@@ -147,7 +154,7 @@ next_btn.addEventListener('click',e=>{
         window.alert('옵션을 선택해주세요')
         return
     }
-    if(upload_card.classList.contains(ITEM_FOCUSED_CLASSNAME) && options.upload_file === ''){
+    if(upload_card.classList.contains(ITEM_FOCUSED_CLASSNAME) && options.upload_file === '' && visible_target === OPTION_SELECTOR.UPLOAD_C){
         window.alert('비디오를 업로드 해주세요.')
         return
     }

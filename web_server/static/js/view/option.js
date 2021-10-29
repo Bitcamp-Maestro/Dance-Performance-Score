@@ -38,13 +38,13 @@ Vue.component('df-option-mode',{
                                 </ul>
                             </div>
                             <div class="card-buttons mt-30 select-btn-line">
-                                <a  class="btn card-btn1 select-btn"  >Select</a>
+                                <a  class="btn card-btn1 select-btn" >Select</a>
                             </div>
                         </div>
                     </div>
                    
                     <div class="col-xl-4 col-lg-4 col-md-6" style="width: 330px !important;">
-                        <div id="random-card" class="mode-option-card single-card text-center mb-30" data-value="random" style="
+                        <div id="random-card" class="mode-option-card single-card text-center mb-30 disable-option" data-value="random" style="
                         padding-left: 0px;
                         padding-right: 0px;
                         border-left-width: 0px;
@@ -57,7 +57,7 @@ Vue.component('df-option-mode',{
                             </div>
                             <div class="card-bottom">
                                 <ul>
-                                    <div style="background-color: #C1A0D9;height: 144px;padding-top: 8px;">
+                                    <div style="background-color: #C1A0D9; height: 144px;padding-top: 8px;" class="disable-option">
                                         <strong>　</strong></br></br>
                                         <strong><h6>Only Real Time Mode</h6></strong></br>
                                         <strong>　</strong>
@@ -65,9 +65,9 @@ Vue.component('df-option-mode',{
                                 </br>
                                 </ul>
                             </div>
-                            <div class="card-buttons mt-30 select-btn-line">
-                                <a  class="btn card-btn1 select-btn">Select</a>
-                            </div>
+                            <div class="card-buttons mt-30 select-btn-line disable-option">
+                                <a  class="btn card-btn1  disable-option"></a>
+                            </div> 
                         </div>
                     </div>
 
@@ -200,7 +200,7 @@ Vue.component('df-option-display', {
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-6">
-                    <div id="u-p-v-card" class="display-option-card single-card text-center mb-30" data-value="upv" style="
+                    <div id="u-p-v-card" class="display-option-card single-card text-center mb-30  disable-option" data-value="upv" style="
                     padding-top: 30px;
                 ">
                         <div class="card-top">
@@ -218,13 +218,13 @@ Vue.component('df-option-display', {
                             <li>　</li>
                             </ul>
                         </div>
-                        <div class="card-buttons mt-30 select-btn-line">
-                            <a  class="btn card-btn1 select-btn"  >Select</a>
+                        <div class="card-buttons mt-30 select-btn-line disable-option">
+                            <a  class="btn card-btn1 disable-option"  ></a>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-6">
-                    <div id="u-o-card" class="display-option-card single-card text-center mb-30" data-value="uo" style="
+                    <div id="u-o-card" class="display-option-card single-card text-center mb-30 disable-option" data-value="uo" style="
                     padding-top: 30px;
                 ">
                         <div class="card-top">
@@ -241,8 +241,8 @@ Vue.component('df-option-display', {
                             <li>　</li>
                             </ul>
                         </div>
-                        <div class="card-buttons mt-30 select-btn-line">
-                            <a  class="btn card-btn1 select-btn"  >Select</a>
+                        <div class="card-buttons mt-30 select-btn-line disable-option">
+                            <a  class="btn card-btn1 disable-option"  ></a>
                         </div>
                        
                     </div>
