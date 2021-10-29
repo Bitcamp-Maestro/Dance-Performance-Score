@@ -58,11 +58,16 @@ class CommunityView(TemplateView):
         
         play_docs = DB.collection('Play').stream()
         
-        user_data = DB.collection(u'User').document(req.session.get('user'))
-        user_dict = user_data.get().to_dict()
-        faves_id_list = []
-        for play in user_dict[User.FAVES_FIELD]:
-            faves_id_list.append(play.id) 
+        user_dict = {
+            'faves_list' : [],
+            'views_list' : [],
+        }
+        if req.session.get('user'):
+            user_data = DB.collection(u'User').document(req.session.get('user'))
+            user_dict = user_data.get().to_dict()
+            faves_id_list = []
+            for play in user_dict[User.FAVES_FIELD]:
+                faves_id_list.append(play.id) 
 
         data = []
         dict_data = {}

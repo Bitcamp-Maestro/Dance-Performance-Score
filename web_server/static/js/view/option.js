@@ -181,7 +181,7 @@ Vue.component('df-option-display', {
                 ">
                         <div class="card-top">
                             <span></span>
-                            <h4>User-Play Horizontal</h4>
+                            <h4>Vertical Half</h4>
                         </div>
                         <div class="card-bottom">
                             <ul>
@@ -205,7 +205,7 @@ Vue.component('df-option-display', {
                 ">
                         <div class="card-top">
                             <span></span>
-                            <h4>User-Play vertical</h4>
+                            <h4>Horizontal Half</h4>
                         </div>
                         <div class="card-bottom">
                             <ul>
@@ -229,7 +229,7 @@ Vue.component('df-option-display', {
                 ">
                         <div class="card-top">
                             <span></span>
-                            <h4>User Only</h4>
+                            <h4>Model Only</h4>
                         </div>
                         <div class="card-bottom">
                             <ul>
