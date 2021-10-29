@@ -80,14 +80,12 @@
   </nav> <!-- end of navbar -->
   <!-- End Navigation -->
 
-  <strong>
-    <h3 class='user-margin-top' align='center' style=' color: white;'>My Page</h3>
-  </strong>
+
 
   </br>
   </br>
   <div class="user-container">
-    <div class="outer">
+    <div class="outer" style = 'margin-top: 100px;'>
       <!-- <img class="avatar-img" src="/media/user_images/img3.jpg" alt=""> -->
       <img class="avatar-img" src="{{ user.image_path }}" alt="">
       <div class="inner">
@@ -98,11 +96,20 @@
   </div>
   </br>
   </br>
+  <div>
+
+  
   <strong>
 
-    <h3 align='center' style=' color: white;'>{{ user.username }}</h3>
+    <h3 align='center' style=' color: white;'>Email : {{ user.email }}</h3>
 
   </strong>
+  <strong>
+
+    <h3 align='center' style=' color: white;'>Username : {{ user.username }}</h3>
+
+  </strong>
+</div>  
   </br>
   <div style="display: flex;justify-content: space-around;">
     <div>

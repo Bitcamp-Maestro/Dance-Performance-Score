@@ -13,7 +13,7 @@ class PlayView{
         this.canvas.width = window.screen.width * 0.95
         this.canvas.height = window.screen.height*0.55
         this.skeletonCanvas.width = window.screen.width * 0.21
-        this.skeletonCanvas.height = window.screen.height * 0.18
+        this.skeletonCanvas.height = window.screen.height * 0.235
         this.diff = 0
         this.count = 5
         this.skeleton_image = ''
@@ -115,11 +115,21 @@ class PlayView{
         })
     }
     draw_skeleton(){
+        
         let image = new Image()
         image.width = this.skeletonCanvas.width
         image.height = this.skeletonCanvas.height
-        image.onload = e => this.skeletonContext.drawImage(image, image.width*0.154, image.height*0.2173, image.width*0.9, image.height*1.0944, 0,0, this.skeletonCanvas.width, this.skeletonCanvas.height)
+        image.onload = e => {
+            this.skeletonContext.drawImage(image, image.width*0.1544, image.height*0.2173, image.width*1.222, image.height*1.3094, 0,0, this.skeletonCanvas.width, this.skeletonCanvas.height)
+            let text = 'Skeleton Display'
+            this.skeletonContext.font = `${0.00355*this.skeletonCanvas.width}rem Roboto Slab, serif`;
+            this.skeletonContext.strokeStyle= '#ffbb54'
+            this.skeletonContext.strokeText(text, (this.skeletonCanvas.width * 0.5155)/2, this.skeletonCanvas.height * 0.105);
+            this.skeletonContext.fillText(text, (this.skeletonCanvas.width * 0.5155)/2, this.skeletonCanvas.height * 0.105);
+        }
         image.src = "data:image/png;base64," + this.skeleton_image
+
+
     }
     updateScore(score) {
         this.diff += score - this.score

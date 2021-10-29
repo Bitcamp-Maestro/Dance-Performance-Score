@@ -71,13 +71,12 @@ class CommunityView(TemplateView):
             play_user_data = play['user']
             try:
                 play_user_data = play['user'].get().to_dict()
-                print(play_user_data['username'])
+
             except Exception as e:
                 play_user_data = {
                     'username' : 'Unknown',
                 }
-                print(play_user_data['username'])
-                print(e)
+
 
             # print(play_user_data['username'])
             date = play['date']
