@@ -112,7 +112,7 @@
     <div class="row posts">
       {% for play in plays %}
       <div class="view-card item new col-md-4" data-pid="{{ play.id }}" >
-        <a href='#a' data-pid="{{ play.id }}">
+        <a href='/community/view/{{play.id}}' data-pid="{{ play.id }}">
           <div class="featured-item">
             <h5 class="featured-score">SCORE {{ play.total_score }}</h5>
             {% if play.play_preview_path %}
