@@ -387,7 +387,6 @@ class PlayManager {
         if(this.mode ==='realtime'){
             this.play_video.addEventListener('ended', e => {
                 this.rec.stop()
-                this.endGame() 
             })
         }
 
